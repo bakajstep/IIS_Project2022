@@ -30,9 +30,9 @@ class Person(db.Model):
     def get_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
 
-    def toDICT(self):
+    def to_dict(self):
         cls_dict = {'id': self.id, 'name': self.name, 'surname': self.surname, 'email': self.email, 'admin': self.admin}
         return cls_dict
 
-    def toJSON(self):
-        return self.toDICT()
+    def to_json(self):
+        return self.to_dict()
