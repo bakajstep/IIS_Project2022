@@ -15,16 +15,15 @@ interface IUser {
 const ProfileList = () => {
     const [obj, setObj] = useState<IUser[]>([]);
 
-    const deleteValue = (id: number) => {
+    const deleteValue = async (id: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
             }
         };
-        axios.delete('http://localhost:5000/api/person/', optionAxios)
-            .then(res => {
-
-            })
+        const rel = await axios.delete(`http://localhost:5000/api/person/${id}`, optionAxios).then( res => {
+            getValues();
+        })
     }
 
     const getValues = async () => {
@@ -42,7 +41,7 @@ const ProfileList = () => {
 
     useEffect(() => {
         getValues();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Box padding="20px" display="flex" justifyContent={"center"} position={"relative"}>
@@ -58,7 +57,7 @@ const ProfileList = () => {
                         }
                     >
                         <ListItemText primary={`Name: ${value.name} ${value.surname} Email: ${value.email}`}/>
-                        <Button onChange={() =>{deleteValue(value.id)}}>
+                        <Button onClick={() => deleteValue(value.id)}>
                             <DeleteIcon/>
                         </Button>
                     </ListItem>
