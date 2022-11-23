@@ -1,11 +1,10 @@
 from ..models.database import db
 from ..models.person_model import Person
 from flask import request
-from flask_restx import Api, Resource, fields
+from flask_restx import Resource, fields
+from .routes import rest_api
 import json
-from flask_cors import CORS
 
-rest_api = Api(version="1.0", title="Users API")
 
 """
     Flask-Restx models for api request and response data
@@ -65,7 +64,7 @@ class Login(Resource):
                     "msg": "Wrong credentials."}, 404
 
         return {"success": True,
-                "user": user_exists.toJSON()}, 200
+                "user": user_exists.to_json()}, 200
 
 
 @rest_api.route('/api/person/register')
@@ -95,7 +94,7 @@ class Register(Resource):
         db.session.commit()
 
         return {"success": True,
-                "user": new_person.toJSON()}, 200
+                "user": new_person.to_json()}, 200
 
 
 @rest_api.route('/api/person/<int:perId>')
@@ -113,7 +112,7 @@ class SinglePerson(Resource):
                     "msg": "Person does not exist."}, 400
 
         return {"success": True,
-                "user": user_exists.toJSON()}, 200
+                "user": user_exists.to_json()}, 200
 
     @rest_api.expect(update_person_model, validate=True)
     def put(self, perId):
@@ -130,7 +129,7 @@ class SinglePerson(Resource):
         db.session.commit()
         updated_user = Person.get_by_id(perId)
         return {"success": True,
-                "user": updated_user.toJSON()}, 200
+                "user": updated_user.to_json()}, 200
 
 
 @rest_api.route('/api/person')
@@ -148,7 +147,7 @@ class SinglePerson(Resource):
 
         persons_json = ""
         for person in user_list:
-            persons_json += json.dumps(person.toJSON())
+            persons_json += json.dumps(person.to_json())
 
         return {"success": True,
                 "count": len(user_list),
@@ -175,4 +174,4 @@ class SinglePerson(Resource):
         db.session.commit()
         updated_user = Person.get_by_id(perId)
         return {"success": True,
-                "user": updated_user.toJSON()}, 200
+                "user": updated_user.to_json()}, 200
