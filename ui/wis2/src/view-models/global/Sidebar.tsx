@@ -21,6 +21,7 @@ import Logo from "./logo.png"
 import LogoD from "./logo_dark.png"
 import {setLogout} from "../../state/UserState";
 import {useDispatch, useSelector} from "react-redux";
+import Profile from "../user/Profile";
 
 interface IUser {
     admin: boolean
@@ -119,7 +120,7 @@ const Sidebar = () => {
                                         style={{
                                             color: colors.Primary[800],
                                         }}
-                                        onClick={() => {;
+                                        onClick={() => {
                                             navigate("/profile");
                                         }}
                                     >

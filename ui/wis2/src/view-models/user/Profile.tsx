@@ -6,8 +6,11 @@ import TextField from "@mui/material/TextField";
 import {Checkbox, FormControlLabel} from "@mui/material";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import {useSelector} from "react-redux";
-import ChangePasswordDialog from "../../component/ChangePasswordDialog";
+import {useDispatch, useSelector} from "react-redux";
+import ChangePasswordDialog from "../../components/ChangePasswordDialog";
+import {useEffect, useState} from "react";
+import {setLogin} from "../../state/UserState";
+import {useNavigate} from "react-router-dom";
 
 interface IFormInput {
     name: string;
@@ -16,28 +19,46 @@ interface IFormInput {
 }
 
 const Profile = () => {
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
+    const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IFormInput>();
     const user = useSelector((state: any) => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [hidden, setHidden] = useState<boolean>(false);
+
+    const setValues = () => {
+        setValue('name', user.name);
+        setValue('surname', user.surname);
+        setValue('email', user.email);
+    }
 
     const onSubmit = async (data: IFormInput) => {
-        alert(JSON.stringify(data));
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
+        if (user != null) {
+            const optionAxios = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            let res = await axios.put(`http://localhost:5000/api/person/${user.id}`, data, optionAxios);
+            if (res){
+                dispatch(
+                    setLogin({
+                        user: res.data.user
+                    })
+                );
+                navigate("/");
             }
-        };
-        let res = await axios.post('http://localhost:5000/api/person/register', data, optionAxios);
+        }
 
-        let datas = res.data;
-        console.log(datas);
-        reset(defaultValues);
     }
     const defaultValues: IFormInput = {
-        name: "",
-        surname: "",
-        email: ""
+        name: user.name,
+        surname: user.surname,
+        email: user.email
     }
 
+    useEffect(() => {
+        setValues();
+    });
 
     return (
         <Box m="20px">
@@ -54,7 +75,7 @@ const Profile = () => {
                         name={"name"}
                         control={control}
                         rules={{required: true}}
-                        render={({field: {onChange, value = user.name}}) => (
+                        render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
                                 onChange={onChange}
@@ -74,7 +95,7 @@ const Profile = () => {
                         name={"surname"}
                         control={control}
                         rules={{required: true}}
-                        render={({field: {onChange, value = user.surname}}) => (
+                        render={({field: {onChange, value }}) => (
                             <TextField
                                 fullWidth
                                 onChange={onChange}
@@ -96,7 +117,7 @@ const Profile = () => {
                             pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "Not valid Email"}
                         }}
                         control={control}
-                        render={({field: {onChange, value = user.email}}) => (
+                        render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
                                 inputMode={"email"}
@@ -117,9 +138,7 @@ const Profile = () => {
                     <Button onClick={handleSubmit(onSubmit)} color="secondary" variant="contained" sx={{margin: "20px"}}>
                         Update Profile
                     </Button>
-                    <Button color="secondary" variant="contained" sx={{margin: "20px"}}>
-                        Change password
-                    </Button>
+                    <ChangePasswordDialog/>
                 </Box>
             </form>
         </Box>
