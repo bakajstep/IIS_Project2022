@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {ProSidebar, Menu, MenuItem} from "react-pro-sidebar";
-import {Box, IconButton, Typography, useTheme} from "@mui/material";
+import {Box, Button, IconButton, Typography, useTheme} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -19,11 +19,10 @@ import {tokens} from "../../theme";
 import "./styles.css"
 import Logo from "./logo.png"
 import LogoD from "./logo_dark.png"
-import { setLogout } from "../../state/UserState";
+import {setLogout} from "../../state/UserState";
 import {useDispatch, useSelector} from "react-redux";
-import axios from "axios";
 
-interface IUser{
+interface IUser {
     admin: boolean
     name: string
     surname: string
@@ -103,7 +102,8 @@ const Sidebar = () => {
                                 alignItems="center"
                                 ml="15px"
                             >
-                                {theme.palette.mode == "light" ? (<img width={80} src={Logo}/>): (<img width={80} src={LogoD}/>)}
+                                {theme.palette.mode == "light" ? (<img width={80} src={Logo}/>) : (
+                                    <img width={80} src={LogoD}/>)}
                                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon/>
                                 </IconButton>
@@ -115,17 +115,26 @@ const Sidebar = () => {
                         <Box mb="25px">
                             {user?.id != null && (
                                 <Box textAlign="center">
-                                    <Typography
-                                        variant="h2"
-                                        color={colors.Primary[700]}
-                                        fontWeight="bold"
-                                        sx={{m: "10px 0 0 0"}}
+                                    <MenuItem
+                                        style={{
+                                            color: colors.Primary[800],
+                                        }}
+                                        onClick={() => {;
+                                            navigate("/profile");
+                                        }}
                                     >
-                                        {user == null ? "" : user.name}
-                                    </Typography>
-                                    <Typography variant="h5" color={colors.Primary[500]}>
-                                        {user == null ? "" : user.email}
-                                    </Typography>
+                                        <Typography
+                                            variant="h2"
+                                            color={colors.Primary[700]}
+                                            fontWeight="bold"
+                                            sx={{m: "10px 0 0 0"}}
+                                        >
+                                            {user == null ? "" : user.name}
+                                        </Typography>
+                                        <Typography variant="h6" color={colors.Primary[500]}>
+                                            {user == null ? "" : user.email}
+                                        </Typography>
+                                    </MenuItem>
                                     <MenuItem
                                         style={{
                                             color: colors.Primary[800],

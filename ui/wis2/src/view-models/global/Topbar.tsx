@@ -55,7 +55,7 @@ const Topbar = () => {
                 <Button onClick={() => {
                     navigate("/login");
                 }}>
-                    <Typography variant="h5">Login</Typography>
+                    <Typography variant="h6">Login</Typography>
                 </Button>
                     )}
             </Box>
