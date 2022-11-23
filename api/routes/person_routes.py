@@ -23,8 +23,8 @@ login_model = rest_api.model('LoginModel', {"email": fields.String(required=True
 
 update_password_model = rest_api.model('UpdatePasswordModel',
                                        {
-                                           "old_password": fields.String(required=True, min_length=4, max_length=16),
-                                           "new_password": fields.String(required=True, min_length=4, max_length=16)
+                                           "old_password": fields.String(required=True, min_length=0, max_length=16),
+                                           "new_password": fields.String(required=True, min_length=0, max_length=16)
                                        })
 
 update_person_model = rest_api.model('UpdatePersonModel',
@@ -164,11 +164,11 @@ class SinglePerson(Resource):
 
         if not user_exists:
             return {"success": False,
-                    "msg": "Person does not exist."}, 400
+                    "msg": "Person does not exist."}, 403
 
         if not user_exists.password_hash == req_data.get("old_password"):
             return {"success": False,
-                    "msg": "Old password does not match."}, 400
+                    "msg": "Old password does not match."}, 403
 
         setattr(user_exists, 'password_hash', req_data.get("new_password"))
         db.session.commit()
