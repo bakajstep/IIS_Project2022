@@ -8,9 +8,9 @@ class Person(db.Model):
     email = db.Column(db.String(length=256), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
     admin = db.Column(db.Boolean(), nullable=False)
-    guarantor = db.relationship('Course', backref='Person')
-    student = db.relationship('Student', backref='Person')
-    lector = db.relationship('Lector', backref='Person')
+    guarantor = db.relationship('Course', backref='Person', passive_deletes=True)
+    student = db.relationship('Student', backref='Person',  passive_deletes=True)
+    lector = db.relationship('Lector', backref='Person', passive_deletes=True)
 
     def __repr__(self):
         return f'Person {self.email}'

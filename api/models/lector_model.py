@@ -2,5 +2,6 @@ from .database import db
 
 
 class Lector(db.Model):
-    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), primary_key=True)
-    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
+    id = db.Column(db.Integer(), nullable=False, unique=True, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id', ondelete="CASCADE"))
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id', ondelete="CASCADE"))

@@ -7,6 +7,7 @@ def add_person(_name, _surname, _email, _password_hash, _admin):
     db.session.add(new_person)
     db.session.commit()
 
+
 def import_persons():
     add_person('Adam', 'Andrašik', 'adam.andrasik@gmail.com', 'passhash100000', 0)
     add_person('Branislav', 'Bezák', 'branobez@salamon.sk', 'passhash100001', 0)
