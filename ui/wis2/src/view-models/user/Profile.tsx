@@ -22,7 +22,6 @@ const Profile = () => {
     const user = useSelector((state: any) => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [hidden, setHidden] = useState<boolean>(false);
 
     const setValues = () => {
         setValue('name', user.name);
