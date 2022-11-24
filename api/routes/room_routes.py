@@ -12,7 +12,7 @@ room_model = rest_api.model('RoomModel', {"label": fields.String(required=True, 
 @rest_api.route('/api/room')
 class Rooms(Resource):
     """
-       Create new room
+       Create new room and list new room
     """
 
     @rest_api.expect(room_model)
@@ -34,6 +34,16 @@ class Rooms(Resource):
 
         return {"success": True,
                 "room": new_room.to_json()}, 200
+
+    def get(self):
+
+        room_list = Room.get_all()
+
+        room_json = []
+        for room in room_list:
+            room_json.append(room.to_json())
+
+        return {"room": room_json}, 200
 
 
 @rest_api.route('/api/room/<int:roomId>')

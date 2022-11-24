@@ -15,6 +15,10 @@ class Room(db.Model):
     def get_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
     def to_dict(self):
         cls_dict = {'id': self.id, 'label': self.label, 'capacity': self.capacity}
         return cls_dict
