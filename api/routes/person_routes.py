@@ -153,13 +153,11 @@ class SinglePerson(Resource):
     def get(self):
         user_list = Person.get_all()
 
+
         if not user_list:
             return {"success": False,
                     "msg": "No person."}, 400
 
-        persons_json = []
-        for person in user_list:
-            persons_json.append(person.to_json())
 
         return {"user": json.dumps(persons_json)}, 200
 
