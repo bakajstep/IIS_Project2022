@@ -18,10 +18,10 @@ def import_ranks():
     add_rank(85, 2, 2)
     add_rank(92, 2, 3)
     add_rank(80, 3, 6)
-    add_rank(62, 3, 7)
-    add_rank(100, 3, 8)
-    add_rank(97, 3, 9)
-    add_rank(39, 3, 10)
+    add_rank(62, 6, 7)
+    add_rank(100, 5, 8)
+    add_rank(97, 5, 9)
+    add_rank(39, 4, 10)
 
 
 

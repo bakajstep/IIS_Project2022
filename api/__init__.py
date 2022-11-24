@@ -1,4 +1,3 @@
-import MySQLdb
 from flask import Flask
 from flask_cors import CORS
 from .models.database import db

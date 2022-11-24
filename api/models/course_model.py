@@ -11,10 +11,10 @@ class Course(db.Model):
     capacity = db.Column(db.Integer(), nullable=False)
     state = db.Column(db.String(length=256), nullable=False)
     guarantor = db.Column(db.Integer, db.ForeignKey('person.id'))
-    terms = db.relationship('Term', backref='Course')
+    terms = db.relationship('Term', backref='Course', passive_deletes=True)
     lector = db.relationship('Lector', backref='Course', passive_deletes=True)
-    student = db.relationship('Student', backref='Course')
-    actuality = db.relationship('Actuality', backref='Course')
+    student = db.relationship('Student', backref='Course', passive_deletes=True)
+    actuality = db.relationship('Actuality', backref='Course', passive_deletes=True)
 
     @classmethod
     def get_by_label(cls, _label):
