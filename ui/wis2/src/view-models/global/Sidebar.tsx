@@ -155,13 +155,22 @@ const Sidebar = () => {
 
                     <Box paddingLeft={isCollapsed ? undefined : "10%"}>
                         {user != null && user.admin == true && (
-                            <Item
-                                title="Register"
-                                to="/register"
-                                icon={<HomeOutlinedIcon/>}
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
+                            <div>
+                                <Item
+                                    title="Register"
+                                    to="/register"
+                                    icon={<HomeOutlinedIcon/>}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="Create room"
+                                    to="/createRoom"
+                                    icon={<ContactsOutlinedIcon/>}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                            </div>
                         )
                         }
                         <Typography
@@ -172,16 +181,9 @@ const Sidebar = () => {
                             Data
                         </Typography>
                         <Item
-                            title="jine"
-                            to="/jine"
+                            title="Profiles"
+                            to="/profiles"
                             icon={<PeopleOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Contacts Information"
-                            to="/contacts"
-                            icon={<ContactsOutlinedIcon/>}
                             selected={selected}
                             setSelected={setSelected}
                         />

@@ -10,6 +10,8 @@ import Login from "./view-models/user/Login";
 import Mainpage from "./view-models/mainpage/Mainpage";
 import {useSelector} from "react-redux";
 import Profile from "./view-models/user/Profile";
+import ProfileList from "./view-models/user/ProfileList";
+import CreateRoom from "./view-models/global/rooms/CreateRoom";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -26,12 +28,14 @@ function App() {
                         <Routes>
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/" element={<Mainpage/>}/>
-                            {user != null && user.admin == true && (
+                            {user != null && user.admin === true && (
                                 <Route path="/register" element={<Register/>}/>
-                                )}
-                            {user != null && (
-                                <Route path="/profile" element={<Profile/>}/>
                             )}
+                            {user != null && (
+                                    <Route path="/profile" element={<Profile/>}/>)
+                            }
+                            <Route path="/createRoom" element={<CreateRoom/>}/>
+                            <Route path="/profiles" element={<ProfileList/>}/>
                         </Routes>
                     </main>
                 </div>

@@ -145,13 +145,11 @@ class SinglePerson(Resource):
             return {"success": False,
                     "msg": "No person."}, 400
 
-        persons_json = ""
+        persons_json = []
         for person in user_list:
-            persons_json += json.dumps(person.to_json())
+            persons_json.append(person.to_json())
 
-        return {"success": True,
-                "count": len(user_list),
-                "user": persons_json}, 200
+        return {"user": json.dumps(persons_json)}, 200
 
 
 @rest_api.route('/api/person/<int:perId>/password')
