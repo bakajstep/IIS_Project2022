@@ -1,3 +1,5 @@
+import json
+
 from api.routes.routes import rest_api
 from ..models.database import db
 from ..models.room_model import Room
@@ -43,7 +45,7 @@ class Rooms(Resource):
         for room in room_list:
             room_json.append(room.to_json())
 
-        return {"room": room_json}, 200
+        return {"room": json.dumps(room_json)}, 200
 
 
 @rest_api.route('/api/room/<int:roomId>')
