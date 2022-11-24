@@ -14,6 +14,7 @@ from api.models.room_model import Room
 from api.models.student_model import Student
 from api.routes.person_routes import *
 from api.routes.room_routes import *
+from api.routes.course_routes import *
 
 
 app = Flask(__name__)

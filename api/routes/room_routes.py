@@ -4,6 +4,10 @@ from ..models.room_model import Room
 from flask import request
 from flask_restx import Resource, fields
 
+"""
+    Flask-Restx models for api request and response data
+"""
+
 room_model = rest_api.model('RoomModel', {"label": fields.String(required=True, min_length=4, max_length=64),
                                           "capacity": fields.Integer(required=True)
                                           })
