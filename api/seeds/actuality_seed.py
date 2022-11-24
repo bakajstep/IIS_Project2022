@@ -7,6 +7,7 @@ def add_actuality(_description, _course_id):
     db.session.add(new_actuality)
     db.session.commit()
 
+
 def import_actualities():
     add_actuality('projekt deadline zmena 12.12.2022', 1)
     add_actuality('prihlasovanie na polsemestralnu skusku spustene', 2)

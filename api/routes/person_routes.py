@@ -131,6 +131,18 @@ class SinglePerson(Resource):
         return {"success": True,
                 "user": updated_user.to_json()}, 200
 
+    def delete(self, perId):
+        user_exists = Person.get_by_id(perId)
+
+        if not user_exists:
+            return {"success": False,
+                    "msg": "Person does not exist."}, 400
+
+        db.session.query(Person).filter(Person.id == perId).delete()
+        db.session.commit()
+
+        return {"success": True}, 200
+
 
 @rest_api.route('/api/person')
 class SinglePerson(Resource):
@@ -164,11 +176,11 @@ class SinglePerson(Resource):
 
         if not user_exists:
             return {"success": False,
-                    "msg": "Person does not exist."}, 403
+                    "msg": "Person does not exist."}, 400
 
         if not user_exists.password_hash == req_data.get("old_password"):
             return {"success": False,
-                    "msg": "Old password does not match."}, 403
+                    "msg": "Old password does not match."}, 400
 
         setattr(user_exists, 'password_hash', req_data.get("new_password"))
         db.session.commit()

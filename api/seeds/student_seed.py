@@ -7,6 +7,7 @@ def add_student(_state, _person_id, _course_id):
     db.session.add(new_student)
     db.session.commit()
 
+
 def import_students():
     add_student('na praskoch', 1, 1)
     add_student('zdravy', 1, 2)
@@ -20,9 +21,3 @@ def import_students():
     add_student('zdravy', 8, 3)
     add_student('na praskoch', 9, 4)
     add_student('zdravy', 10, 2)
-
-
-
-
-
-

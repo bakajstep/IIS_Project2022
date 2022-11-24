@@ -12,6 +12,7 @@ def add_room(_label, _capacity):
     db.session.add(new_room)
     db.session.commit()
 
+
 def import_rooms():
     add_room('A111', 50)
     add_room('A112', 25)
@@ -24,5 +25,3 @@ def import_rooms():
     add_room('L333', 20)
     add_room('L334', 25)
     add_room('L335', 40)
-
-

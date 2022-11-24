@@ -10,7 +10,7 @@ class Course(db.Model):
     state = db.Column(db.String(length=256), nullable=False)
     guarantor = db.Column(db.Integer, db.ForeignKey('person.id'))
     terms = db.relationship('Term', backref='Course')
-    lector = db.relationship('Lector', backref='Course')
+    lector = db.relationship('Lector', backref='Course', passive_deletes=True)
     student = db.relationship('Student', backref='Course')
     actuality = db.relationship('Actuality', backref='Course')
     # todo - aktuality
