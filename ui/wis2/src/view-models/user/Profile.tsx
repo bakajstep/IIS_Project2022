@@ -61,7 +61,7 @@ const Profile = () => {
     return (
         <Box m="20px" position={"relative"} width={"50%"}>
             <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"}>
-                Profile
+                Room
             </Typography>
             <form>
                 <Box
