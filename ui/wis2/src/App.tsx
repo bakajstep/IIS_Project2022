@@ -14,6 +14,8 @@ import ProfileList from "./view-models/user/ProfileList";
 import CreateRoom from "./view-models/rooms/CreateRoom";
 import EditRooms from "./view-models/rooms/EditRooms";
 import CreateCourse from "./view-models/course/CreateCourse";
+import ApproveCourse from "./view-models/course/ApproveCourse";
+import ApprovedCoursesList from "./view-models/course/ApprovedCoursesList";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -40,6 +42,8 @@ function App() {
                             <Route path="/profiles" element={<ProfileList/>}/>
                             <Route path="/editRoom" element={<EditRooms/>}/>
                             <Route path="/createCourse" element={<CreateCourse/>}/>
+                            <Route path="/ApproveCourse" element={<ApproveCourse/>}/>
+                            <Route path="/ApprovedCourses" element={<ApprovedCoursesList/>}/>
                         </Routes>
                     </main>
                 </div>

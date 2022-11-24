@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {useState} from "react";
-import {Alert} from "@mui/material";
+import {Alert, Checkbox, FormControlLabel, useMediaQuery} from "@mui/material";
 import {useSelector} from "react-redux";
 
 interface ICourse {
@@ -14,11 +14,13 @@ interface ICourse {
     description: string,
     type: string,
     price: number,
+    capacity: number,
     guarantor: number
 }
 
 const CreateCourse = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<ICourse>();
+    const isNonMobile = useMediaQuery("(min-width:600px)");
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
 
@@ -47,6 +49,7 @@ const CreateCourse = () => {
         description: "",
         type: "",
         price: 0,
+        capacity: 0,
         guarantor: 0
     }
 
@@ -60,6 +63,9 @@ const CreateCourse = () => {
                     display="grid"
                     gap="30px"
                     gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                    sx={{
+                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                    }}
                 >
                     { error !== "" && (<Alert severity="error">{error}</Alert>)}
                     <Controller
@@ -134,7 +140,40 @@ const CreateCourse = () => {
                             />
                         )}
                     />
-
+                    <Controller
+                        name={"capacity"}
+                        control={control}
+                        rules={{required: true}}
+                        render={({field: {onChange, value}}) => (
+                            <TextField
+                                fullWidth
+                                onChange={onChange}
+                                value={value}
+                                variant="filled"
+                                type="number"
+                                label={errors.capacity ? "Input required" : "Capacity"}
+                                error={!errors.capacity ? false : true}
+                                name="capacity"
+                                sx={{gridColumn: "span 4"}}
+                            />
+                        )}
+                    />
+                    {/*
+                    <FormControlLabel
+                        control={
+                            <Controller
+                                name={""}
+                                control={control}
+                                render={({field: {onChange, value}}) => (
+                                    <Checkbox
+                                        defaultChecked={false}
+                                        onChange={onChange}
+                                        value={value}
+                                    />
+                                )}/>
+                        }
+                        label={"Admin"}
+                    />*/}
                 </Box>
                 <Box display="flex" justifyContent="Center" mt="50px">
                     <Button onClick={handleSubmit(onSubmit)} color="secondary" variant="contained">
