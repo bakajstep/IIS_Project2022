@@ -45,7 +45,6 @@ const ProfileList = () => {
 
     return (
         <Box padding="20px" display="flex" justifyContent={"center"} position={"relative"}>
-
             <List sx={{ maxWidth: '100%', bgcolor: 'background.paper'}}>
                 {obj.map((value: any ) => (
                     <ListItem

@@ -11,7 +11,8 @@ import Mainpage from "./view-models/mainpage/Mainpage";
 import {useSelector} from "react-redux";
 import Profile from "./view-models/user/Profile";
 import ProfileList from "./view-models/user/ProfileList";
-import CreateRoom from "./view-models/global/rooms/CreateRoom";
+import CreateRoom from "./view-models/rooms/CreateRoom";
+import EditRooms from "./view-models/rooms/EditRooms";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -36,6 +37,7 @@ function App() {
                             }
                             <Route path="/createRoom" element={<CreateRoom/>}/>
                             <Route path="/profiles" element={<ProfileList/>}/>
+                            <Route path="/editRoom" element={<EditRooms/>}/>
                         </Routes>
                     </main>
                 </div>

@@ -170,6 +170,13 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
+                                <Item
+                                    title="Edit room"
+                                    to="/editRoom"
+                                    icon={<ContactsOutlinedIcon/>}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
                             </div>
                         )
                         }

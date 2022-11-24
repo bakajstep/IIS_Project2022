@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import {Controller, useForm} from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import {Checkbox, FormControlLabel} from "@mui/material";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import {useDispatch, useSelector} from "react-redux";
@@ -61,9 +60,9 @@ const Profile = () => {
     });
 
     return (
-        <Box m="20px">
+        <Box m="20px" position={"relative"} width={"50%"}>
             <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"}>
-                Profile
+                Room
             </Typography>
             <form>
                 <Box
