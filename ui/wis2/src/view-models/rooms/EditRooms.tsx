@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {IconButton, List, ListItemText} from "@mui/material";
+import {IconButton, List, ListItemText, useMediaQuery} from "@mui/material";
 import ListItem from "@mui/material/ListItem";
 
 interface IRoom {
@@ -17,6 +17,7 @@ interface IRoom {
 
 const EditRoom = () => {
     const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IRoom>();
+    const isNonMobile = useMediaQuery("(min-width:600px)");
     const [obj, setObj] = useState<IRoom[]>([]);
 
     const setValues = async (id: number, label: string, capacity: number) => {
@@ -71,7 +72,7 @@ const EditRoom = () => {
     }
 
     return (
-        <Box m="20px" width={"100%"}>
+        <Box m="20px">
             <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"}>
                 Room
             </Typography>
@@ -80,6 +81,9 @@ const EditRoom = () => {
                     display="grid"
                     gap="30px"
                     gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                    sx={{
+                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                    }}
                 >
                     <Controller
                         name={"label"}

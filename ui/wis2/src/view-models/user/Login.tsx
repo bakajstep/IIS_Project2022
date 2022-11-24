@@ -8,6 +8,7 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import { setLogin } from "../../state/UserState";
 import {useNavigate} from "react-router-dom";
+import {useMediaQuery} from "@mui/material";
 
 interface IFormInput {
     email: string;
@@ -16,6 +17,7 @@ interface IFormInput {
 
 const Login = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
+    const isNonMobile = useMediaQuery("(min-width:600px)");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -52,6 +54,9 @@ const Login = () => {
                     display="grid"
                     gap="30px"
                     gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                    sx={{
+                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                    }}
                 >
                     <Controller
                         name={"email"}
