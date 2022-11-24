@@ -5,7 +5,6 @@ from flask_restx import Resource, fields
 from .routes import rest_api
 import json
 
-
 """
     Flask-Restx models for api request and response data
 """
@@ -153,13 +152,11 @@ class SinglePerson(Resource):
     def get(self):
         user_list = Person.get_all()
 
+        person_json = []
+        for user in user_list:
+            person_json.append(user.to_json())
 
-        if not user_list:
-            return {"success": False,
-                    "msg": "No person."}, 400
-
-
-        return {"user": json.dumps(persons_json)}, 200
+        return {"user": person_json}, 200
 
 
 @rest_api.route('/api/person/<int:perId>/password')
