@@ -13,6 +13,7 @@ import Profile from "./view-models/user/Profile";
 import ProfileList from "./view-models/user/ProfileList";
 import CreateRoom from "./view-models/rooms/CreateRoom";
 import EditRooms from "./view-models/rooms/EditRooms";
+import CreateCourse from "./view-models/course/CreateCourse";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -33,11 +34,12 @@ function App() {
                                 <Route path="/register" element={<Register/>}/>
                             )}
                             {user != null && (
-                                    <Route path="/profile" element={<Profile/>}/>)
+                                <Route path="/profile" element={<Profile/>}/>)
                             }
                             <Route path="/createRoom" element={<CreateRoom/>}/>
                             <Route path="/profiles" element={<ProfileList/>}/>
                             <Route path="/editRoom" element={<EditRooms/>}/>
+                            <Route path="/createCourse" element={<CreateCourse/>}/>
                         </Routes>
                     </main>
                 </div>

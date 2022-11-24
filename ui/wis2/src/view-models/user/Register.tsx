@@ -7,7 +7,7 @@ import {Controller, useForm} from "react-hook-form";
 import {Checkbox, FormControlLabel, Radio, RadioGroup} from "@mui/material";
 import axios from 'axios';
 
-interface IFormInput {
+interface IRegister {
     name: string;
     surname: string;
     email: string;
@@ -16,9 +16,9 @@ interface IFormInput {
 }
 
 const Register = () => {
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
+    const {handleSubmit, reset, control, formState: {errors}} = useForm<IRegister>();
 
-    const onSubmit = async (data: IFormInput) => {
+    const onSubmit = async (data: IRegister) => {
         if (data.admin === undefined){
             data.admin = false;
         }
@@ -28,13 +28,11 @@ const Register = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.post('http://localhost:5000/api/person/register', data, optionAxios);
-
-        let datas = res.data;
-        console.log(datas);
-        reset(defaultValues);
+        await axios.post('http://localhost:5000/api/person/register', data, optionAxios).then( (res) => {
+            reset(defaultValues);
+        });
     }
-    const defaultValues: IFormInput = {
+    const defaultValues: IRegister = {
         name: "",
         surname: "",
         email: "",

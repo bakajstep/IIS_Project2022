@@ -1,6 +1,4 @@
 import {Controller, useForm} from "react-hook-form";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -20,8 +18,6 @@ interface IRoom {
 const EditRoom = () => {
     const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IRoom>();
     const [obj, setObj] = useState<IRoom[]>([]);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const setValues = async (id: number, label: string, capacity: number) => {
         setValue('id', id);
