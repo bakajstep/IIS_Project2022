@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
+import {useMediaQuery} from "@mui/material";
 
 interface IFormInput {
     label: string,
@@ -13,6 +14,7 @@ interface IFormInput {
 
 const CreateRoom = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
+    const isNonMobile = useMediaQuery("(min-width:600px)");
 
     const onSubmit = async (data: IFormInput) => {
         const optionAxios = {
@@ -20,8 +22,10 @@ const CreateRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.post('http://localhost:5000/api/room', data, optionAxios);
-        reset(defaultValues);
+        let res = await axios.post('/api/room', data, optionAxios).then( () => {
+            reset(defaultValues);
+        });
+
     }
     const defaultValues: IFormInput = {
         label: "",
@@ -38,6 +42,9 @@ const CreateRoom = () => {
                     display="grid"
                     gap="30px"
                     gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                    sx={{
+                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                    }}
                 >
                     <Controller
                         name={"label"}

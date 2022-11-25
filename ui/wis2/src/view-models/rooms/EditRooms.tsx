@@ -1,6 +1,4 @@
 import {Controller, useForm} from "react-hook-form";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -8,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {IconButton, List, ListItemText} from "@mui/material";
+import {IconButton, List, ListItemText, useMediaQuery} from "@mui/material";
 import ListItem from "@mui/material/ListItem";
 
 interface IRoom {
@@ -19,9 +17,8 @@ interface IRoom {
 
 const EditRoom = () => {
     const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IRoom>();
+    const isNonMobile = useMediaQuery("(min-width:600px)");
     const [obj, setObj] = useState<IRoom[]>([]);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const setValues = async (id: number, label: string, capacity: number) => {
         setValue('id', id);
@@ -35,7 +32,7 @@ const EditRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.delete(`http://localhost:5000/api/room/${data.id}`, optionAxios);
+        let res = await axios.delete(`/api/room/${data.id}`, optionAxios);
         reset(defaultValues);
         await getValues();
     }
@@ -46,7 +43,7 @@ const EditRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.put(`http://localhost:5000/api/room/${data.id}`, data, optionAxios);
+        let res = await axios.put(`/api/room/${data.id}`, data, optionAxios);
         reset(defaultValues);
         await getValues();
     }
@@ -57,7 +54,7 @@ const EditRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('http://localhost:5000/api/room', optionAxios)
+        await axios.get('/api/room', optionAxios)
             .then(res => {
                 let obj: IRoom[] = JSON.parse(res.data.room)
                 setObj(obj)
@@ -75,7 +72,7 @@ const EditRoom = () => {
     }
 
     return (
-        <Box m="20px" width={"100%"}>
+        <Box m="20px">
             <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"}>
                 Room
             </Typography>
@@ -84,6 +81,9 @@ const EditRoom = () => {
                     display="grid"
                     gap="30px"
                     gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                    sx={{
+                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                    }}
                 >
                     <Controller
                         name={"label"}
