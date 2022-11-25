@@ -22,7 +22,7 @@ const CreateRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.post('http://localhost:5000/api/room', data, optionAxios).then( () => {
+        let res = await axios.post('/api/room', data, optionAxios).then( () => {
             reset(defaultValues);
         });
 

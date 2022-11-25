@@ -1,6 +1,6 @@
-import {useEffect, useState} from "react";
-import {ProSidebar, Menu, MenuItem} from "react-pro-sidebar";
-import {Box, Button, IconButton, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {useState} from "react";
+import {Menu, MenuItem, ProSidebar} from "react-pro-sidebar";
+import {Box, IconButton, Typography, useMediaQuery, useTheme} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -21,7 +21,6 @@ import Logo from "./logo.png"
 import LogoD from "./logo_dark.png"
 import {setLogout} from "../../state/UserState";
 import {useDispatch, useSelector} from "react-redux";
-import Profile from "../user/Profile";
 
 interface IUser {
     admin: boolean

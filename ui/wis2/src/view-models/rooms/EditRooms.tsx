@@ -32,7 +32,7 @@ const EditRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.delete(`http://localhost:5000/api/room/${data.id}`, optionAxios);
+        let res = await axios.delete(`/api/room/${data.id}`, optionAxios);
         reset(defaultValues);
         await getValues();
     }
@@ -43,7 +43,7 @@ const EditRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.put(`http://localhost:5000/api/room/${data.id}`, data, optionAxios);
+        let res = await axios.put(`/api/room/${data.id}`, data, optionAxios);
         reset(defaultValues);
         await getValues();
     }
@@ -54,7 +54,7 @@ const EditRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('http://localhost:5000/api/room', optionAxios)
+        await axios.get('/api/room', optionAxios)
             .then(res => {
                 let obj: IRoom[] = JSON.parse(res.data.room)
                 setObj(obj)

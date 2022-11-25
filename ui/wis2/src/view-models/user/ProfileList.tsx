@@ -21,7 +21,7 @@ const ProfileList = () => {
                 'Content-Type': 'application/json'
             }
         };
-        const rel = await axios.delete(`http://localhost:5000/api/person/${id}`, optionAxios).then(res => {
+        const rel = await axios.delete(`/api/person/${id}`, optionAxios).then(res => {
             getValues();
         })
     }
@@ -32,7 +32,7 @@ const ProfileList = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('http://localhost:5000/api/person', optionAxios)
+        await axios.get('/api/person', optionAxios)
             .then(res => {
                 let obj: IUser[] = res.data.user;
                 setObj(obj)

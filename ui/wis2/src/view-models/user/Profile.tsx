@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import {useEffect} from "react";
 import {Controller, useForm} from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import {useDispatch, useSelector} from "react-redux";
 import ChangePasswordDialog from "../../components/ChangePasswordDialog";
-import {useEffect, useState} from "react";
 import {setLogin} from "../../state/UserState";
 import {useNavigate} from "react-router-dom";
 
@@ -36,7 +36,7 @@ const Profile = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            let res = await axios.put(`http://localhost:5000/api/person/${user.id}`, data, optionAxios);
+            let res = await axios.put(`/api/person/${user.id}`, data, optionAxios);
             if (res){
                 dispatch(
                     setLogin({
@@ -61,7 +61,7 @@ const Profile = () => {
     return (
         <Box m="20px" position={"relative"} width={"50%"}>
             <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"}>
-                Room
+                Profile
             </Typography>
             <form>
                 <Box

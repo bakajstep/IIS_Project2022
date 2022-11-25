@@ -22,7 +22,7 @@ const ApproveCourse = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.put(`http://localhost:5000/api/course/${id}/approved`, optionAxios).then(res => {
+        await axios.put(`/api/course/${id}/approved`, optionAxios).then(res => {
             getValues();
         })
     }
@@ -32,7 +32,7 @@ const ApproveCourse = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.delete(`http://localhost:5000/api/course/${id}`, optionAxios).then(res => {
+        await axios.delete(`/api/course/${id}`, optionAxios).then(res => {
             getValues();
         })
     }
@@ -43,7 +43,7 @@ const ApproveCourse = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('http://localhost:5000/api/course/pending', optionAxios)
+        await axios.get('/api/course/pending', optionAxios)
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj)

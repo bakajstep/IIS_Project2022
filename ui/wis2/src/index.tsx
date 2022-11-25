@@ -7,19 +7,11 @@ import authReducer from "./state/UserState";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from "redux-persist";
+import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE,} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import {PersistGate} from "redux-persist/integration/react";
 import {configureStore} from "@reduxjs/toolkit";
+import axios from "axios";
 
 const persistConfig = {key: "root", storage, version: 1};
 const persistedReducer = persistReducer(persistConfig, authReducer);
@@ -32,6 +24,28 @@ const store = configureStore({
             },
         }),
 });
+
+axios.defaults.baseURL = 'http://wis2-api.herokuapp.com';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+axios.interceptors.request.use(request => {
+    console.log(request);
+    // Edit request config
+    return request;
+}, error => {
+    console.log(error);
+    return Promise.reject(error);
+});
+
+axios.interceptors.response.use(response => {
+    console.log(response);
+    // Edit response config
+    return response;
+}, error => {
+    console.log(error);
+    return Promise.reject(error);
+});
+
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

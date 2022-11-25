@@ -1,14 +1,15 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {Controller, useForm} from "react-hook-form";
 import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import { setLogin } from "../../state/UserState";
+import {useDispatch} from "react-redux";
+import {setLogin} from "../../state/UserState";
 import {useNavigate} from "react-router-dom";
-import {useMediaQuery} from "@mui/material";
+import {Alert, Container} from "@mui/material";
 
 interface IFormInput {
     email: string;
@@ -17,7 +18,7 @@ interface IFormInput {
 
 const Login = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
-    const isNonMobile = useMediaQuery("(min-width:600px)");
+    const [error, setError] = useState("")
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -27,17 +28,21 @@ const Login = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.post('http://localhost:5000/api/person/login', data, optionAxios);
-        if (res){
-            console.log("login");
-            dispatch(
-                setLogin({
-                    user: res.data.user
-                })
-            );
-            navigate("/");
-        }
-        reset(defaultValues);
+        await axios.post('/api/person/login', data, optionAxios)
+            .then( (res) => {
+                dispatch(
+                    setLogin({
+                        user: res.data.user
+                    })
+                );
+                setError("")
+                navigate("/");
+            }).catch(function (error) {
+                setError("Wrong email or password");
+            })
+            .then(() => {
+                reset(defaultValues);
+            })
     }
     const defaultValues: IFormInput = {
         email: "",
@@ -45,19 +50,19 @@ const Login = () => {
     }
 
     return (
-        <Box m="20px">
-            <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"}>
-                Login
-            </Typography>
-            <form>
-                <Box
-                    display="grid"
-                    gap="30px"
-                    gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                    sx={{
-                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                    }}
-                >
+        <Container component="main" maxWidth="xs">
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography component="h1" variant="h3">
+                    Login
+                </Typography>
+                <Box component="form" noValidate sx={{mt: 1}}>
                     <Controller
                         name={"email"}
                         rules={{
@@ -68,16 +73,16 @@ const Login = () => {
                         render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
-                                inputMode={"email"}
+                                margin={"normal"}
                                 onChange={onChange}
                                 value={value}
-                                variant="filled"
                                 type="text"
                                 label={errors.email ? "Bad email format" : "Email"}
                                 error={!errors.email ? false : true}
                                 id="email"
                                 name="email"
-                                sx={{gridColumn: "span 2", justifyContent: "center"}}
+                                autoComplete="email"
+                                autoFocus
                             />
                         )}
                     />
@@ -88,9 +93,9 @@ const Login = () => {
                         render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
+                                margin={"normal"}
                                 onChange={onChange}
                                 value={value}
-                                variant="filled"
                                 type="password"
                                 label={errors.password ? "Input required" : "Password"}
                                 error={!errors.password ? false : true}
@@ -100,15 +105,19 @@ const Login = () => {
                             />
                         )}
                     />
-                </Box>
-                <Box display="flex" justifyContent="Center" mt="50px">
-                    <Button onClick={handleSubmit(onSubmit)} color="secondary" variant="contained">
+                    { error !== "" && (<Alert severity="error">{error}</Alert>)}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{mt: 3, mb: 2}}
+                        onClick={handleSubmit(onSubmit)}
+                    >
                         Login
                     </Button>
                 </Box>
-
-            </form>
-        </Box>
+            </Box>
+        </Container>
     );
 }
 export default Login;

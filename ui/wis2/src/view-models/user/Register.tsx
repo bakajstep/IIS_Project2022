@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {Controller, useForm} from "react-hook-form";
-import {Checkbox, FormControlLabel, Radio, RadioGroup} from "@mui/material";
+import {Checkbox, FormControlLabel} from "@mui/material";
 import axios from 'axios';
 
 interface IRegister {
@@ -28,7 +28,7 @@ const Register = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.post('http://localhost:5000/api/person/register', data, optionAxios).then( (res) => {
+        await axios.post('/api/person/register', data, optionAxios).then( (res) => {
             reset(defaultValues);
         });
     }

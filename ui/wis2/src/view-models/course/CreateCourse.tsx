@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {useState} from "react";
-import {Alert, Checkbox, FormControlLabel, useMediaQuery} from "@mui/material";
+import {Alert, useMediaQuery} from "@mui/material";
 import {useSelector} from "react-redux";
 
 interface ICourse {
@@ -32,7 +32,7 @@ const CreateCourse = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            await axios.post('http://localhost:5000/api/course', data, optionAxios)
+            await axios.post('/api/course', data, optionAxios)
                 .then(function (response) {
                     setError("");
                 })
