@@ -17,8 +17,7 @@ from api.routes.course_routes import *
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://wis:Heslo123456789@localhost:3306/wis'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://joe:Dudy1973*@localhost:3306/wis'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Heslo123456789@185.136.198.152:49532/wis'
 app.config['SECRET_KEY'] = '0c932d819321d1252b2acfc5'
 
 db.init_app(app)
