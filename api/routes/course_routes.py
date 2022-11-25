@@ -2,10 +2,11 @@ from api.models.database import db
 from api.models.student_model import Student
 from api.models.person_model import Person
 from api.models.course_model import Course
-from api.models.actuality_model import Actuality
+from api.models.term_model import Term
 from flask import request
 from flask_restx import Resource, fields
 from api.routes.routes import rest_api
+import json
 
 """
     Flask-Restx models for api request and response data
@@ -41,7 +42,10 @@ class Courses(Resource):
 
         if course_exists:
             return {"success": False,
-                    "msg": "This course already exist."}, 400
+                    "msg": "This course already exist."}, 404
+
+        new_course = Course(label=_label, description=_description, type=_type, price=_price, guarantor=_guarantor,
+                            state='PENDING')
 
         new_course = Course(label=_label, description=_description, type=_type, price=_price, guarantor=_guarantor,
                             state='PENDING', capacity=_capacity)
@@ -253,3 +257,45 @@ class Courses(Resource):
             lectors_json.append(person.to_json())
 
         return {"lector": lectors_json}, 200
+
+
+@rest_api.route('/api/course/<int:courseId>/person/<int:personId>/term')
+class Courses(Resource):
+    """
+        Get list of terms from person for that course
+    """
+
+    def get(self, courseId, personId):
+        student = db.session.query(Student).filter(Student.person_id == personId).filter(
+            Student.course_id == courseId).first()
+
+        if not student:
+            return {"success": False,
+                    "msg": "Student does not exist."}, 400
+
+        term_json = []
+        for registred in student.registered_term:
+            term = Term.get_by_id(registred.term_id)
+            term_json.append(term.to_json())
+
+        return {"term": term_json}, 200
+
+
+@rest_api.route('/api/course/<int:courseId>/term')
+class Courses(Resource):
+    """
+        Get list of terms from course
+    """
+
+    def get(self, courseId):
+        course = Course.get_by_id(courseId)
+
+        if not course:
+            return {"success": False,
+                    "msg": "Course does not exist"}, 400
+
+        term_json = []
+        for term in course.terms:
+            term_json.append(term.to_json())
+
+        return {"term": term_json}, 200

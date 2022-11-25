@@ -2,8 +2,8 @@ from api.models.database import db
 from api.models.rank_model import Rank
 
 
-def add_rank(_points, _term_id, _student_id):
-    new_rank = Rank(points=_points, term_id=_term_id, student_id=_student_id)
+def add_rank(_points, _term_date_id, _student_id):
+    new_rank = Rank(points=_points, term_date_id=_term_date_id, student_id=_student_id)
     db.session.add(new_rank)
     db.session.commit()
 

@@ -26,9 +26,8 @@ class Course(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     def to_dict(self):
-        user = Person.get_by_id(self.guarantor)
         cls_dict = {'id': self.id, 'label': self.label, 'description': self.description, 'type': self.type,
-                    'price': self.price, 'guarantor_id': self.guarantor}
+                    'price': self.price, 'guarantor_id': self.guarantor, 'capacity': self.capacity}
         return cls_dict
 
     def to_json(self):
