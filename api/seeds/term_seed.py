@@ -22,7 +22,7 @@ def import_terms():
 
     add_term('Záverečná skúška', '50', '20', 3, 3, datetime.time(9, 0, 0), datetime.time(10, 30, 0))
     add_term('Polsemestrálna skúška', '30', '10', 3, 3, datetime.time(12, 0, 0), datetime.time(13, 0, 0))
-    add_term('Zápočet', '60', '30', 3, 1,  datetime.time(0, 0, 0), datetime.time(0, 0, 0))
+    add_term('Zápočet', '60', '30', 3, 1, datetime.time(0, 0, 0), datetime.time(0, 0, 0))
 
     add_term('Záverečná skúška', '60', '30', 4, 3, datetime.time(12, 0, 0), datetime.time(14, 0, 0))
     add_term('Polsemestrálna skúška', '20', '0', 4, 4, datetime.time(12, 0, 0), datetime.time(13, 0, 0))

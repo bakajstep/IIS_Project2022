@@ -1,3 +1,4 @@
+import MySQLdb
 from flask import Flask
 from flask_cors import CORS
 from .models.database import db
@@ -11,9 +12,11 @@ from api.models.lector_model import Lector
 from api.models.registered_term_model import RegisteredTerm
 from api.models.room_model import Room
 from api.models.student_model import Student
+from api.models.term_date_model import TermDate
 from api.routes.person_routes import *
 from api.routes.room_routes import *
 from api.routes.course_routes import *
+from api.routes.term_routes import *
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Heslo123456789@192.168.1.8:3307/wis'
