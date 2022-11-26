@@ -10,12 +10,9 @@ class Term(db.Model):
     to_time = db.Column(db.Time(), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id', ondelete="CASCADE"))
     room_id = db.Column(db.Integer, db.ForeignKey('room.id', ondelete="CASCADE"))
-<<<<<<< HEAD
     registered_term = db.relationship('RegisteredTerm', backref='Term')
     term_date = db.relationship('TermDate', backref='Term')
-=======
-    rank = db.relationship('Rank', backref='Term')
->>>>>>> origin/dusancicmis
+
 
 
     def __repr__(self):
@@ -34,12 +31,9 @@ class Term(db.Model):
         return cls.query.filter_by(label=_label).first()
 
     def to_dict(self):
-        cls_dict = {'id': self.id, 'label': self.label, 'rating': self.rating, 'min_points': self.min_points,
-<<<<<<< HEAD
-                    'date': self.date, 'course_id': self.course_id, 'room_id': self.room_id}
-=======
-                    'date':self.date, 'course_id': self.course_id, 'room_id': self.room_id}
->>>>>>> origin/dusancicmis
+        cls_dict = {'id': self.id, 'label': self.label, 'max_points': self.rating, 'min_points': self.min_points,
+                    'from_time': str(self.from_time), 'to_time': str(self.to_time),
+                    'course_id': self.course_id, 'room_id': self.room_id}
         return cls_dict
 
     def to_json(self):

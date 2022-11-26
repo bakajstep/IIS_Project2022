@@ -1,6 +1,10 @@
 from ..models.database import db
+from ..models.term_date_model import TermDate
 from ..models.term_model import Term
 from ..models.room_model import Room
+from ..models.student_model import Student
+from ..models.person_model import Person
+from ..models.course_model import Course
 from flask import request
 from flask_restx import Resource, fields
 from .routes import rest_api
@@ -37,6 +41,11 @@ room_model = rest_api.model('RoomModel',
                                 "capacity": fields.Integer(required=True)
                             })
 
+points_model = rest_api.model('PointsModel',
+                              {
+                                "points": fields.Integer(required=True)
+                              })
+
 
 """
     Flask-Restx routes
@@ -44,13 +53,7 @@ room_model = rest_api.model('RoomModel',
 
 @rest_api.route('/api/term')
 class Terms(Resource):
-    """
-<<<<<<< HEAD
-       Create new term
-=======
-       Create new course
->>>>>>> origin/dusancicmis
-    """
+
 
     @rest_api.expect(term_model)
     def post(self):
@@ -148,4 +151,53 @@ class SingleTerm(Resource):
         db.session.query(Term).filter(Term.id == termId).delete()
         db.session.commit()
 
+        return {"success": True}, 200
+
+
+
+@rest_api.route('/api/rank/<int:courseId>/person/<int:personId>/termDate/<int:termDateId>')
+class Rank(Resource):
+    """
+       Give student ranking
+    """
+
+    @rest_api.expect(points_model)
+    def post(self,  personId, courseId, termDateId):
+        user_exists = Person.get_by_id(personId)
+        if not user_exists:
+            return {"success": False,
+                    "msg": "Person does not exist."}, 400
+
+        points = request.get_json().get("points", None)
+
+        student = db.session.query(Student).filter(Student.person_id == personId).filter(
+            Student.course_id == courseId).first()
+        if not student:
+            return {"success": False,
+                    "msg": "This person is not in course."}, 400
+
+        course = db.session.query(Course).filter(Course.id == courseId).first()
+        if not course:
+            return {"success": False,
+                    "msg": "This course does not exist."}, 400
+
+        term = db.session.query(TermDate).filter(TermDate.id == termDateId).Term.first()
+
+        if not term:
+            return {"success": False,
+                    "msg": "Term_date has no valid term"}, 400
+
+        if points is None:
+            return {"success": False,
+                    "msg": "Missing points in payload"}, 400
+
+        if points < 0 or points > term.max_points:
+            return {"success": False,
+                    "msg": "Points out of range"}, 400
+
+        rank = db.session.query(Rank).filter(Rank.term_date_id == termDateId).filter(
+            Rank.student_id == student.id)
+
+        setattr(rank, 'points', points)
+        db.session.commit()
         return {"success": True}, 200
