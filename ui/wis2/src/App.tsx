@@ -1,5 +1,5 @@
 import React from 'react';
-import {CssBaseline, ThemeProvider, Typography} from "@mui/material";
+import {CssBaseline, ThemeProvider} from "@mui/material";
 import {Route, Routes} from "react-router-dom";
 import {ColorModeContext, useMode} from "./theme";
 import Topbar from './view-models/global/Topbar';
@@ -7,12 +7,15 @@ import Sidebar from "./view-models/global/Sidebar";
 import Register from "./view-models/user/Register";
 import "./App.sass";
 import Login from "./view-models/user/Login";
-import Mainpage from "./view-models/mainpage/Mainpage";
 import {useSelector} from "react-redux";
 import Profile from "./view-models/user/Profile";
 import ProfileList from "./view-models/user/ProfileList";
 import CreateRoom from "./view-models/rooms/CreateRoom";
 import EditRooms from "./view-models/rooms/EditRooms";
+import CreateCourse from "./view-models/course/CreateCourse";
+import ApproveCourse from "./view-models/course/ApproveCourse";
+import ApprovedCoursesListPrivate from "./view-models/course/ApprovedCoursesListPrivate";
+import ApprovedCoursesListPublic from "./view-models/course/ApprovedCoursesListPublic";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -28,16 +31,19 @@ function App() {
                         <Topbar/>
                         <Routes>
                             <Route path="/login" element={<Login/>}/>
-                            <Route path="/" element={<Mainpage/>}/>
+                            <Route path="/" element={<ApprovedCoursesListPublic/>}/>
                             {user != null && user.admin === true && (
                                 <Route path="/register" element={<Register/>}/>
                             )}
                             {user != null && (
-                                    <Route path="/profile" element={<Profile/>}/>)
+                                <Route path="/profile" element={<Profile/>}/>)
                             }
                             <Route path="/createRoom" element={<CreateRoom/>}/>
                             <Route path="/profiles" element={<ProfileList/>}/>
                             <Route path="/editRoom" element={<EditRooms/>}/>
+                            <Route path="/createCourse" element={<CreateCourse/>}/>
+                            <Route path="/ApproveCourse" element={<ApproveCourse/>}/>
+                            <Route path="/ApprovedCourses" element={<ApprovedCoursesListPrivate/>}/>
                         </Routes>
                     </main>
                 </div>

@@ -8,8 +8,8 @@ import {
     DialogTitle,
     TextField
 } from "@mui/material";
-import {useState} from "react";
 import * as React from "react";
+import {useState} from "react";
 import {Controller, useForm} from "react-hook-form";
 import axios from "axios";
 import {useSelector} from "react-redux";
@@ -32,7 +32,7 @@ const ChangePasswordDialog = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            await axios.put(`http://localhost:5000/api/person/${user.id}/password`, data, optionAxios)
+            await axios.put(`/api/person/${user.id}/password`, data, optionAxios)
                 .then(function (response){
                     setError(false);
                     setOpen(false);
