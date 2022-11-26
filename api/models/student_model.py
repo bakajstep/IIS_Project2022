@@ -6,4 +6,5 @@ class Student(db.Model):
     state = db.Column(db.String(20), nullable=False)
     person_id = db.Column(db.Integer(), db.ForeignKey('person.id', ondelete="CASCADE"))
     course_id = db.Column(db.Integer(), db.ForeignKey('course.id', ondelete="CASCADE"))
+    registered_term = db.relationship('RegisteredTerm', backref='Student')
 

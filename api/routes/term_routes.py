@@ -45,7 +45,7 @@ room_model = rest_api.model('RoomModel',
 @rest_api.route('/api/term')
 class Terms(Resource):
     """
-       Create new course
+       Create new term
     """
 
     @rest_api.expect(term_model)
