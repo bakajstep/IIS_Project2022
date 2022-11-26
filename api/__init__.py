@@ -17,6 +17,8 @@ from api.routes.person_routes import *
 from api.routes.room_routes import *
 from api.routes.course_routes import *
 from api.routes.term_routes import *
+from api.routes.registered_term_routes import *
+
 
 app = Flask(__name__)
 app.config[

@@ -2,6 +2,8 @@ from ..models.database import db
 from ..models.person_model import Person
 from ..models.course_model import Course
 from ..models.student_model import Student
+from ..models.registered_term_model import RegisteredTerm
+from ..models.term_model import Term
 from flask import request
 from flask_restx import Resource, fields
 from .routes import rest_api
@@ -204,3 +206,24 @@ class Courses(Resource):
             course_json.append(Course.get_by_id(course.course_id).to_json())
 
         return {"course": course_json}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/course/<int:courseId>/term/registered')
+class Courses(Resource):
+    """
+       Get list of terms for person in course registered
+    """
+
+    def get(self, personId, courseId):
+        student = db.session.query(Student).filter(Student.person_id == personId).filter(
+            Student.course_id == courseId).first()
+
+        if not student:
+            return {"success": False,
+                    "msg": "Student does not exist."}, 400
+
+        term_json = []
+        registered_term_list = student.registered_term
+        for registered_term in registered_term_list:
+            term_json.append(Term.get_by_id(registered_term.id).to_json())
+        return {"term": term_json}, 200
