@@ -14,7 +14,6 @@ import CreateRoom from "./view-models/rooms/CreateRoom";
 import EditRooms from "./view-models/rooms/EditRooms";
 import CreateCourse from "./view-models/course/CreateCourse";
 import ApproveCourse from "./view-models/course/ApproveCourse";
-import ApprovedCoursesListPrivate from "./view-models/course/ApprovedCoursesListPrivate";
 import ApprovedCoursesListPublic from "./view-models/course/ApprovedCoursesListPublic";
 
 function App() {
@@ -43,7 +42,7 @@ function App() {
                             <Route path="/editRoom" element={<EditRooms/>}/>
                             <Route path="/createCourse" element={<CreateCourse/>}/>
                             <Route path="/ApproveCourse" element={<ApproveCourse/>}/>
-                            <Route path="/ApprovedCourses" element={<ApprovedCoursesListPrivate/>}/>
+                            <Route path="/ApprovedCourses" element={<ApprovedCoursesListPublic/>}/>
                         </Routes>
                     </main>
                 </div>

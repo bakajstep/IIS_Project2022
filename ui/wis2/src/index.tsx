@@ -25,24 +25,20 @@ const store = configureStore({
         }),
 });
 
-axios.defaults.baseURL = 'http://wis2-api.herokuapp.com';
+axios.defaults.baseURL = 'http://185.136.198.152:5000';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 axios.interceptors.request.use(request => {
-    console.log(request);
     // Edit request config
     return request;
 }, error => {
-    console.log(error);
     return Promise.reject(error);
 });
 
 axios.interceptors.response.use(response => {
-    console.log(response);
     // Edit response config
     return response;
 }, error => {
-    console.log(error);
     return Promise.reject(error);
 });
 

@@ -70,7 +70,7 @@ const ApprovedCoursesListPrivate = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('https://wis2-api.herokuapp.com/api/course/approved', optionAxios)
+        await axios.get('/api/course/approved', optionAxios)
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);

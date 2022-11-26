@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {DataGrid, GridColDef} from "@mui/x-data-grid"
+import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid"
 import {Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
 
@@ -31,7 +31,7 @@ const ApprovedCoursesListPublic = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('https://wis2-api.herokuapp.com/api/course/approved', optionAxios)
+        await axios.get('/api/course/approved', optionAxios)
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);
@@ -51,12 +51,21 @@ const ApprovedCoursesListPublic = () => {
             <Box display="flex" justifyContent="center">
                 <DataGrid
                     style={{padding: 5, height: 600, maxWidth: 900}}
-                    getRowClassName={(params) => `super-app-theme--${params.row.status}`}
+                    disableColumnFilter
+                    disableColumnSelector
+                    disableDensitySelector
                     rows={obj}
                     columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
                     disableSelectionOnClick={true}
+                    components={{ Toolbar: GridToolbar }}
+                    componentsProps={{
+                        toolbar: {
+                            showQuickFilter: true,
+                            quickFilterProps: { debounceMs: 500 },
+                        },
+                    }}
                     sx={{
                         boxShadow: 4,
                     }}
