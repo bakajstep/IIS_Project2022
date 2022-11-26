@@ -10,6 +10,7 @@ class Course(db.Model):
     price = db.Column(db.Integer(), nullable=False)
     capacity = db.Column(db.Integer(), nullable=False)
     state = db.Column(db.String(length=256), nullable=False)
+    autoReg = db.Column(db.Boolean(), nullable=False)
     guarantor = db.Column(db.Integer, db.ForeignKey('person.id'))
     terms = db.relationship('Term', backref='Course', passive_deletes=True)
     lector = db.relationship('Lector', backref='Course', passive_deletes=True)

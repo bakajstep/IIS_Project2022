@@ -196,7 +196,10 @@ class Courses(Resource):
             return {"success": False,
                     "msg": "Capacity of the course is full."}, 400
 
-        signed = Student(person_id=personId, course_id=courseId, state='PENDING')
+        if course.autoReg:
+            signed = Student(person_id=personId, course_id=courseId, state='APPROVED')
+        else:
+            signed = Student(person_id=personId, course_id=courseId, state='PENDING')
         return {"student": signed}, 200
 
     def put(self, courseId, personId):
