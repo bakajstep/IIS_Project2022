@@ -12,18 +12,18 @@ import json
 signup_model = rest_api.model('SignUpModel', {"name": fields.String(required=True, min_length=1, max_length=64),
                                               "surname": fields.String(required=True, min_length=1, max_length=64),
                                               "email": fields.String(required=True, min_length=4, max_length=64),
-                                              "password": fields.String(required=True, min_length=4, max_length=20),
+                                              "password": fields.String(required=True, min_length=1, max_length=64),
                                               "admin": fields.Boolean(required=True)
                                               })
 
-login_model = rest_api.model('LoginModel', {"email": fields.String(required=True, min_length=4, max_length=64),
-                                            "password": fields.String(required=True, min_length=4, max_length=16)
+login_model = rest_api.model('LoginModel', {"email": fields.String(required=True, min_length=1, max_length=64),
+                                            "password": fields.String(required=True, min_length=1, max_length=64)
                                             })
 
 update_password_model = rest_api.model('UpdatePasswordModel',
                                        {
-                                           "old_password": fields.String(required=True, min_length=0, max_length=16),
-                                           "new_password": fields.String(required=True, min_length=0, max_length=16)
+                                           "old_password": fields.String(required=True, min_length=0, max_length=64),
+                                           "new_password": fields.String(required=True, min_length=0, max_length=64)
                                        })
 
 update_person_model = rest_api.model('UpdatePersonModel',
