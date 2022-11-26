@@ -2,10 +2,17 @@ from api.models.database import db
 from api.models.student_model import Student
 from api.models.person_model import Person
 from api.models.course_model import Course
+<<<<<<< HEAD
 from api.models.actuality_model import Actuality
 from flask import request
 from flask_restx import Resource, fields
 from api.routes.routes import rest_api
+=======
+from flask import request
+from flask_restx import Resource, fields
+from api.routes.routes import rest_api
+import json
+>>>>>>> origin/dusancicmis
 
 """
     Flask-Restx models for api request and response data
@@ -15,7 +22,10 @@ course_model = rest_api.model('CourseModel', {"label": fields.String(required=Tr
                                               "description": fields.String(required=True, min_length=1, max_length=255),
                                               "type": fields.String(required=True, min_length=1, max_length=64),
                                               "price": fields.Integer(required=True),
+<<<<<<< HEAD
                                               "capacity": fields.Integer(required=True),
+=======
+>>>>>>> origin/dusancicmis
                                               "guarantor": fields.Integer(required=True)
                                               })
 
@@ -34,17 +44,27 @@ class Courses(Resource):
         _description = req_data.get('description')
         _type = req_data.get('type')
         _price = req_data.get('price')
+<<<<<<< HEAD
         _capacity = req_data.get('price')
+=======
+>>>>>>> origin/dusancicmis
         _guarantor = req_data.get('guarantor')
 
         course_exists = Course.get_by_label(req_data.get('label'))
 
         if course_exists:
             return {"success": False,
+<<<<<<< HEAD
                     "msg": "This course already exist."}, 400
 
         new_course = Course(label=_label, description=_description, type=_type, price=_price, guarantor=_guarantor,
                             state='PENDING', capacity=_capacity)
+=======
+                    "msg": "This course already exist."}, 404
+
+        new_course = Course(label=_label, description=_description, type=_type, price=_price, guarantor=_guarantor,
+                            state='PENDING')
+>>>>>>> origin/dusancicmis
         db.session.add(new_course)
         db.session.commit()
 
@@ -52,6 +72,7 @@ class Courses(Resource):
                 "course": new_course.to_json()}, 200
 
 
+<<<<<<< HEAD
 @rest_api.route('/api/course/<int:courseId>')
 class Courses(Resource):
     """
@@ -121,6 +142,9 @@ class Courses(Resource):
 
 
 @rest_api.route('/api/course/<int:courseId>/student')
+=======
+@rest_api.route('/api/course/<int:courseId>/students')
+>>>>>>> origin/dusancicmis
 class Courses(Resource):
     """
        Get list of students from course
@@ -131,19 +155,29 @@ class Courses(Resource):
 
         if not course_exists:
             return {"success": False,
+<<<<<<< HEAD
                     "msg": "This course does not exist."}, 400
+=======
+                    "msg": "This course does not exist."}, 404
+>>>>>>> origin/dusancicmis
 
         students_json = []
         course = db.session.query(Course).filter(Course.id == courseId).first()
         student_list = course.student
         for student in student_list:
+<<<<<<< HEAD
             if student.state == "APPROVED":
                 person = Person.get_by_id(student.person_id)
                 students_json.append(person.to_json())
+=======
+            person = Person.get_by_id(student.person_id)
+            students_json.append(person.to_json())
+>>>>>>> origin/dusancicmis
 
         return {"student": students_json}, 200
 
 
+<<<<<<< HEAD
 @rest_api.route('/api/course/<int:courseId>/actuality')
 class Courses(Resource):
     """
@@ -232,6 +266,8 @@ class Courses(Resource):
         return {"success": True}, 200
 
 
+=======
+>>>>>>> origin/dusancicmis
 @rest_api.route('/api/course/<int:courseId>/lector')
 class Courses(Resource):
     """
@@ -243,7 +279,11 @@ class Courses(Resource):
 
         if not course_exists:
             return {"success": False,
+<<<<<<< HEAD
                     "msg": "This course does not exist."}, 400
+=======
+                    "msg": "This course does not exist."}, 404
+>>>>>>> origin/dusancicmis
 
         lectors_json = []
         course = db.session.query(Course).filter(Course.id == courseId).first()

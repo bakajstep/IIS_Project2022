@@ -8,14 +8,22 @@ class Course(db.Model):
     description = db.Column(db.String(length=256), nullable=False)
     type = db.Column(db.String(length=256), nullable=False)
     price = db.Column(db.Integer(), nullable=False)
+<<<<<<< HEAD
     capacity = db.Column(db.Integer(), nullable=False)
+=======
+>>>>>>> origin/dusancicmis
     state = db.Column(db.String(length=256), nullable=False)
     autoReg = db.Column(db.Boolean(), nullable=False)
     guarantor = db.Column(db.Integer, db.ForeignKey('person.id'))
     terms = db.relationship('Term', backref='Course', passive_deletes=True)
     lector = db.relationship('Lector', backref='Course', passive_deletes=True)
+<<<<<<< HEAD
     student = db.relationship('Student', backref='Course', passive_deletes=True)
     actuality = db.relationship('Actuality', backref='Course', passive_deletes=True)
+=======
+    student = db.relationship('Student', backref='Course')
+    actuality = db.relationship('Actuality', backref='Course')
+>>>>>>> origin/dusancicmis
 
     @classmethod
     def get_by_label(cls, _label):
