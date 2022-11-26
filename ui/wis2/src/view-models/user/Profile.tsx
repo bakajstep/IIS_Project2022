@@ -1,15 +1,15 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import {useDispatch, useSelector} from "react-redux";
 import ChangePasswordDialog from "../../components/ChangePasswordDialog";
-import {useEffect, useState} from "react";
 import {setLogin} from "../../state/UserState";
-import {useNavigate} from "react-router-dom";
+import {Alert} from "@mui/material";
 
 interface IFormInput {
     name: string;
@@ -20,8 +20,8 @@ interface IFormInput {
 const Profile = () => {
     const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IFormInput>();
     const user = useSelector((state: any) => state.user);
+    const [error, setError] = useState("");
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const setValues = () => {
         setValue('name', user.name);
