@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import {useMediaQuery} from "@mui/material";
+import {useState} from "react";
+import {Alert} from "@mui/material";
 
 interface IFormInput {
     label: string,
@@ -14,7 +15,7 @@ interface IFormInput {
 
 const CreateRoom = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
-    const isNonMobile = useMediaQuery("(min-width:600px)");
+    const [error, setError] = useState("");
 
     const onSubmit = async (data: IFormInput) => {
         const optionAxios = {
@@ -22,9 +23,13 @@ const CreateRoom = () => {
                 'Content-Type': 'application/json'
             }
         };
-        let res = await axios.post('/api/room', data, optionAxios).then( () => {
-            reset(defaultValues);
-        });
+        await axios.post('/api/room', data, optionAxios)
+        .then((res) => {
+                reset(defaultValues);
+                setError("");
+            }).catch(function (error) {
+                setError(error.response.data.msg);
+            })
 
     }
     const defaultValues: IFormInput = {
@@ -33,19 +38,18 @@ const CreateRoom = () => {
     }
 
     return (
-        <Box m="20px">
-            <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"}>
-                Create room
-            </Typography>
-            <form>
-                <Box
-                    display="grid"
-                    gap="30px"
-                    gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                    sx={{
-                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                    }}
-                >
+            <Box
+                p={2} sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+            >
+                <Typography component={"h1"} variant={"h2"}>
+                    Create room
+                </Typography>
+                <Box component={"form"} noValidate sx={{mt:1}}>
                     <Controller
                         name={"label"}
                         rules={{required: true}}
@@ -53,14 +57,13 @@ const CreateRoom = () => {
                         render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
+                                margin={"normal"}
                                 onChange={onChange}
                                 value={value}
-                                variant="filled"
                                 type="text"
                                 label={errors.label ? "Input required" : "Label"}
                                 error={!errors.label ? false : true}
                                 name="label"
-                                sx={{gridColumn: "span 4", justifyContent: "center"}}
                             />
                         )}
                     />
@@ -71,25 +74,26 @@ const CreateRoom = () => {
                         render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
+                                margin={"normal"}
                                 onChange={onChange}
                                 value={value}
-                                variant="filled"
                                 type="number"
                                 label={errors.capacity ? "Input required" : "Capacity"}
                                 error={!errors.capacity ? false : true}
                                 name="capacity"
-                                sx={{gridColumn: "span 4"}}
                             />
                         )}
                     />
-                </Box>
-                <Box display="flex" justifyContent="Center" mt="50px">
-                    <Button onClick={handleSubmit(onSubmit)} color="secondary" variant="contained">
+                    { error !== "" && (<Alert severity="error">{error}</Alert>)}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{mt: 3, mb: 2}}
+                        onClick={handleSubmit(onSubmit)}>
                         Create room
                     </Button>
-                </Box>
-
-            </form>
+            </Box>
         </Box>
     );
 }

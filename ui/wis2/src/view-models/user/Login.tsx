@@ -9,7 +9,8 @@ import axios from "axios";
 import {useDispatch} from "react-redux";
 import {setLogin} from "../../state/UserState";
 import {useNavigate} from "react-router-dom";
-import {Alert, Container} from "@mui/material";
+import {Alert} from "@mui/material";
+import bcrypt from "bcryptjs-react";
 
 interface IFormInput {
     email: string;
@@ -18,11 +19,13 @@ interface IFormInput {
 
 const Login = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
-    const [error, setError] = useState("")
+    const [error, setError] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const onSubmit = async (data: IFormInput) => {
+        const password = data.password;
+        data.password = bcrypt.hashSync(password, '$2a$10$CwTycUXWue0Thq9StjUM0u');
+        console.log(data.password);
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -35,13 +38,12 @@ const Login = () => {
                         user: res.data.user
                     })
                 );
-                setError("")
+                setError("");
+                reset(defaultValues);
                 navigate("/");
             }).catch(function (error) {
-                setError("Wrong email or password");
-            })
-            .then(() => {
-                reset(defaultValues);
+                setError(error.response.data.msg);
+                data.password = password;
             })
     }
     const defaultValues: IFormInput = {
@@ -50,8 +52,8 @@ const Login = () => {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
             <Box
+                p={2}
                 sx={{
                     marginTop: 8,
                     display: 'flex',
@@ -59,7 +61,7 @@ const Login = () => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h3">
+                <Typography component="h1" variant="h2">
                     Login
                 </Typography>
                 <Box component="form" noValidate sx={{mt: 1}}>
@@ -117,7 +119,6 @@ const Login = () => {
                     </Button>
                 </Box>
             </Box>
-        </Container>
     );
 }
 export default Login;

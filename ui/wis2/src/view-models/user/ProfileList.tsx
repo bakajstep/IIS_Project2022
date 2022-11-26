@@ -1,8 +1,9 @@
-import {Box, Button, IconButton, List, ListItemText, Typography} from "@mui/material";
-import ListItem from "@mui/material/ListItem";
+import {Box, IconButton, Typography} from "@mui/material";
+import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
 
 interface IUser {
     id: number,
@@ -14,17 +15,50 @@ interface IUser {
 
 const ProfileList = () => {
     const [obj, setObj] = useState<IUser[]>([]);
+    const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
 
     const deleteValue = async (id: number) => {
+        console.log(id);
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
             }
         };
-        const rel = await axios.delete(`/api/person/${id}`, optionAxios).then(res => {
+        await axios.delete(`/api/person/${id}`, optionAxios).then( () => {
             getValues();
         })
     }
+
+    const deleteValues = async () => {
+        for (let i = 0; i < selectedUsers.length; i++){
+            await deleteValue(selectedUsers[i].id);
+        }
+    }
+
+    const columns: GridColDef[] = [
+        {field: 'id', headerName: 'ID', flex: 3},
+        {field: 'name', headerName: 'Name', flex: 4},
+        {field: 'surname', headerName: 'Surname', flex: 4},
+        {field: 'email', headerName: 'Email', flex: 4},
+        {field: 'admin', headerName: 'Admin', flex: 4, type: "boolean"},
+        {
+            field: "delete",
+            width: 75,
+            sortable: false,
+            disableColumnMenu: true,
+            renderHeader: () => {
+                return (
+                    <IconButton
+                        onClick={() => {
+                            deleteValues()
+                        }}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                );
+            }
+        }
+    ];
 
     const getValues = async () => {
         const optionAxios = {
@@ -44,31 +78,30 @@ const ProfileList = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <Box padding="20px" display="flex" justifyContent={"center"}>
-            <Box display={"grid"} gridTemplateColumns={"10fr, 1fr, 10fr, 1fr, 10fr, 1fr, 10fr"}>
-                <Typography gridColumn={1} variant={"h5"}>Name</Typography>
-                <Typography gridColumn={3} variant={"h5"}>Surname</Typography>
-                <Typography gridColumn={5} variant={"h5"}>Email</Typography>
-                <Typography gridColumn={7} variant={"h5"}>Delete</Typography>
-            </Box>
-            <Box position={"relative"}>
-                <List sx={{maxWidth: '100%', bgcolor: 'background.paper'}}>
-                    {obj.map((value: any) => (
-                        <ListItem
-                            key={value}
-                            disableGutters
-                            secondaryAction={
-                                <IconButton aria-label="">
-                                </IconButton>
-                            }
-                        >
-                            <ListItemText primary={`Name: ${value.name} ${value.surname} Email: ${value.email}`}/>
-                            <Button onClick={() => deleteValue(value.id)}>
-                                <DeleteIcon/>
-                            </Button>
-                        </ListItem>
-                    ))}
-                </List>
+        <Box p={2}
+             sx={{
+                 marginTop: 8}}>
+            <Typography display={"flex"} justifyContent={"center"} component={"h1"} variant={"h2"}>
+                Profiles
+            </Typography>
+            <Box marginTop={"20px"} display={"flex"} justifyContent={"center"}>
+            <DataGrid
+                rows={obj}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[5]}
+                checkboxSelection
+                onSelectionModelChange={(ids) => {
+                    const selectedIDs = new Set(ids);
+                    const selectedRowData = obj.filter((row) =>
+                        selectedIDs.has(row.id)
+                );
+                    setSelectedUsers(selectedRowData);
+                }}
+                sx={{
+                    marginTop: 1 ,height: 631, maxWidth: 900, boxShadow: 4,
+                }}
+            />
             </Box>
         </Box>
     );
