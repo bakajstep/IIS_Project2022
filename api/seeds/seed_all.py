@@ -18,9 +18,10 @@ def import_all():
     import_students()
     import_terms()
     import_registered_terms()
+    import_term_date()
     import_ranks()
     import_lectors()
-    import_term_date()
+
 
 
 

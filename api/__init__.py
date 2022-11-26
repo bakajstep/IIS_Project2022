@@ -11,13 +11,14 @@ from api.models.lector_model import Lector
 from api.models.registered_term_model import RegisteredTerm
 from api.models.room_model import Room
 from api.models.student_model import Student
+from api.models.term_date_model import TermDate
 from api.routes.person_routes import *
 from api.routes.room_routes import *
 from api.routes.course_routes import *
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Heslo123456789@192.168.1.8:3307/wis'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://wis:Heslo123456789@localhost:3306/wis'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://joe:Dudy1973*@localhost:3306/wis'
 app.config['SECRET_KEY'] = '0c932d819321d1252b2acfc5'
 
 db.init_app(app)

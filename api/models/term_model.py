@@ -11,7 +11,6 @@ class Term(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id', ondelete="CASCADE"))
     room_id = db.Column(db.Integer, db.ForeignKey('room.id', ondelete="CASCADE"))
     registered_term = db.relationship('RegisteredTerm', backref='Term')
-    rank = db.relationship('Rank', backref='Term')
     term_date = db.relationship('TermDate', backref='Term')
 
 
