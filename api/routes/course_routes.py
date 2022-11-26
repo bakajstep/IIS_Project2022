@@ -204,7 +204,7 @@ class Courses(Resource):
             signed = Student(person_id=personId, course_id=courseId, state='APPROVED')
         else:
             signed = Student(person_id=personId, course_id=courseId, state='PENDING')
-        return {"student": signed}, 200
+        return {"success": True}, 200
 
     def put(self, courseId, personId):
         course = db.session.query(Course).filter(Course.id == courseId).first()
