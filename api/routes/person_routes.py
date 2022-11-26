@@ -1,5 +1,7 @@
 from ..models.database import db
 from ..models.person_model import Person
+from ..models.course_model import Course
+from ..models.student_model import Student
 from flask import request
 from flask_restx import Resource, fields
 from .routes import rest_api
@@ -180,3 +182,25 @@ class SinglePerson(Resource):
         updated_user = Person.get_by_id(perId)
         return {"success": True,
                 "user": updated_user.to_json()}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/course')
+class Courses(Resource):
+    """
+       Get list of courses for person
+    """
+
+    def get(self, personId):
+        user_exists = Person.get_by_id(personId)
+
+        if not user_exists:
+            return {"success": False,
+                    "msg": "Person does not exist."}, 400
+
+        course_id_list = db.session.query(Student).filter(Student.person_id == personId).all()
+
+        course_json = []
+        for course in course_id_list:
+            course_json.append(Course.get_by_id(course.course_id).to_json())
+
+        return {"course": course_json}, 200

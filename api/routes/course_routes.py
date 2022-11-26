@@ -17,7 +17,8 @@ course_model = rest_api.model('CourseModel', {"label": fields.String(required=Tr
                                               "type": fields.String(required=True, min_length=1, max_length=64),
                                               "price": fields.Integer(required=True),
                                               "capacity": fields.Integer(required=True),
-                                              "guarantor": fields.Integer(required=True)
+                                              "guarantor": fields.Integer(required=True),
+                                              "autoReg": fields.Boolean(required=True)
                                               })
 
 
@@ -37,18 +38,16 @@ class Courses(Resource):
         _price = req_data.get('price')
         _capacity = req_data.get('price')
         _guarantor = req_data.get('guarantor')
+        _autoReg = req_data.get('autoReg')
 
-        course_exists = Course.get_by_label(req_data.get('label'))
+        course_exists = Course.get_by_label(_label)
 
         if course_exists:
             return {"success": False,
                     "msg": "This course already exist."}, 404
 
         new_course = Course(label=_label, description=_description, type=_type, price=_price, guarantor=_guarantor,
-                            state='PENDING')
-
-        new_course = Course(label=_label, description=_description, type=_type, price=_price, guarantor=_guarantor,
-                            state='PENDING', capacity=_capacity)
+                            state='PENDING', capacity=_capacity, autoReg=_autoReg)
         db.session.add(new_course)
         db.session.commit()
 
