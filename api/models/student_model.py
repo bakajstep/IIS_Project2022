@@ -13,3 +13,7 @@ class Student(db.Model):
     def get_all(cls):
         return cls.query.all()
 
+    @classmethod
+    def get_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()
+

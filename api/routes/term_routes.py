@@ -166,7 +166,7 @@ class SingleTerm(Resource):
 
 
 @rest_api.route('/api/rank/<int:courseId>/person/<int:personId>/termDate/<int:termDateId>')
-class Rank(Resource):
+class Ranking(Resource):
     """
        Give student ranking
     """
@@ -233,6 +233,29 @@ class SingleTerm(Resource):
             termdate_json.append(date.to_json())
 
         return {"term": termdate_json}, 200
+
+
+@rest_api.route('/api/term/<int:termId>/date/<int:dateId>')
+class SingleTerm(Resource):
+    """
+           List student in term date
+    """
+
+    def get(self, termId, dateId):
+        term = Term.get_by_id(termId)
+
+        reg_students = term.registered_term
+        json_send = []
+        for stud in reg_students:
+            stud_id = stud.student_id
+            rank = db.session.query(Rank).filter(Rank.student_id == stud_id).filter(Rank.term_date_id == dateId).first()
+            student = Student.get_by_id(stud_id)
+            person = Person.get_by_id(student.person_id)
+            tmp = {'person_id': person.id, 'name': person.name, 'surname': person.surname, 'email': person.email,
+                   'points': rank.points}
+            json_send.append(tmp)
+
+        return {"student": json_send}, 200
 
 
 def toTime(time):
