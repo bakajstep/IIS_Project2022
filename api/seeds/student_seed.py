@@ -21,3 +21,4 @@ def import_students():
     add_student('APPROVED', 8, 3)
     add_student('PENDING', 9, 4)
     add_student('APPROVED', 10, 2)
+    add_student('APPROVED', 20, 8)

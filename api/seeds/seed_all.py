@@ -17,11 +17,10 @@ def import_all():
     import_actualities()
     import_students()
     import_terms()
-    import_registered_terms()
     import_term_date()
+    import_registered_terms()
     import_ranks()
     import_lectors()
-    import_term_date()
 
 
 

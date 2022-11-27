@@ -15,7 +15,8 @@ def import_persons():
     add_person('Dávod', 'Deák', 'dado.deak@gmail.com', 'passhash100003', 0)
     add_person('Ernest', 'Emek', 'ernestemek@salamon.sk', 'passhash100005', 0)
     add_person('Filip', 'Fico', 'filip_fico@seznam.cz', 'passhash100006', 0)
-    add_person('Gábor', 'Boraros', 'punisher@gmail.com', '$2a$10$CwTycUXWue0Thq9StjUM0uai5XFKOiTlTD5iijP028bUBKzMGAsrW', 1)
+    add_person('Gábor', 'Boraros', 'punisher@gmail.com', '$2a$10$CwTycUXWue0Thq9StjUM0uai5XFKOiTlTD5iijP028bUBKzMGAsrW',
+               1)
     add_person('Hana', 'Dobrá', 'hankadobra@salamon.sk', 'passhash100008', 0)
     add_person('Ivan', 'Hrozný', 'ivo_hrozny@seznam.cz', 'passhash100009', 0)
     add_person('Jan', 'Janoška', 'jan.janoska123@gmail.com', 'passhash100010', 0)
@@ -28,3 +29,5 @@ def import_persons():
     add_person('Rastislav', 'Oťázik', 'rastootazik@salamon.sk', 'passhash100017', 0)
     add_person('Samuel', 'Fečo', 'feco_samuel@seznam.cz', 'passhash100018', 0)
     add_person('Tibor', 'Švéda', 'svedabar.tibor@gmail.com', 'passhash100019', 0)
+    add_person('Bohumil', 'Brtnik', 'bouhous.brtnik@gmail.com',
+               '$2a$10$CwTycUXWue0Thq9StjUM0uai5XFKOiTlTD5iijP028bUBKzMGAsrW', 0)

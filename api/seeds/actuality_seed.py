@@ -19,3 +19,6 @@ def import_actualities():
     add_actuality('zadanie projektu', 5)
     add_actuality('online streamovanie prednašok od 10.10.2022', 5)
     add_actuality('zrusenie polsemestralnej skusky', 5)
+    add_actuality('Lab1 je posunuta ', 8)
+    add_actuality('Lab2 supluje Forman', 8)
+    add_actuality('Lab3 se bude zkouset osciloskop', 8)

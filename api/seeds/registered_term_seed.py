@@ -20,6 +20,7 @@ def import_registered_terms():
     add_registered_term(5, 9)
     add_registered_term(5, 10)
     add_registered_term(5, 11)
+    add_registered_term(13, 13)
 
 
 

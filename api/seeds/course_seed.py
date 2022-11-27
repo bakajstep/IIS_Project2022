@@ -17,3 +17,4 @@ def import_courses():
     add_course('IMS', 'Modelovanie a simulácie', 'povinný', 1500, 'APPROVED', 500, 6, False)
     add_course('ITW', 'Tvorba webových stránok', 'volitelný', 1000, 'PENDING', 150, 1, False)
     add_course('I1C', 'Jazyk C', 'povinne-volitelný', 1000, 'APPROVED', 350, 1, False)
+    add_course('ELM', 'Elektrotechnicke mereni', 'povinne', 1000, 'APPROVED', 350, 1, False)

@@ -22,6 +22,13 @@ def import_ranks():
     add_rank(100, 5, 8)
     add_rank(97, 5, 9)
     add_rank(39, 4, 10)
+    add_rank(8, 9, 13)
+    add_rank(6, 10, 13)
+    add_rank(10, 11, 13)
+    add_rank(0, 12, 13)
+    add_rank(1, 13, 13)
+
+
 
 
 

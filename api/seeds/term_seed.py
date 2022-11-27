@@ -27,3 +27,7 @@ def import_terms():
     add_term('Záverečná skúška', '60', '30', 4, 3, datetime.time(12, 0, 0), datetime.time(14, 0, 0))
     add_term('Polsemestrálna skúška', '20', '0', 4, 4, datetime.time(12, 0, 0), datetime.time(13, 0, 0))
     add_term('Zápočet', '60', '30', 4, 1, datetime.time(0, 0, 0), datetime.time(0, 0, 0))
+
+    add_term('Lab', '10', '0', 8, 2, datetime.time(8, 0, 0), datetime.time(10, 0, 0))
+    add_term('Prednaska', '0', '0', 8, 1, datetime.time(12, 0, 0), datetime.time(14, 0, 0))
+

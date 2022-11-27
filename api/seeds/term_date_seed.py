@@ -21,3 +21,14 @@ def import_term_date():
 
     add_term_date(datetime.date(2023, 1, 3), 10)
     add_term_date(datetime.date(2023, 1, 3), 11)
+
+    add_term_date(datetime.date(2022, 11, 14), 13)
+    add_term_date(datetime.date(2022, 11, 21), 13)
+    add_term_date(datetime.date(2022, 11, 28), 13)
+    add_term_date(datetime.date(2022, 12, 5), 13)
+    add_term_date(datetime.date(2022, 12, 12), 13)
+
+    add_term_date(datetime.date(2022, 11, 10), 14)
+
+
+
