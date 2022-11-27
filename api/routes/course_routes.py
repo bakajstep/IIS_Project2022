@@ -8,7 +8,6 @@ from api.models.term_model import Term
 from flask import request
 from flask_restx import Resource, fields
 from api.routes.routes import rest_api
-import json
 
 """
     Flask-Restx models for api request and response data

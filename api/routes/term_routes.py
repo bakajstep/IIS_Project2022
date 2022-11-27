@@ -10,7 +10,6 @@ from ..models.student_model import Student
 from flask import request
 from flask_restx import Resource, fields
 from .routes import rest_api
-import json
 
 """
     Flask-Restx models for api request and response data
@@ -215,6 +214,7 @@ class Rank(Resource):
 
 
 def toTime(time):
+    time = time[11:19]
     field = time.split(':')
     return datetime.time(int(field[0]), int(field[1]), int(field[2]))
 

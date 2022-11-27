@@ -272,7 +272,8 @@ class Courses(Resource):
         person = Person.get_by_id(personId)
         course_json = []
         for course in person.guarantor:
-            course_json.append(course.to_json())
+            if course.state == "APPROVED":
+                course_json.append(course.to_json())
         return {"course": course_json}, 200
 
 
