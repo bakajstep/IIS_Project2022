@@ -189,6 +189,15 @@ class Courses(Resource):
             return {"success": False,
                     "msg": "This course does not exist."}, 400
 
+        if course.guarantor == personId:
+            return {"success": False,
+                    "msg": "Guarantor cant be student."}, 400
+
+        for lector in course.lector:
+            if lector.person_id == personId:
+                return {"success": False,
+                        "msg": "Lector cant be student."}, 400
+
         user_exists = Person.get_by_id(personId)
 
         if not user_exists:
