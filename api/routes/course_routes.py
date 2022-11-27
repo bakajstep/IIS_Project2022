@@ -1,6 +1,7 @@
 from api.models.database import db
 from api.models.student_model import Student
 from api.models.person_model import Person
+from api.models.actuality_model import Actuality
 from api.models.lector_model import Lector
 from api.models.course_model import Course
 from api.models.term_model import Term
@@ -21,6 +22,9 @@ course_model = rest_api.model('CourseModel', {"label": fields.String(required=Tr
                                               "guarantor": fields.Integer(required=True),
                                               "autoReg": fields.Boolean(required=True)
                                               })
+
+actuality_model = rest_api.model('ActualityModel',
+                                 {"description": fields.String(required=True, min_length=1, max_length=255)})
 
 
 @rest_api.route('/api/course')
@@ -151,8 +155,19 @@ class Courses(Resource):
 @rest_api.route('/api/course/<int:courseId>/actuality')
 class Courses(Resource):
     """
-       Get list of actualities from course
+       Get list of actualities from course and create actuality
     """
+
+    @rest_api.expect(actuality_model)
+    def post(self, courseId):
+        req_data = request.get_json()
+
+        _description = req_data.get('description')
+        actuality = Actuality(description=_description, course_id=courseId)
+
+        db.session.add(actuality)
+        db.session.commit()
+        return {"success": True}, 200
 
     def get(self, courseId):
         course_exists = Course.get_by_id(courseId)
