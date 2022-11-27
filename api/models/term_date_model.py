@@ -12,7 +12,7 @@ class TermDate(db.Model):
         return cls.query.all()
 
     def to_dict(self):
-        cls_dict = {'id': self.id, 'date': self.date}
+        cls_dict = {'id': self.id, 'date': str(self.date)}
         return cls_dict
 
     def to_json(self):
