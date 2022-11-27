@@ -2,9 +2,6 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Box, Button, IconButton, List, ListItemText} from "@mui/material";
 import ListItem from "@mui/material/ListItem";
-import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from "@mui/icons-material/Delete";
 
 interface ICourse {
     id: number,

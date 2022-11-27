@@ -25,7 +25,7 @@ const store = configureStore({
         }),
 });
 
-axios.defaults.baseURL = 'http://185.136.198.152:5000';
+axios.defaults.baseURL = 'https://wis2-api.herokuapp.com/';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 axios.interceptors.request.use(request => {

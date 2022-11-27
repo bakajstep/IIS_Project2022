@@ -46,13 +46,23 @@ function a11yProps(index: number) {
     };
 }
 
+interface ITerm {
+    course_id: number,
+    id: number,
+    label: string,
+    min_points: string,
+    max_points: string,
+    from_time: number,
+    to_time: number,
+}
+
 interface ICourse {
     id: number,
     label: string,
     description: string,
     type: string,
     price: number,
-    capacity: number,
+    capacity:number,
     guarantor_id: number
 }
 
@@ -77,7 +87,7 @@ const columns: GridColDef[] = [
     {field: 'capacity', headerName: 'Capacity', flex: 4},
 ];
 
-const ApprovedCoursesListPublic = () => {
+const CoursesStudent = () => {
 
     const defaultUser: IUser = {
         id: 0,
@@ -99,7 +109,10 @@ const ApprovedCoursesListPublic = () => {
     const [obj, setObj] = useState<ICourse[]>([]);
     const [course, setCourse] = useState<ICourse>(defaultCourse);
     const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
+    const [lectors, setLectors] = useState<IUser[]>([]);
     const [actuality, setActuality] = useState<IActuality[]>([]);
+    const [termsR, setTermsR] = useState<ITerm[]>([]);
+    const [termsU, setTermsU] = useState<ITerm[]>([]);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = React.useState(0);
@@ -108,26 +121,23 @@ const ApprovedCoursesListPublic = () => {
         setValue(newValue);
     };
 
-    const registerCourse = async (idU: number, idC: number) => {
+    const registerTerm = async (idU: number, idT: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.post(`/api/course/${idC}/person/${idU}`, optionAxios)
+        await axios.post(`/api/person/${idU}/term/${idT}`, optionAxios)
             .then(res => {
-                setActuality(res.data.actuality);
-                setCourse(defaultCourse);
-                setGuarantor(defaultUser);
-                setActuality([]);
+
                 setError("");
             }).catch(error => {
-                setError(error.response.data.msg)
+                setError(error.response.data.message)
             })
     }
 
+
     const getActuality = async (id: number) => {
-        console.log(id);
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -136,6 +146,50 @@ const ApprovedCoursesListPublic = () => {
         await axios.get(`/api/course/${id}/actuality`, optionAxios)
             .then(res => {
                 setActuality(res.data.actuality);
+            })
+    }
+
+    const getTermsNonRegistered = async (idU: number, idC: number) => {
+        const optionAxios = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        await axios.get(`/api/person/${idU}/course/${idC}/term/nonregistered`, optionAxios)
+            .then(res => {
+                let obj: ITerm[] = res.data.term;
+                setTermsU(obj);
+            }).catch(error => {
+                setError(error.response.data.msg);
+            })
+    }
+
+    const getTermsRegistered = async (idU: number, idC: number) => {
+        const optionAxios = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        await axios.get(`/api/person/${idU}/course/${idC}/term/registered`, optionAxios)
+            .then(res => {
+                let obj: ITerm[] = res.data.term;
+                setTermsR(obj);
+            }).catch(error => {
+                setError(error.response.data.msg);
+            })
+    }
+
+    const getLectors = async (id: number) => {
+        const optionAxios = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        await axios.get(`/api/course/${id}/lector`, optionAxios)
+            .then(res => {
+                let obj: IUser[] = res.data.lector;
+                setLectors(obj);
+            }).catch(error => {
             })
     }
 
@@ -157,10 +211,12 @@ const ApprovedCoursesListPublic = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('/api/course/approved', optionAxios)
+        await axios.get(`/api/person/${user.id}/course`, optionAxios)
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);
+            }).catch(error=>{
+                setError("error")
             })
     }
 
@@ -172,7 +228,7 @@ const ApprovedCoursesListPublic = () => {
         <Box>
             <Typography paddingTop={"20px"} paddingBottom={"40px"} variant={"h2"} display={"flex"}
                         justifyContent={"center"}>
-                Register Course
+                Student courses
             </Typography>
             {course?.label === "" && (
                 <Box display="flex" justifyContent="center">
@@ -186,10 +242,12 @@ const ApprovedCoursesListPublic = () => {
                         pageSize={10}
                         rowsPerPageOptions={[10]}
                         onRowClick={(row) => {
-                            console.log(row.row);
                             setCourse(row.row);
                             getGuarantor(row.row.guarantor_id);
+                            getLectors(row.row.id);
                             getActuality(row.row.id);
+                            getTermsRegistered(user.id, row.row.id);
+                            getTermsNonRegistered(user.id, row.row.id);
                         }}
                         components={{Toolbar: GridToolbar}}
                         componentsProps={{
@@ -204,7 +262,7 @@ const ApprovedCoursesListPublic = () => {
                     />
                 </Box>
             )}
-            {course.label !== "" && (
+            {course.label !== "" &&(
                 <Box p={2}
                      sx={{
                          marginTop: 8,
@@ -215,8 +273,10 @@ const ApprovedCoursesListPublic = () => {
                     <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="Basic Info" {...a11yProps(0)} />
-                            <Tab label="Guarantor" {...a11yProps(1)} />
+                            <Tab label="Guarantor and Lectors" {...a11yProps(1)} />
                             <Tab label="Actuality" {...a11yProps(2)} />
+                            <Tab label="Non Registered terms" {...a11yProps(2)} />
+                            <Tab label="Registered terms" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -272,6 +332,29 @@ const ApprovedCoursesListPublic = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        <TableContainer sx={{mb: 5}} component={Paper}>
+                            <Table sx={{minWidth: 650}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left">Lector Name</TableCell>
+                                        <TableCell align="left">Lector Surname</TableCell>
+                                        <TableCell align="left">Email</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {lectors.map((actual) => (
+                                        <TableRow
+                                            key={actual.id}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell align="left">{actual.name}</TableCell>
+                                            <TableCell align="left">{actual.surname}</TableCell>
+                                            <TableCell align="left">{actual.email}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <TableContainer sx={{mb: 5}} component={Paper}>
@@ -296,6 +379,72 @@ const ApprovedCoursesListPublic = () => {
                             </Table>
                         </TableContainer>
                     </TabPanel>
+                    <TabPanel value={value} index={3}>
+                        <TableContainer sx={{mb: 5}} component={Paper}>
+                            <Table sx={{minWidth: 650}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left">Id</TableCell>
+                                        <TableCell align="left">Label</TableCell>
+                                        <TableCell align="left">From time</TableCell>
+                                        <TableCell align="left">To time</TableCell>
+                                        <TableCell align="left">Min points</TableCell>
+                                        <TableCell align="left">Max points</TableCell>
+                                        <TableCell align="left"></TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {termsU.map((term) => (
+                                        <TableRow
+                                            key={term.id}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell align="left">{term.id}</TableCell>
+                                            <TableCell align="left">{term.label}</TableCell>
+                                            <TableCell align="left">{term.from_time}</TableCell>
+                                            <TableCell align="left">{term.to_time}</TableCell>
+                                            <TableCell align="left">{term.min_points}</TableCell>
+                                            <TableCell><Button color={"success"} onClick={() => registerTerm(user.id, term.id)}>
+                                                Register
+                                            </Button></TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </TabPanel>
+                    <TabPanel value={value} index={4}>
+                        <TableContainer sx={{mb: 5}} component={Paper}>
+                            <Table sx={{minWidth: 650}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left">Id</TableCell>
+                                        <TableCell align="left">Label</TableCell>
+                                        <TableCell align="left">From time</TableCell>
+                                        <TableCell align="left">To time</TableCell>
+                                        <TableCell align="left">Min points</TableCell>
+                                        <TableCell align="left">Max points</TableCell>
+                                        <TableCell align="left">Points</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {termsR.map((term) => (
+                                        <TableRow
+                                            key={term.id}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell align="left">{term.id}</TableCell>
+                                            <TableCell align="left">{term.label}</TableCell>
+                                            <TableCell align="left">{term.from_time}</TableCell>
+                                            <TableCell align="left">{term.to_time}</TableCell>
+                                            <TableCell align="left">{term.min_points}</TableCell>
+                                            <TableCell align="left">{term.max_points}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </TabPanel>
                     {error !== "" && (<Alert severity="error">{error}</Alert>)}
                     <Button
                         type="submit"
@@ -310,19 +459,9 @@ const ApprovedCoursesListPublic = () => {
                     >
                         Back
                     </Button>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{mt: 3, mb: 2}}
-                        onClick={() => {
-                            registerCourse(user.id, course.id);
-                        }}
-                    >
-                        Register Course
-                    </Button>
                 </Box>
             )}
         </Box>
     );
 }
-export default ApprovedCoursesListPublic;
+export default CoursesStudent;
