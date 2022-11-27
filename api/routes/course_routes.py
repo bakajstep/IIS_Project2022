@@ -260,6 +260,46 @@ class Courses(Resource):
         return {"success": True}, 200
 
 
+@rest_api.route('/api/course/<int:courseId>/person/approved')
+class Courses(Resource):
+    """
+       List student approved in course
+    """
+
+    def get(self, courseId):
+        course = Course.get_by_id(courseId)
+
+        student_json = []
+        list_of_students = course.student
+
+        for student in list_of_students:
+            if student.state == "APPROVED":
+                person = Person.get_by_id(student.person_id)
+                student_json.append(person.to_json())
+
+        return {"student": student_json}
+
+
+@rest_api.route('/api/course/<int:courseId>/person/pending')
+class Courses(Resource):
+    """
+       List student approved in course
+    """
+
+    def get(self, courseId):
+        course = Course.get_by_id(courseId)
+
+        student_json = []
+        list_of_students = course.student
+
+        for student in list_of_students:
+            if student.state == "PENDING":
+                person = Person.get_by_id(student.person_id)
+                student_json.append(person.to_json())
+
+        return {"student": student_json}
+
+
 @rest_api.route('/api/course/<int:courseId>/lector')
 class Courses(Resource):
     """

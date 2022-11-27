@@ -7,6 +7,7 @@ from ..models.term_model import Term
 from flask import request
 from flask_restx import Resource, fields
 from .routes import rest_api
+from array import array
 import json
 
 """
@@ -247,10 +248,10 @@ class Courses(Resource):
         term_list_registered = []
         registered_term_list = student.registered_term
         for registered_term in registered_term_list:
-            term_list_registered.append(Term.get_by_id(registered_term.term_id))
+            term_list_registered.append(int(Term.get_by_id(registered_term.term_id).id))
         term_list = db.session.query(Term).filter(Term.course_id == courseId).all()
         for term in term_list:
-            if term not in registered_term_list:
+            if term.id not in array('i', registered_term_list):
                 term_json.append(term.to_json())
         return {"term": term_json}, 200
 
