@@ -327,7 +327,7 @@ class Courses(Resource):
             return {"success": False,
                     "msg": "Person is already lector."}, 400
 
-        lector = Lector(courseId=courseId, personId=personId)
+        lector = Lector(course_id=courseId, person_id=personId)
         db.session.add(lector)
         db.session.commit()
         return {"success": True}, 200
