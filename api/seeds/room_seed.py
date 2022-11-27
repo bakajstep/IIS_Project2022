@@ -14,14 +14,29 @@ def add_room(_label, _capacity):
 
 
 def import_rooms():
-    add_room('A111', 50)
-    add_room('A112', 25)
-    add_room('A113', 40)
+    add_room('A112', 64)
+    add_room('A113', 64)
+    add_room('A211', 50)
+    add_room('A218', 26)
+    add_room('A318', 26)
+
+    add_room('B112', 30)
+    add_room('B113', 40)
+    add_room('B211', 50)
+    add_room('B218', 60)
+    add_room('B318', 26)
+
+    add_room('C123', 50)
+    add_room('C223', 50)
+    add_room('C133', 25)
+    add_room('C321', 70)
+    add_room('C318', 26)
+
     add_room('D105', 350)
-    add_room('E116', 250)
-    add_room('C201', 30)
-    add_room('C202', 30)
-    add_room('C203', 35)
-    add_room('L333', 20)
-    add_room('L334', 25)
-    add_room('L335', 40)
+    add_room('D106', 75)
+    add_room('D107', 50)
+
+    add_room('E105', 250)
+    add_room('E106', 60)
+
+
