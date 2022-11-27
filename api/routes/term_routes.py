@@ -44,7 +44,7 @@ room_model = rest_api.model('RoomModel',
 
 points_model = rest_api.model('PointsModel',
                               {
-                                "points": fields.Integer(required=True)
+                                  "points": fields.Integer(required=True)
                               })
 
 """
@@ -211,6 +211,28 @@ class Rank(Resource):
         setattr(rank, 'points', points)
         db.session.commit()
         return {"success": True}, 200
+
+
+@rest_api.route('/api/term/<int:termId>/date')
+class SingleTerm(Resource):
+    """
+       List dates in term
+    """
+
+    def get(self, termId):
+        term_exists = Term.get_by_id(termId)
+
+        if not term_exists:
+            return {"success": False,
+                    "msg": "Term does not exist."}, 400
+
+        termdate_json = []
+        dates = term_exists.term_date
+
+        for date in dates:
+            termdate_json.append(date.to_json())
+
+        return {"term": termdate_json}, 200
 
 
 def toTime(time):

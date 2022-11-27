@@ -13,8 +13,6 @@ class Term(db.Model):
     registered_term = db.relationship('RegisteredTerm', backref='Term')
     term_date = db.relationship('TermDate', backref='Term')
 
-
-
     def __repr__(self):
         return f'Term {self.id}'
 

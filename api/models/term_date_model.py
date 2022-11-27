@@ -10,3 +10,10 @@ class TermDate(db.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
+
+    def to_dict(self):
+        cls_dict = {'id': self.id, 'date': self.date}
+        return cls_dict
+
+    def to_json(self):
+        return self.to_dict()
