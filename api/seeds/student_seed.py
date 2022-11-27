@@ -17,7 +17,7 @@ def import_students():
     add_student('APPROVED', 5, 2)
     add_student('PENDING', 5, 3)
     add_student('APPROVED', 6, 2)
-    add_student('PENDING', 7, 5)
+    add_student('APPROVED', 7, 5)
     add_student('APPROVED', 8, 3)
     add_student('PENDING', 9, 4)
     add_student('APPROVED', 10, 2)

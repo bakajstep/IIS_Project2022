@@ -1,6 +1,7 @@
 from api.models.database import db
 from api.models.student_model import Student
 from api.models.person_model import Person
+from api.models.lector_model import Lector
 from api.models.course_model import Course
 from api.models.term_model import Term
 from flask import request
@@ -298,3 +299,43 @@ class Courses(Resource):
             term_json.append(term.to_json())
 
         return {"term": term_json}, 200
+
+
+@rest_api.route('/api/course/<int:courseId>/lector/<int:personId>')
+class Courses(Resource):
+    """
+       Add or delete lector to course
+    """
+
+    def put(self, courseId, personId):
+        course = db.session.query(Course).filter(Course.id == courseId).first()
+        if not course:
+            return {"success": False,
+                    "msg": "This course does not exist."}, 400
+
+        student = db.session.query(Student).filter(Student.person_id == personId).filter(
+            Student.course_id == courseId).first()
+
+        if student:
+            return {"success": False,
+                    "msg": "Person is already student."}, 400
+
+        lector = db.session.query(Lector).filter(Lector.course_id == courseId).filter(
+            Lector.person_id == personId).first()
+
+        if lector:
+            return {"success": False,
+                    "msg": "Person is already lector."}, 400
+
+        lector = Lector(courseId=courseId, personId=personId)
+        db.session.add(lector)
+        db.session.commit()
+        return {"success": True}, 200
+
+    def delete(self, courseId, personId):
+
+        lector = db.session.query(Lector).filter(Lector.course_id == courseId).filter(
+            Lector.person_id == personId).first()
+        db.session.delete(lector)
+        db.session.commit()
+        return {"success": True}, 200

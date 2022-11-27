@@ -225,5 +225,45 @@ class Courses(Resource):
         term_json = []
         registered_term_list = student.registered_term
         for registered_term in registered_term_list:
-            term_json.append(Term.get_by_id(registered_term.id).to_json())
+            term_json.append(Term.get_by_id(registered_term.term_id).to_json())
         return {"term": term_json}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/course/<int:courseId>/term/nonregistered')
+class Courses(Resource):
+    """
+       Get list of terms for person in course nonregistered
+    """
+
+    def get(self, personId, courseId):
+        student = db.session.query(Student).filter(Student.person_id == personId).filter(
+            Student.course_id == courseId).first()
+
+        if not student:
+            return {"success": False,
+                    "msg": "Student does not exist."}, 400
+
+        term_json = []
+        term_list_registered = []
+        registered_term_list = student.registered_term
+        for registered_term in registered_term_list:
+            term_list_registered.append(Term.get_by_id(registered_term.term_id))
+        term_list = db.session.query(Term).filter(Term.course_id == courseId).all()
+        for term in term_list:
+            if term not in registered_term_list:
+                term_json.append(term.to_json())
+        return {"term": term_json}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/guarantor')
+class Courses(Resource):
+    """
+       Get list of courses that person garant
+    """
+
+    def get(self, personId):
+        person = Person.get_by_id(personId)
+        course_json = []
+        for course in person.guarantor:
+            course_json.append(course.to_json())
+        return {"course": course_json}, 200
