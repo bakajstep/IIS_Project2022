@@ -3,10 +3,8 @@ from ..models.term_model import Term
 from ..models.registered_term_model import RegisteredTerm
 from ..models.student_model import Student
 from ..models.rank_model import Rank
-from flask import request
-from flask_restx import Resource, fields
+from flask_restx import Resource
 from .routes import rest_api
-import json
 
 """
     Flask-Restx routes

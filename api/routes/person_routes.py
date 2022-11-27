@@ -2,6 +2,7 @@ from ..models.database import db
 from ..models.person_model import Person
 from ..models.course_model import Course
 from ..models.student_model import Student
+from ..models.lector_model import Lector
 from ..models.registered_term_model import RegisteredTerm
 from ..models.term_model import Term
 from flask import request
@@ -246,13 +247,18 @@ class Courses(Resource):
 
         term_json = []
         term_list_registered = []
+        term_list_all = []
         registered_term_list = student.registered_term
         for registered_term in registered_term_list:
             term_list_registered.append(int(Term.get_by_id(registered_term.term_id).id))
         term_list = db.session.query(Term).filter(Term.course_id == courseId).all()
-        for term in term_list:
-            if term.id not in array('i', registered_term_list):
-                term_json.append(term.to_json())
+        for tmp in term_list:
+            term_list_all.append(tmp.id)
+        tmp_array1 = array('I', term_list_all)
+        tmp_array2 = array('I', term_list_registered)
+        for term in tmp_array1:
+            if not (term in tmp_array2):
+                term_json.append(Term.get_by_id(term).to_json())
         return {"term": term_json}, 200
 
 
@@ -267,4 +273,48 @@ class Courses(Resource):
         course_json = []
         for course in person.guarantor:
             course_json.append(course.to_json())
+        return {"course": course_json}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/lector')
+class Courses(Resource):
+    """
+       Get list of courses that person lector
+    """
+
+    def get(self, personId):
+        lector_list = db.session.query(Lector).filter(Lector.person_id == personId).all()
+        course_json = []
+        for lector in lector_list:
+            course_json.append(Course.get_by_id(lector.course_id).to_json())
+        return {"course": course_json}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/student/approved')
+class Courses(Resource):
+    """
+       Get list of courses that person student
+    """
+
+    def get(self, personId):
+        student_list = db.session.query(Student).filter(Student.person_id == personId).filter(
+            Student.state == "APPROVED").all()
+        course_json = []
+        for student in student_list:
+            course_json.append(Course.get_by_id(student.course_id).to_json())
+        return {"course": course_json}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/student/pending')
+class Courses(Resource):
+    """
+       Get list of courses that person student
+    """
+
+    def get(self, personId):
+        student_list = db.session.query(Student).filter(Student.person_id == personId).filter(
+            Student.state == "PENDING").all()
+        course_json = []
+        for student in student_list:
+            course_json.append(Course.get_by_id(student.course_id).to_json())
         return {"course": course_json}, 200
