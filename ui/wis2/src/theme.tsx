@@ -168,7 +168,11 @@ export const themeSettings = (mode: PaletteMode) => {
                 },
                 h6: {
                     fontFamily: ["montserrat", "sans-serif"].join(","),
-                    fontSize: 14,
+                    fontSize: 12,
+                },
+                subtitle1: {
+                    fontFamily: ["montserrat", "sans-serif"].join(","),
+                    fontSize: 12,
                 },
             },
         },

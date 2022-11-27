@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {useSelector} from "react-redux";
 
 interface IUser {
     id: number,
@@ -16,17 +17,19 @@ interface IUser {
 const ProfileList = () => {
     const [obj, setObj] = useState<IUser[]>([]);
     const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
+    const user = useSelector((state: any) => state.user);
 
     const deleteValue = async (id: number) => {
-        console.log(id);
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.delete(`/api/person/${id}`, optionAxios).then( () => {
-            getValues();
-        })
+        if( user.id !== id) {
+            const optionAxios = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            await axios.delete(`/api/person/${id}`, optionAxios).then(() => {
+                getValues();
+            })
+        }
     }
 
     const deleteValues = async () => {

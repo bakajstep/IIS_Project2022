@@ -15,6 +15,11 @@ import EditRooms from "./view-models/rooms/EditRooms";
 import CreateCourse from "./view-models/course/CreateCourse";
 import ApproveCourse from "./view-models/course/ApproveCourse";
 import ApprovedCoursesListPublic from "./view-models/course/ApprovedCoursesListPublic";
+import ApprovedCoursesListPrivate from "./view-models/course/ApprovedCoursesListPrivate";
+import CoursesStudent from "./view-models/course/CoursesStudent";
+import CoursesGuarantor from "./view-models/course/CoursesGuarantor";
+import CoursesLector from "./view-models/course/CoursesLector";
+import Calendar from "./view-models/course/Calendar";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -37,12 +42,36 @@ function App() {
                             {user != null && (
                                 <Route path="/profile" element={<Profile/>}/>)
                             }
-                            <Route path="/createRoom" element={<CreateRoom/>}/>
-                            <Route path="/profiles" element={<ProfileList/>}/>
-                            <Route path="/editRoom" element={<EditRooms/>}/>
-                            <Route path="/createCourse" element={<CreateCourse/>}/>
-                            <Route path="/ApproveCourse" element={<ApproveCourse/>}/>
-                            <Route path="/ApprovedCourses" element={<ApprovedCoursesListPublic/>}/>
+                            {user != null && (
+                                <Route path="/createRoom" element={<CreateRoom/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/profiles" element={<ProfileList/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/editRoom" element={<EditRooms/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/createCourse" element={<CreateCourse/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/ApproveCourse" element={<ApproveCourse/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/ApprovedCourses" element={<ApprovedCoursesListPrivate/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/coursesStudent" element={<CoursesStudent/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/coursesLector" element={<CoursesLector/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/coursesGuarantor" element={<CoursesGuarantor/>}/>)
+                            }
+                            {user != null && (
+                                <Route path="/calendar" element={<Calendar/>}/>)
+                            }
                         </Routes>
                     </main>
                 </div>

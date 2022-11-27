@@ -11,9 +11,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 import {tokens} from "../../theme";
 import "./styles.css"
@@ -132,7 +130,7 @@ const Sidebar = () => {
                                         >
                                             {user == null ? "" : user.name}
                                         </Typography>
-                                        <Typography variant="h6" color={colors.Primary[500]}>
+                                        <Typography variant={"subtitle1"} color={colors.Primary[500]}>
                                             {user == null ? "" : user.email}
                                         </Typography>
                                     </MenuItem>
@@ -154,12 +152,96 @@ const Sidebar = () => {
                     )}
 
                     <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+                        <Item
+                            title="Courses"
+                            to="/"
+                            icon={<CalendarTodayOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Typography
+                            variant="h6"
+                            color={colors.Primary[600]}
+                            sx={{m: "15px 0 5px 20px"}}
+                        >
+                            Studies
+                        </Typography>
+                        <Item
+                            title="Register course"
+                            to="/approvedCourses"
+                            icon={<CalendarTodayOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Courses Student"
+                            to="/coursesStudent"
+                            icon={<HelpOutlineOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Calendar"
+                            to="/calendar"
+                            icon={<CalendarTodayOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Typography
+                            variant="h6"
+                            color={colors.Primary[600]}
+                            sx={{m: "15px 0 5px 20px"}}
+                        >
+                            Teaching
+                        </Typography>
+                        <Item
+                            title="Courses Lector"
+                            to="/coursesLector"
+                            icon={<PieChartOutlineOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Typography
+                            variant="h6"
+                            color={colors.Primary[600]}
+                            sx={{m: "15px 0 5px 20px"}}
+                        >
+                            Guarantor
+                        </Typography>
+                        <Item
+                            title="Create course"
+                            to="/createCourse"
+                            icon={<ReceiptOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Courses Guarantor"
+                            to="/coursesGuarantor"
+                            icon={<BarChartOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
                         {user != null && user.admin == true && (
                             <div>
+                                <Typography
+                                    variant="h6"
+                                    color={colors.Primary[600]}
+                                    sx={{m: "15px 0 5px 20px"}}
+                                >
+                                    Admin
+                                </Typography>
                                 <Item
                                     title="Register"
                                     to="/register"
                                     icon={<HomeOutlinedIcon/>}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="Profiles"
+                                    to="/profiles"
+                                    icon={<PeopleOutlinedIcon/>}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
@@ -177,95 +259,16 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
+                                <Item
+                                    title="Approve course"
+                                    to="/approveCourse"
+                                    icon={<PersonOutlinedIcon/>}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
                             </div>
                         )
                         }
-                        <Typography
-                            variant="h6"
-                            color={colors.Primary[600]}
-                            sx={{m: "15px 0 5px 20px"}}
-                        >
-                            Data
-                        </Typography>
-                        <Item
-                            title="Profiles"
-                            to="/profiles"
-                            icon={<PeopleOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Create course"
-                            to="/createCourse"
-                            icon={<ReceiptOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-
-                        <Typography
-                            variant="h6"
-                            color={colors.Primary[600]}
-                            sx={{m: "15px 0 5px 20px"}}
-                        >
-                            Pages
-                        </Typography>
-                        <Item
-                            title="Approve course"
-                            to="/approveCourse"
-                            icon={<PersonOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Approved courses"
-                            to="/approvedCourses"
-                            icon={<CalendarTodayOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="FAQ Page"
-                            to="/faq"
-                            icon={<HelpOutlineOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-
-                        <Typography
-                            variant="h6"
-                            color={colors.Primary[600]}
-                            sx={{m: "15px 0 5px 20px"}}
-                        >
-                            Charts
-                        </Typography>
-                        <Item
-                            title="Bar Chart"
-                            to="/bar"
-                            icon={<BarChartOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Pie Chart"
-                            to="/pie"
-                            icon={<PieChartOutlineOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Line Chart"
-                            to="/line"
-                            icon={<TimelineOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Geography Chart"
-                            to="/geography"
-                            icon={<MapOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
                     </Box>
                 </Menu>
             </ProSidebar>
