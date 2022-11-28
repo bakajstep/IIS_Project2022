@@ -42,8 +42,13 @@ room_model = rest_api.model('RoomModel',
                                 "capacity": fields.Integer(required=True)
                             })
 
+
 points_model = rest_api.model('PointsModel',
                               {
+                                  "person_id": fields.Integer(required=True),
+                                  "name": fields.String(required=True, min_length=1, max_length=64),
+                                  "surname": fields.String(required=True, min_length=1, max_length=64),
+                                  "email": fields.String(required=True, min_length=1, max_length=64),
                                   "points": fields.Integer(required=True)
                               })
 
