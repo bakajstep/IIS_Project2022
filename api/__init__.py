@@ -21,8 +21,8 @@ from api.routes.registered_term_routes import *
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://xjfdljckc3pzubfd:c26dmh89gaebjnii@bv2rebwf6zzsv341.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/ps99xg1d3thb007a'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://wis:Heslo123456789@localhost:3306/wis'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://xjfdljckc3pzubfd:c26dmh89gaebjnii@bv2rebwf6zzsv341.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/ps99xg1d3thb007a'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://wis:Heslo123456789@localhost:3306/wis'
 app.config['SECRET_KEY'] = '0c932d819321d1252b2acfc5'
 
 db.init_app(app)
