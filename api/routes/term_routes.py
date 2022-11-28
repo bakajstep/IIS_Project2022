@@ -195,7 +195,8 @@ class Ranking(Resource):
             return {"success": False,
                     "msg": "This course does not exist."}, 400
 
-        term = db.session.query(TermDate).filter(TermDate.id == termDateId).Term.first()
+        termdate = db.session.query(TermDate).filter(TermDate.id == termDateId).first()
+        term = Term.get_by_id(termdate.term_id)
 
         if not term:
             return {"success": False,
