@@ -9,16 +9,12 @@ def add_actuality(_description, _course_id):
 
 
 def import_actualities():
-    add_actuality('projekt deadline zmena 12.12.2022', 1)
-    add_actuality('prihlasovanie na polsemestralnu skusku spustene', 2)
-    add_actuality('zadanie projektu', 2)
-    add_actuality('online streamovanie prednašok od 10.10.2022', 3)
-    add_actuality('zrusenie polsemestralnej skusky', 3)
-    add_actuality('projekt deadline zmena 12.12.2022', 4)
-    add_actuality('prihlasovanie na polsemestralnu skusku spustene', 4)
-    add_actuality('zadanie projektu', 5)
-    add_actuality('online streamovanie prednašok od 10.10.2022', 5)
-    add_actuality('zrusenie polsemestralnej skusky', 5)
-    add_actuality('Lab1 je posunuta ', 8)
-    add_actuality('Lab2 supluje Forman', 8)
-    add_actuality('Lab3 se bude zkouset osciloskop', 8)
+    add_actuality('Project deadline changed from 08.12.2022 to 09.12.2022', 1)
+    add_actuality('Registration for the half-semester exam is open', 2)
+    add_actuality('New project assignments available', 2)
+    add_actuality('Online streaming of lectures from 10.10.2022', 3)
+    add_actuality('Cancellation of the half-semester test', 3)
+    add_actuality('The laboratory exercise will start 2 hours later', 4)
+    add_actuality('This week laboratory exercise taughut by Forman', 5)
+    add_actuality('Bring ISICs to laboratory exercise', 6)
+

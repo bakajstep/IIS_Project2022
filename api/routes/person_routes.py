@@ -2,6 +2,7 @@ from ..models.database import db
 from ..models.person_model import Person
 from ..models.course_model import Course
 from ..models.student_model import Student
+from ..models.term_date_model import TermDate
 from ..models.lector_model import Lector
 from ..models.registered_term_model import RegisteredTerm
 from ..models.term_model import Term
@@ -319,3 +320,35 @@ class Courses(Resource):
         for student in student_list:
             course_json.append(Course.get_by_id(student.course_id).to_json())
         return {"course": course_json}, 200
+
+
+@rest_api.route('/api/person/<int:personId>/schedule')
+class Courses(Resource):
+    """
+       Get students schedule
+    """
+
+    def get(self, personId):
+        student_with_approved_courses = db.session.query(Student).filter(Student.person_id == 21).filter(
+            Student.state == "APPROVED").all()
+
+        schedule_json_list = []
+
+        for student in student_with_approved_courses:
+            terms = db.session.query(Term).filter(Term.course_id == student.course_id).all()
+            for term in terms:
+                description = db.session.query(Course).filter(Course.id == student.course_id).first().description
+                dates = db.session.query(TermDate).filter(TermDate.term_id == term.id).all()
+                for date in dates:
+                    schedule_json_list.append(
+                        {
+                            "date": str(date.date),
+                            "start_time": str(term.from_time),
+                            "end_time": str(term.to_time),
+                            "term_label": term.label,
+                            "course_name": description
+                        }
+                    )
+
+        return schedule_json_list, 200
+

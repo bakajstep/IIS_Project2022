@@ -183,6 +183,7 @@ class Courses(Resource):
 
         return {"actuality": actuality_json}, 200
 
+    
 
 @rest_api.route('/api/course/<int:courseId>/person/<int:personId>')
 class Courses(Resource):
