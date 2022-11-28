@@ -105,7 +105,6 @@ const TermRank = ({courseID}: TermRankProps) => {
         for (let i = 0; i < dateStud.length; i++) {
             points[i].points = dateStud[i].points;
         }
-        console.log(points);
         for (let i = 0; i < dateStud.length; i++) {
             const optionAxios = {
                 headers: {
@@ -129,11 +128,8 @@ const TermRank = ({courseID}: TermRankProps) => {
         };
         await axios.get(`/api/term/${idT}/date/${idD}`, optionAxios)
             .then(res => {
-                console.log(res);
                 let obj: IDateStud[] = res.data.student;
                 setDateStud(obj);
-            }).catch(error => {
-                console.log(error);
             })
     }
 
@@ -148,7 +144,6 @@ const TermRank = ({courseID}: TermRankProps) => {
                 let obj: IDate[] = res.data.term;
                 setDates(obj);
             }).catch(error => {
-                console.log(error);
             })
     }
 
@@ -162,8 +157,6 @@ const TermRank = ({courseID}: TermRankProps) => {
             .then(res => {
                 let obj: ITerm[] = res.data.term;
                 setTerms(obj);
-            }).catch(error => {
-                console.log(error);
             })
     }
 

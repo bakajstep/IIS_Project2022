@@ -25,7 +25,6 @@ const Login = () => {
     const onSubmit = async (data: IFormInput) => {
         const password = data.password;
         data.password = bcrypt.hashSync(password, '$2a$10$CwTycUXWue0Thq9StjUM0u');
-        console.log(data.password);
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'

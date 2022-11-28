@@ -168,8 +168,6 @@ const CoursesLector = () => {
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);
-            }).catch(error => {
-                console.log(error);
             })
     }
 

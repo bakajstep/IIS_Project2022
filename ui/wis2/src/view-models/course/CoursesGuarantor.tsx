@@ -139,14 +139,11 @@ const CoursesGuarantor = () => {
                 'Content-Type': 'application/json'
             }
         };
-        console.log(data);
         await axios.post('/api/term', data, optionAxios)
             .then((res) => {
-                console.log(res);
                 reset(defaultTerm);
                 setError("");
             }).catch(function (error) {
-                console.log(error);
                 setError(error.response.data.msg);
             })
     }
@@ -213,8 +210,6 @@ const CoursesGuarantor = () => {
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);
-            }).catch(error => {
-                console.log(error);
             })
     }
 

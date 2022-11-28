@@ -127,7 +127,6 @@ const ApprovedCoursesListPublic = () => {
     }
 
     const getActuality = async (id: number) => {
-        console.log(id);
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -186,7 +185,6 @@ const ApprovedCoursesListPublic = () => {
                         pageSize={10}
                         rowsPerPageOptions={[10]}
                         onRowClick={(row) => {
-                            console.log(row.row);
                             setCourse(row.row);
                             getGuarantor(row.row.guarantor_id);
                             getActuality(row.row.id);
