@@ -161,7 +161,7 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const agreeStudent = async(idU: number, idC: number) => {
+    const agreeStudent = async(idC: number, idU: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -173,7 +173,7 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const obscureStudent = async(idU: number, idC: number) => {
+    const obscureStudent = async(idC: number, idU: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -192,9 +192,9 @@ const CoursesGuarantor = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get(`/api/course/${id}/person/`, optionAxios)
+        await axios.get(`/api/course/${id}/person/pending`, optionAxios)
             .then(res => {
-                let obj: IUser[] = res.data.lector;
+                let obj: IUser[] = res.data.student;
                 setUsersA(obj);
             }).catch(() => {
             })
