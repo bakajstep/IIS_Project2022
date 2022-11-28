@@ -20,6 +20,7 @@ import CreateActualityDialog from "../../components/CreateActualityDialog";
 import AddLectorsDialog from "../../components/AddLectorsDialog";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
+import TermRank from "../../components/TermRank";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -88,11 +89,6 @@ interface IRoom {
     capacity: number;
 }
 
-interface IActuality {
-    id: number,
-    description: string,
-}
-
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', flex: 3},
     {field: 'label', headerName: 'Label', flex: 4},
@@ -103,14 +99,6 @@ const columns: GridColDef[] = [
 ];
 
 const CoursesGuarantor = () => {
-
-    const defaultUser: IUser = {
-        id: 0,
-        name: "",
-        surname: "",
-        email: "",
-    }
-
     const defaultCourse: ICourse = {
         id: 0,
         label: "",
@@ -134,12 +122,8 @@ const CoursesGuarantor = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<ITerm>();
     const [obj, setObj] = useState<ICourse[]>([]);
     const [course, setCourse] = useState<ICourse>(defaultCourse);
-    const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
-    const [lectors, setLectors] = useState<IUser[]>([]);
     const [usersA, setUsersA] = useState<IUser[]>([]);
-    const [actuality, setActuality] = useState<IActuality[]>([]);
     const [rooms, setRooms] = useState<IRoom[]>([]);
-    const [terms, setTerms] = useState<ITerm[]>([]);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = useState(0);
@@ -180,42 +164,15 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const getActuality = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/actuality`, optionAxios)
-            .then(res => {
-                setActuality(res.data.actuality);
-            })
-    }
-
-    const getTerms = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/term`, optionAxios)
-            .then(res => {
-                let obj: ITerm[] = res.data.term;
-                setTerms(obj);
-            })
-    }
-
     const agreeStudent = async(idU: number, idC: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.put(`/api/course/${idC}/person/${idU}/agree`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            }).catch(error => {
+        await axios.put(`/api/course/${idC}/person/${idU}`, optionAxios)
+            .then(() => {
+                getUsersA(idC);
             })
     }
 
@@ -226,10 +183,9 @@ const CoursesGuarantor = () => {
             }
         };
         await axios.delete(`/api/course/${idC}/person/${idU}`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            }).catch(error => {
+            .then(() => {
+                getUsersA(idC)
+            }).catch(() => {
             })
     }
 
@@ -243,33 +199,7 @@ const CoursesGuarantor = () => {
             .then(res => {
                 let obj: IUser[] = res.data.lector;
                 setUsersA(obj);
-            }).catch(error => {
-            })
-    }
-
-    const getLectors = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/lector`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            }).catch(error => {
-            })
-    }
-
-    const getGuarantor = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/person/${id}`, optionAxios)
-            .then(res => {
-                setGuarantor(res.data.user);
+            }).catch(() => {
             })
     }
 
@@ -292,9 +222,6 @@ const CoursesGuarantor = () => {
         if (course.label === ""){
             getValues();
         }else{
-            getGuarantor(course.id);
-            getLectors(course.id);
-            getActuality(course.id);
             getUsersA(course.id);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -319,10 +246,6 @@ const CoursesGuarantor = () => {
                         onRowClick={(row) => {
                             getRooms();
                             setCourse(row.row);
-                            getGuarantor(row.row.guarantor_id);
-                            getLectors(row.row.id);
-                            getActuality(row.row.id);
-                            getTerms(row.row.id);
                             getUsersA(row.row.id);
                         }}
                         components={{Toolbar: GridToolbar}}
@@ -386,76 +309,9 @@ const CoursesGuarantor = () => {
                         </TableContainer>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Guarantor Name</TableCell>
-                                        <TableCell align="left">Guarantor Surname</TableCell>
-                                        <TableCell align="left">Email</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow
-                                        key={guarantor.name}
-                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                    >
-                                        <TableCell align="left">
-                                            {guarantor.name}
-                                        </TableCell>
-                                        <TableCell align="left">{guarantor.surname}</TableCell>
-                                        <TableCell align="left">{guarantor.email}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Lector Name</TableCell>
-                                        <TableCell align="left">Lector Surname</TableCell>
-                                        <TableCell align="left">Email</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {lectors.map((actual) => (
-                                        <TableRow
-                                            key={actual.id}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell align="left">{actual.name}</TableCell>
-                                            <TableCell align="left">{actual.surname}</TableCell>
-                                            <TableCell align="left">{actual.email}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <AddLectorsDialog idC={course.id} />
+                        <AddLectorsDialog idC={course.id} idG={course.guarantor_id}/>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Id</TableCell>
-                                        <TableCell align="left">Description</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {actuality.map((actual) => (
-                                        <TableRow
-                                            key={actual.id}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell align="left">{actual.id}</TableCell>
-                                            <TableCell align="left">{actual.description}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
                         <CreateActualityDialog idC={course.id}/>
                     </TabPanel>
                     <TabPanel index={value} value={3}>
@@ -558,6 +414,7 @@ const CoursesGuarantor = () => {
                                     control={control}
                                     render={({field: {onChange, value}}) => (
                                         <TimePicker
+
                                             ampm={false}
                                             label="From time"
                                             value={value}
@@ -635,19 +492,7 @@ const CoursesGuarantor = () => {
                         </Box>
                     </TabPanel>
                     <TabPanel index={value} value={5}>
-                        <DataGrid
-                            style={{padding: 5, height: 381, maxWidth: 900}}
-                            rows={terms}
-                            columns={columns}
-                            pageSize={5}
-                            rowsPerPageOptions={[5]}
-                            onRowClick={(params) => {
-                                //setValues(params.row.id, params.row.label, params.row.capacity);
-                            }}
-                            sx={{
-                                boxShadow: 4,
-                            }}
-                        />
+                        <TermRank courseID={course.id} />
                     </TabPanel>
                     {error !== "" && (<Alert severity="error">{error}</Alert>)}
                     <Button
@@ -656,8 +501,6 @@ const CoursesGuarantor = () => {
                         sx={{mt: 3, mb: 2}}
                         onClick={() => {
                             setCourse(defaultCourse);
-                            setGuarantor(defaultUser);
-                            setActuality([]);
                             setError("");
                         }}
                     >
