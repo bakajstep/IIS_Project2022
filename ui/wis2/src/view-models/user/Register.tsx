@@ -34,7 +34,7 @@ const Register = () => {
         };
 
         await axios.post('/api/person/register', data, optionAxios)
-            .then((res) => {
+            .then(() => {
             reset(defaultValues);
             setError("");
         }).catch(function (error) {

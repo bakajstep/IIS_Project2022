@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useSelector} from "react-redux";
-import {useForm} from "react-hook-form";
+import TermRank from "../../components/TermRank";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -75,12 +75,6 @@ interface IUser {
     email: string,
 }
 
-interface IRoom {
-    id: number;
-    label: string;
-    capacity: number;
-}
-
 interface IActuality {
     id: number,
     description: string,
@@ -113,26 +107,12 @@ const CoursesLector = () => {
         capacity: 0,
         guarantor_id: 0,
     }
-    const defaultTerm: ITerm = {
-        course_id: 0,
-        label: "",
-        min_points: 0,
-        max_points: 0,
-        from_time: 0,
-        to_time: "",
-        room_id: "",
-        date: ""
-    }
 
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<ITerm>();
     const [obj, setObj] = useState<ICourse[]>([]);
     const [course, setCourse] = useState<ICourse>(defaultCourse);
     const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
     const [lectors, setLectors] = useState<IUser[]>([]);
-    const [usersA, setUsersA] = useState<IUser[]>([]);
     const [actuality, setActuality] = useState<IActuality[]>([]);
-    const [rooms, setRooms] = useState<IRoom[]>([]);
-    const [terms, setTerms] = useState<ITerm[]>([]);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = useState(0);
@@ -140,38 +120,6 @@ const CoursesLector = () => {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
-    const onSubmit = async (data: ITerm) => {
-        data.course_id = course.id;
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        console.log(data);
-        await axios.post('/api/term', data, optionAxios)
-            .then((res) => {
-                console.log(res);
-                reset(defaultTerm);
-                setError("");
-            }).catch(function (error) {
-                console.log(error);
-                setError(error.response.data.msg);
-            })
-    }
-
-    const getRooms = async () => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get('/api/room', optionAxios)
-            .then(res => {
-                let obj: IRoom[] = JSON.parse(res.data.room)
-                setRooms(obj)
-            })
-    }
 
     const getActuality = async (id: number) => {
         const optionAxios = {
@@ -185,61 +133,6 @@ const CoursesLector = () => {
             })
     }
 
-    const getTerms = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/term`, optionAxios)
-            .then(res => {
-                let obj: ITerm[] = res.data.term;
-                setTerms(obj);
-            })
-    }
-
-    const agreeStudent = async(idU: number, idC: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.put(`/api/course/${idC}/person/${idU}/agree`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            }).catch(error => {
-            })
-    }
-
-    const obscureStudent = async(idU: number, idC: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.delete(`/api/course/${idC}/person/${idU}`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            }).catch(error => {
-            })
-    }
-
-    const getUsersA = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/person/`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            }).catch(error => {
-            })
-    }
-
     const getLectors = async (id: number) => {
         const optionAxios = {
             headers: {
@@ -250,7 +143,6 @@ const CoursesLector = () => {
             .then(res => {
                 let obj: IUser[] = res.data.lector;
                 setLectors(obj);
-            }).catch(error => {
             })
     }
 
@@ -272,7 +164,7 @@ const CoursesLector = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get(`/api/person/${user.id}/guarantor`, optionAxios)
+        await axios.get(`/api/person/${user.id}/lector`, optionAxios)
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);
@@ -309,12 +201,10 @@ const CoursesLector = () => {
                         pageSize={10}
                         rowsPerPageOptions={[10]}
                         onRowClick={(row) => {
-                            getRooms();
                             setCourse(row.row);
                             getGuarantor(row.row.guarantor_id);
                             getLectors(row.row.id);
                             getActuality(row.row.id);
-                            getTerms(row.row.id);
                         }}
                         components={{Toolbar: GridToolbar}}
                         componentsProps={{
@@ -446,19 +336,7 @@ const CoursesLector = () => {
                         </TableContainer>
                     </TabPanel>
                     <TabPanel index={value} value={3}>
-                        <DataGrid
-                            style={{padding: 5, height: 381, width: 900}}
-                            rows={terms}
-                            columns={columns}
-                            pageSize={5}
-                            rowsPerPageOptions={[5]}
-                            onRowClick={(params) => {
-                                //setValues(params.row.id, params.row.label, params.row.capacity);
-                            }}
-                            sx={{
-                                boxShadow: 4,
-                            }}
-                        />
+                        <TermRank courseID={course.id}/>
                     </TabPanel>
                     {error !== "" && (<Alert severity="error">{error}</Alert>)}
                     <Button
