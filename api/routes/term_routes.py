@@ -42,7 +42,6 @@ room_model = rest_api.model('RoomModel',
                                 "capacity": fields.Integer(required=True)
                             })
 
-
 points_model = rest_api.model('PointsModel',
                               {
                                   "person_id": fields.Integer(required=True),
@@ -125,7 +124,7 @@ class Courses(Resource):
 @rest_api.route('/api/term/<int:termId>')
 class SingleTerm(Resource):
     """
-       List or update single term
+       List or update term
     """
 
     def get(self, termId):
