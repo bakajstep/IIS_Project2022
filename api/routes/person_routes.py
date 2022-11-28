@@ -344,11 +344,11 @@ class Courses(Resource):
                         {
                             "start": str(date.date) + "T" + str(term.from_time),
                             "end": str(date.date) + "T" + str(term.to_time),
-                            "title": term.label+ ": " + description
+                            "title": term.label + ": " + description
                         }
                     )
 
-        return schedule_json_list, 200
+        return {'events': schedule_json_list}, 200
 
 
 
