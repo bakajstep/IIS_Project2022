@@ -40,7 +40,7 @@ const Login = () => {
                 );
                 setError("");
                 reset(defaultValues);
-                navigate("/");
+                navigate("/approvedCourses");
             }).catch(function (error) {
                 setError(error.response.data.msg);
                 data.password = password;
