@@ -37,7 +37,6 @@ const ChangePasswordDialog = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            console.log(data);
             await axios.put(`/api/person/${user.id}/password`, data, optionAxios)
                 .then(function (response) {
                     setError("");

@@ -56,7 +56,6 @@ const AddLectorsDialog = ({idC, idG} : DialogProps) => {
                     'Content-Type': 'application/json'
                 }
             };
-            console.log(data);
             await axios.put(`/api/course/${idC}/lector/${data[i].id}`, optionAxios)
                 .then(function () {
                     setError("");

@@ -127,10 +127,12 @@ const CoursesStudent = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.post(`/api/person/${idU}/term/${idT}`, optionAxios)
+        await axios.put(`/api/person/${idU}/term/${idT}`, optionAxios)
             .then(res => {
-
-                setError("");
+                console.log(res)
+                getTermsNonRegistered(idU, course.id);
+                getTermsRegistered(idU, course.id);
+                setError("")
             }).catch(error => {
                 setError(error.response.data.message)
             })
