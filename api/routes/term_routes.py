@@ -182,7 +182,7 @@ class Ranking(Resource):
             return {"success": False,
                     "msg": "Person does not exist."}, 400
 
-        points = request.get_json().get("points", None)
+        points = request.get_json().get("points")
 
         student = db.session.query(Student).filter(Student.person_id == personId).filter(
             Student.course_id == courseId).first()
@@ -211,9 +211,13 @@ class Ranking(Resource):
                     "msg": "Points out of range"}, 400
 
         rank = db.session.query(Rank).filter(Rank.term_date_id == termDateId).filter(
-            Rank.student_id == student.id)
+            Rank.student_id == student.id).first()
+        if rank is None:
+            new_rank = Rank(points=points, term_date_id=termDateId, student_id=student.id)
+            db.session.add(new_rank)
+        else:
+            setattr(rank, 'points', points)
 
-        setattr(rank, 'points', points)
         db.session.commit()
         return {"success": True}, 200
 
