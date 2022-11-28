@@ -329,7 +329,7 @@ class Courses(Resource):
     """
 
     def get(self, personId):
-        student_with_approved_courses = db.session.query(Student).filter(Student.person_id == 21).filter(
+        student_with_approved_courses = db.session.query(Student).filter(Student.person_id == personId).filter(
             Student.state == "APPROVED").all()
 
         schedule_json_list = []
@@ -342,13 +342,15 @@ class Courses(Resource):
                 for date in dates:
                     schedule_json_list.append(
                         {
-                            "date": str(date.date),
-                            "start_time": str(term.from_time),
-                            "end_time": str(term.to_time),
-                            "term_label": term.label,
-                            "course_name": description
+                            "id": str(date.id),
+                            "start": str(date.date) + "T" + str(term.from_time),
+                            "end": str(date.date) + "T" + str(term.to_time),
+                            "title": term.label + ": " + description
                         }
                     )
 
-        return schedule_json_list, 200
+        return {'events': schedule_json_list}, 200
+
+
+
 

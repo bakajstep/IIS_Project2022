@@ -44,6 +44,10 @@ room_model = rest_api.model('RoomModel',
 
 points_model = rest_api.model('PointsModel',
                               {
+                                  "person_id": fields.Integer(required=True),
+                                  "name": fields.String(required=True, min_length=1, max_length=64),
+                                  "surname": fields.String(required=True, min_length=1, max_length=64),
+                                  "email": fields.String(required=True, min_length=1, max_length=64),
                                   "points": fields.Integer(required=True)
                               })
 
@@ -120,7 +124,7 @@ class Courses(Resource):
 @rest_api.route('/api/term/<int:termId>')
 class SingleTerm(Resource):
     """
-       List or update single term
+       List or update term
     """
 
     def get(self, termId):
@@ -178,7 +182,7 @@ class Ranking(Resource):
             return {"success": False,
                     "msg": "Person does not exist."}, 400
 
-        points = request.get_json().get("points", None)
+        points = request.get_json().get("points")
 
         student = db.session.query(Student).filter(Student.person_id == personId).filter(
             Student.course_id == courseId).first()
@@ -191,7 +195,8 @@ class Ranking(Resource):
             return {"success": False,
                     "msg": "This course does not exist."}, 400
 
-        term = db.session.query(TermDate).filter(TermDate.id == termDateId).Term.first()
+        termdate = db.session.query(TermDate).filter(TermDate.id == termDateId).first()
+        term = Term.get_by_id(termdate.term_id)
 
         if not term:
             return {"success": False,
@@ -206,9 +211,13 @@ class Ranking(Resource):
                     "msg": "Points out of range"}, 400
 
         rank = db.session.query(Rank).filter(Rank.term_date_id == termDateId).filter(
-            Rank.student_id == student.id)
+            Rank.student_id == student.id).first()
+        if rank is None:
+            new_rank = Rank(points=points, term_date_id=termDateId, student_id=student.id)
+            db.session.add(new_rank)
+        else:
+            setattr(rank, 'points', points)
 
-        setattr(rank, 'points', points)
         db.session.commit()
         return {"success": True}, 200
 
@@ -251,6 +260,11 @@ class SingleTerm(Resource):
             rank = db.session.query(Rank).filter(Rank.student_id == stud_id).filter(Rank.term_date_id == dateId).first()
             student = Student.get_by_id(stud_id)
             person = Person.get_by_id(student.person_id)
+            if rank is None:
+                points = 0
+                rank = Rank(points=0, term_date_id=dateId, student_id=stud_id)
+                db.session.add(rank)
+                db.session.commit()
             tmp = {'person_id': person.id, 'name': person.name, 'surname': person.surname, 'email': person.email,
                    'points': rank.points}
             json_send.append(tmp)
