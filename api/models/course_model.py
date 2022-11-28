@@ -1,5 +1,4 @@
 from .database import db
-from ..models.person_model import Person
 
 
 class Course(db.Model):
