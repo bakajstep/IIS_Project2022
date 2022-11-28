@@ -251,6 +251,11 @@ class SingleTerm(Resource):
             rank = db.session.query(Rank).filter(Rank.student_id == stud_id).filter(Rank.term_date_id == dateId).first()
             student = Student.get_by_id(stud_id)
             person = Person.get_by_id(student.person_id)
+            if rank is None:
+                points = 0
+                rank = Rank(points=0, term_date_id=dateId, student_id=stud_id)
+                db.session.add(rank)
+                db.session.commit()
             tmp = {'person_id': person.id, 'name': person.name, 'surname': person.surname, 'email': person.email,
                    'points': rank.points}
             json_send.append(tmp)

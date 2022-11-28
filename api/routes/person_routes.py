@@ -329,7 +329,7 @@ class Courses(Resource):
     """
 
     def get(self, personId):
-        student_with_approved_courses = db.session.query(Student).filter(Student.person_id == 21).filter(
+        student_with_approved_courses = db.session.query(Student).filter(Student.person_id == personId).filter(
             Student.state == "APPROVED").all()
 
         schedule_json_list = []
