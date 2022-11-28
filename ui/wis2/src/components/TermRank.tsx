@@ -45,10 +45,6 @@ interface IDate {
     date: string,
 }
 
-interface IPoints {
-    points: number,
-}
-
 const TermRank = ({courseID}: TermRankProps) => {
 
     const defaultDate: IDate = {
@@ -74,6 +70,7 @@ const TermRank = ({courseID}: TermRankProps) => {
     const [dates, setDates] = useState<IDate[]>([]);
     const [open, setOpen] = useState(false);
     const [error, setError] = useState("")
+    const [dateID, setDateID] = useState(0);
 
     const columns: GridColDef[] = [
         {field: 'label', headerName: 'Label', flex: 5},
@@ -107,7 +104,7 @@ const TermRank = ({courseID}: TermRankProps) => {
                     'Content-Type': 'application/json'
                 }
             };
-            await axios.post(`/api/rank/${courseID}/person/${dateStud[i].person_id}/termDate/${date.id}`, dateStud[i], optionAxios)
+            await axios.post(`/api/rank/${courseID}/person/${dateStud[i].person_id}/termDate/${dateID}`, dateStud[i], optionAxios)
                 .then(res => {
                     console.log(res);
                 }).catch(error => {
@@ -157,6 +154,7 @@ const TermRank = ({courseID}: TermRankProps) => {
 
     const handleCreateNewItem = (e: any) => {
         e.preventDefault();
+        setDateID(e.target.value)
         getDateStud(term.id, e.target.value)
     };
 
