@@ -44,7 +44,6 @@ const CreateActualityDialog = ({idC} : DialogProps) => {
                     'Content-Type': 'application/json'
                 }
             };
-            console.log(data);
             await axios.post(`/api/course/${idC}/actuality`, data, optionAxios)
                 .then(function () {
                     setError("");

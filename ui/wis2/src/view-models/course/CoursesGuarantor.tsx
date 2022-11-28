@@ -139,14 +139,11 @@ const CoursesGuarantor = () => {
                 'Content-Type': 'application/json'
             }
         };
-        console.log(data);
         await axios.post('/api/term', data, optionAxios)
             .then((res) => {
-                console.log(res);
                 reset(defaultTerm);
                 setError("");
             }).catch(function (error) {
-                console.log(error);
                 setError(error.response.data.msg);
             })
     }
@@ -164,7 +161,7 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const agreeStudent = async(idU: number, idC: number) => {
+    const agreeStudent = async(idC: number, idU: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -176,7 +173,7 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const obscureStudent = async(idU: number, idC: number) => {
+    const obscureStudent = async(idC: number, idU: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -195,9 +192,9 @@ const CoursesGuarantor = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get(`/api/course/${id}/person/`, optionAxios)
+        await axios.get(`/api/course/${id}/person/pending`, optionAxios)
             .then(res => {
-                let obj: IUser[] = res.data.lector;
+                let obj: IUser[] = res.data.student;
                 setUsersA(obj);
             }).catch(() => {
             })
@@ -213,8 +210,6 @@ const CoursesGuarantor = () => {
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);
-            }).catch(error => {
-                console.log(error);
             })
     }
 
