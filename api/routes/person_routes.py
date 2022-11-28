@@ -342,6 +342,7 @@ class Courses(Resource):
                 for date in dates:
                     schedule_json_list.append(
                         {
+                            "id": dates.id,
                             "start": str(date.date) + "T" + str(term.from_time),
                             "end": str(date.date) + "T" + str(term.to_time),
                             "title": term.label + ": " + description
