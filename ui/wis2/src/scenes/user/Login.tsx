@@ -33,9 +33,9 @@ const Login = () => {
         await axios.post('/api/person/login', data, optionAxios)
             .then( (res) => {
                 dispatch(
-                    setLogin({
+                    setLogin<any>({
                         user: res.data.user
-                    })
+            })
                 );
                 setError("");
                 reset(defaultValues);

@@ -39,7 +39,7 @@ const Profile = () => {
             await axios.put(`/api/person/${user.id}`, data, optionAxios)
         .then( (res) => {
                 dispatch(
-                    setLogin({
+                    setLogin<any>({
                         user: res.data.user
                     })
                 );
