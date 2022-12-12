@@ -4,15 +4,11 @@ import axios from "axios";
 import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid"
 import {Alert, Box, Button, Tab, Tabs} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import {useSelector} from "react-redux";
 import TermRank from "../../components/TermRank";
+import Actuality from "../../components/Actuality";
+import BasicInfo from "../../components/BasicInfo";
+import GurantorLector from "../../components/GurantorLectorList";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -234,104 +230,13 @@ const CoursesLector = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Label</TableCell>
-                                        <TableCell align="left">Description</TableCell>
-                                        <TableCell align="left">Type</TableCell>
-                                        <TableCell align="left">Price</TableCell>
-                                        <TableCell align="left">Capacity</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow
-                                        key={course.label}
-                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                    >
-                                        <TableCell align="left">
-                                            {course.label}
-                                        </TableCell>
-                                        <TableCell align="left">{course.description}</TableCell>
-                                        <TableCell align="left">{course.type}</TableCell>
-                                        <TableCell align="left">{course.price}</TableCell>
-                                        <TableCell align="left">{course.capacity}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <BasicInfo courseDB={course}/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Guarantor Name</TableCell>
-                                        <TableCell align="left">Guarantor Surname</TableCell>
-                                        <TableCell align="left">Email</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow
-                                        key={guarantor.name}
-                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                    >
-                                        <TableCell align="left">
-                                            {guarantor.name}
-                                        </TableCell>
-                                        <TableCell align="left">{guarantor.surname}</TableCell>
-                                        <TableCell align="left">{guarantor.email}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Lector Name</TableCell>
-                                        <TableCell align="left">Lector Surname</TableCell>
-                                        <TableCell align="left">Email</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {lectors.map((actual) => (
-                                        <TableRow
-                                            key={actual.id}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell align="left">{actual.name}</TableCell>
-                                            <TableCell align="left">{actual.surname}</TableCell>
-                                            <TableCell align="left">{actual.email}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <GurantorLector courseID={course.id}/>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Id</TableCell>
-                                        <TableCell align="left">Description</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {actuality.map((actual) => (
-                                        <TableRow
-                                            key={actual.id}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell align="left">{actual.id}</TableCell>
-                                            <TableCell align="left">{actual.description}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <Actuality courseID={course.id}/>
                     </TabPanel>
                     <TabPanel index={value} value={3}>
                         <TermRank courseID={course.id}/>
