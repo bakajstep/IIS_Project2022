@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid"
-import {Alert, Box, Button, FormControlLabel, MenuItem, Select, Tab, Tabs} from "@mui/material";
+import {Alert, Box, Button, FormControl, FormControlLabel, MenuItem, Select, Tab, Tabs} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -453,13 +453,14 @@ const CoursesGuarantor = () => {
                                     )}
                                 />
                             </LocalizationProvider>
-                            <FormControlLabel control={
+                            <FormControl sx={{ m: 1, width: 150 }}>
                                 <Controller
                                     name={"room_id"}
                                     control={control}
                                     render={({field: {onChange, value}}) => (
-                                <Select
-                                    labelId="demo-simple-select-label"
+                                <TextField
+                                    label="Room"
+                                    select
                                     id="demo-simple-select"
                                     value={value}
                                     onChange={onChange}
@@ -468,11 +469,10 @@ const CoursesGuarantor = () => {
                                     {rooms.map((room) => (
                                         <MenuItem value={room.id}>{room.label}</MenuItem>
                                     ))}
-                                </Select>
+                                </TextField>
                                     )}/>
-                            }
-                            label={"Room"}
-                            />
+                            </FormControl>
+
                             <Controller
                                 name={"date"}
                                 rules={{

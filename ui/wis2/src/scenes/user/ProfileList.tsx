@@ -42,8 +42,8 @@ const ProfileList = () => {
         /*{field: 'id', headerName: 'ID', flex: 3},*/
         {field: 'name', headerName: 'Name', flex: 4},
         {field: 'surname', headerName: 'Surname', flex: 4},
-        {field: 'email', headerName: 'Email', flex: 4},
-        {field: 'admin', headerName: 'Admin', flex: 4, type: "boolean"},
+        {field: 'email', headerName: 'Email', flex: 6},
+        {field: 'admin', headerName: 'Admin', flex: 2, type: "boolean"},
         {
             field: "delete",
             width: 75,

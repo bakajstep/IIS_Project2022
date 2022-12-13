@@ -95,7 +95,6 @@ const ApproveCourse = () => {
                         justifyContent={"center"}>
                     Approve courses
                 </Typography>
-                1st
                 <Box display="flex" justifyContent="center">
                     <DataGrid
                         style={{padding: 5, height: 600, maxWidth: 900}}
@@ -117,68 +116,6 @@ const ApproveCourse = () => {
                             boxShadow: 4,
                         }}
                     />
-                </Box>
-                2nd
-                <TableContainer sx={{mb: 5}} component={Paper}>
-                    <Table sx={{minWidth: 650}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Label</TableCell>
-                                <TableCell align="left">Description</TableCell>
-                                <TableCell align="left">Type</TableCell>
-                                <TableCell align="left">Price</TableCell>
-                                <TableCell align="left">Capacity</TableCell>
-                                <TableCell align="center">Approve</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {obj.map((value: any) => (
-                            <TableRow
-                                key={value.label}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell align="left">
-                                    {value.label}
-                                </TableCell>
-                                <TableCell align="left">{value.description}</TableCell>
-                                <TableCell align="left">{value.type}</TableCell>
-                                <TableCell align="left">{value.price}</TableCell>
-                                <TableCell align="left">{value.capacity}</TableCell>
-                                <TableCell align="center">
-                                    <Button color={"success"} onClick={() => approveCourse(value.id)}>
-                                    <DoneIcon/>
-                                    </Button>
-                                    <Button color={"error"} onClick={() => deleteValue(value.id)}>
-                                        <CloseIcon/>
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                3rd
-                <Box padding="20px" display="flex" justifyContent={"center"} position={"relative"}>
-                    <List sx={{maxWidth: '100%', bgcolor: 'background.paper'}}>
-                        {obj.map((value: any) => (
-                            <ListItem
-                                key={value}
-                                disableGutters
-                                secondaryAction={
-                                    <IconButton aria-label="">
-                                    </IconButton>
-                                }
-                            >
-                                <ListItemText primary={`Course Name: ${value.label} description: ${value.description} type: ${value.type} price: ${value.price}`}/>
-                                <Button color={"success"} onClick={() => approveCourse(value.id)}>
-                                    <DoneIcon/>
-                                </Button>
-                                <Button color={"error"} onClick={() => deleteValue(value.id)}>
-                                    <CloseIcon/>
-                                </Button>
-                            </ListItem>
-                        ))}
-                    </List>
                 </Box>
             </Box>
         /*<Box padding="20px" display="flex" justifyContent={"center"} position={"relative"}>
