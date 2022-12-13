@@ -1,12 +1,4 @@
-import {
-    Alert, Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle
-} from "@mui/material";
+import {Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";

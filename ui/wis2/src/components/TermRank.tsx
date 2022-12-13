@@ -7,12 +7,11 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    MenuItem, Select, SelectChangeEvent
+    MenuItem,
+    Select,
+    SelectChangeEvent
 } from "@mui/material";
-import {
-    DataGrid,
-    GridColDef,
-} from "@mui/x-data-grid";
+import {DataGrid, GridColDef,} from "@mui/x-data-grid";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
