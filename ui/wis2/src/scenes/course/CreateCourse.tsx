@@ -86,7 +86,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.label ? "Not valid label" : "Label"}
+                            label={errors.label ? errors.label.message : "Label"}
                             error={!errors.label ? false : true}
                             name="label"
                         />
@@ -109,7 +109,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.description ? "Not valid description" : "Description"}
+                            label={errors.description ? errors.description.message : "Description"}
                             error={!errors.description ? false : true}
                             name="description"
                         />
@@ -132,7 +132,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.type ? "Not valid type" : "Type"}
+                            label={errors.type ? errors.type.message : "Type"}
                             error={!errors.type ? false : true}
                             name="type"
                         />
