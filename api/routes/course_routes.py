@@ -228,6 +228,8 @@ class Courses(Resource):
             signed = Student(person_id=personId, course_id=courseId, state='APPROVED')
         else:
             signed = Student(person_id=personId, course_id=courseId, state='PENDING')
+        db.session.add(signed)
+        db.session.commit()
         return {"success": True}, 200
 
     def put(self, courseId, personId):

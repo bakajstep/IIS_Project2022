@@ -68,7 +68,7 @@ const ApproveCourse = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const columns: GridColDef[] = [
-        /*{field: 'id', headerName: 'ID', flex: 3,},*/
+        /*{field: 'id', headerName: 'ID', flex: 3},*/
         {field: 'label', headerName: 'Label', flex: 4},
         {field: 'description', headerName: 'Description', flex: 12},
         {field: 'type', headerName: 'Type', flex: 6},

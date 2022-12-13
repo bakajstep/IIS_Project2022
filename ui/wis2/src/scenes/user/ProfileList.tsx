@@ -39,7 +39,7 @@ const ProfileList = () => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'id', headerName: 'ID', flex: 3},
+        /*{field: 'id', headerName: 'ID', flex: 3},*/
         {field: 'name', headerName: 'Name', flex: 4},
         {field: 'surname', headerName: 'Surname', flex: 4},
         {field: 'email', headerName: 'Email', flex: 4},

@@ -221,6 +221,7 @@ const CoursesStudent = () => {
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj);
+                console.log(res.data)
             }).catch(error=>{
                 setError("error")
             })
