@@ -32,11 +32,11 @@ const ApprovedCoursesList = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get(`http://localhost:5000/api/person/${id}`, optionAxios)
+        await axios.get(`/api/person/${id}`, optionAxios)
             .then(res => {
                 setGuarantor(res.data.user);
             })
-        await axios.get(`http://localhost:5000/api/person/${id}`, optionAxios)
+        await axios.get(`/api/person/${id}`, optionAxios)
             .then(res => {
                 setGuarantor(res.data.user);
             })
@@ -48,7 +48,7 @@ const ApprovedCoursesList = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get(`http://localhost:5000/api/course/${id}/actuality`, optionAxios)
+        await axios.get(`/api/course/${id}/actuality`, optionAxios)
             .then(res => {
                 setActuality(res.data.actuality);
             })
@@ -60,7 +60,7 @@ const ApprovedCoursesList = () => {
                 'Content-Type': 'application/json'
             }
         };
-        await axios.get('http://localhost:5000/api/course/approved', optionAxios)
+        await axios.get('/api/course/approved', optionAxios)
             .then(res => {
                 let obj: ICourse[] = res.data.course;
                 setObj(obj)
