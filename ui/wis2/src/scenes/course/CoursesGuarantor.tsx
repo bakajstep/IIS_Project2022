@@ -91,7 +91,7 @@ interface IRoom {
 }
 
 const columns: GridColDef[] = [
-    {field: 'id', headerName: 'ID', flex: 3},
+    /*{field: 'id', headerName: 'ID', flex: 3},*/
     {field: 'label', headerName: 'Label', flex: 4},
     {field: 'description', headerName: 'Description', flex: 12},
     {field: 'type', headerName: 'Type', flex: 6},
@@ -124,6 +124,7 @@ const CoursesGuarantor = () => {
     const [obj, setObj] = useState<ICourse[]>([]);
     const [course, setCourse] = useState<ICourse>(defaultCourse);
     const [usersA, setUsersA] = useState<IUser[]>([]);
+    const [students, setStudents] = useState<IUser[]>([]);
     const [rooms, setRooms] = useState<IRoom[]>([]);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
@@ -201,6 +202,20 @@ const CoursesGuarantor = () => {
             })
     }
 
+    const getStudents = async (id: number) => {
+        const optionAxios = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        await axios.get(`/api/course/${id}/person/approved`, optionAxios)
+            .then(res => {
+                let obj: IUser[] = res.data.student;
+                setStudents(obj);
+            }).catch(() => {
+            })
+    }
+
     const getValues = async () => {
         const optionAxios = {
             headers: {
@@ -219,6 +234,7 @@ const CoursesGuarantor = () => {
             getValues();
         }else{
             getUsersA(course.id);
+            getStudents(course.id);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -243,6 +259,7 @@ const CoursesGuarantor = () => {
                             getRooms();
                             setCourse(row.row);
                             getUsersA(row.row.id);
+                            getStudents(row.row.id);
                         }}
                         components={{Toolbar: GridToolbar}}
                         componentsProps={{
@@ -270,9 +287,10 @@ const CoursesGuarantor = () => {
                             <Tab label="Basic Info" {...a11yProps(0)} />
                             <Tab label="Guarantor and Lectors" {...a11yProps(1)} />
                             <Tab label="Actuality" {...a11yProps(2)} />
-                            <Tab label="Agree Students" {...a11yProps(3)} />
-                            <Tab label="Create Term" {...a11yProps(4)} />
-                            <Tab label="Create Rank" {...a11yProps(5)} />
+                            <Tab label="Students" {...a11yProps(3)} />
+                            <Tab label="Agree Students" {...a11yProps(4)} />
+                            <Tab label="Create Term" {...a11yProps(5)} />
+                            <Tab label="Create Rank" {...a11yProps(6)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -289,7 +307,31 @@ const CoursesGuarantor = () => {
                             <Table sx={{minWidth: 650}} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left">Id</TableCell>
+                                        <TableCell align="left">Name</TableCell>
+                                        <TableCell align="left">Surname</TableCell>
+                                        <TableCell align="left">Email</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {students.map((user) => (
+                                        <TableRow
+                                            key={user.id}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell align="left">{user.name}</TableCell>
+                                            <TableCell align="left">{user.surname}</TableCell>
+                                            <TableCell align="left">{user.email}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </TabPanel>
+                    <TabPanel index={value} value={4}>
+                        <TableContainer sx={{mb: 5}} component={Paper}>
+                            <Table sx={{minWidth: 650}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
                                         <TableCell align="left">Name</TableCell>
                                         <TableCell align="left">Surname</TableCell>
                                         <TableCell align="left">email</TableCell>
@@ -303,7 +345,6 @@ const CoursesGuarantor = () => {
                                             key={user.id}
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                         >
-                                            <TableCell align="left">{user.id}</TableCell>
                                             <TableCell align="left">{user.name}</TableCell>
                                             <TableCell align="left">{user.surname}</TableCell>
                                             <TableCell align="left">{user.email}</TableCell>
@@ -319,7 +360,7 @@ const CoursesGuarantor = () => {
                             </Table>
                         </TableContainer>
                     </TabPanel>
-                    <TabPanel index={value} value={4}>
+                    <TabPanel index={value} value={5}>
                         <Box component={"form"} noValidate sx={{mt: 1}}>
                             <Controller
                                 name={"label"}
@@ -461,7 +502,7 @@ const CoursesGuarantor = () => {
                             </Button>
                         </Box>
                     </TabPanel>
-                    <TabPanel index={value} value={5}>
+                    <TabPanel index={value} value={6}>
                         <TermRank courseID={course.id} />
                     </TabPanel>
                     {error !== "" && (<Alert severity="error">{error}</Alert>)}

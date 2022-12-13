@@ -94,10 +94,9 @@ const AddLectorsDialog = ({idC, idG} : DialogProps) => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'id', headerName: 'ID', flex: 3},
         {field: 'name', headerName: 'Name', flex: 4},
         {field: 'surname', headerName: 'Surname', flex: 4},
-        {field: 'email', headerName: 'Email', flex: 4}
+        {field: 'email', headerName: 'Email', flex: 8}
     ];
 
     const getValues = async () => {
@@ -181,7 +180,7 @@ const AddLectorsDialog = ({idC, idG} : DialogProps) => {
                 Add Lectors
             </Button>
             <Dialog fullWidth open={open} onClose={handleClose}>
-                <DialogTitle>Create actuality</DialogTitle>
+                <DialogTitle>Add lectors to course</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Select lectors
