@@ -67,7 +67,7 @@ const CreateRoom = () => {
                                 onChange={onChange}
                                 value={value}
                                 type="text"
-                                label={errors.label ? errors.label.message : "Label"}
+                                label={errors.label ? "Not valid label" : "Label"}
                                 error={!errors.label ? false : true}
                                 name="label"
                             />
