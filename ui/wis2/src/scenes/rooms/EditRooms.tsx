@@ -27,7 +27,6 @@ const EditRoom = () => {
     }
 
     const columns: GridColDef[] = [
-        {field: 'id', headerName: 'ID', flex: 3},
         {field: 'label', headerName: 'Label', flex: 4},
         {field: 'capacity', headerName: 'Capacity', flex: 4},
     ];
