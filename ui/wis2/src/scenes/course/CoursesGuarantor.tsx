@@ -379,7 +379,7 @@ const CoursesGuarantor = () => {
                                         onChange={onChange}
                                         value={value}
                                         type="text"
-                                        label={errors.label ? errors.label.message : "Label"}
+                                        label={errors.label ? "Not valid label" : "Label"}
                                         error={!errors.label ? false : true}
                                         name="label"
                                     />
@@ -497,7 +497,7 @@ const CoursesGuarantor = () => {
                                         value={value}
                                         placeholder={"year/mm/dd,year/mm/dd"}
                                         type="text"
-                                        label={errors.date ? errors.date.message : "Date"}
+                                        label={errors.date ? "Not valid date" : "Date"}
                                         error={!errors.date ? false : true}
                                         name="date"
                                     />
