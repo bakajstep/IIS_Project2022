@@ -98,7 +98,7 @@ const Login = () => {
                                 onChange={onChange}
                                 value={value}
                                 type="password"
-                                label={errors.password ? "Input required" : "Password"}
+                                label={errors.password ? "Password required" : "Password"}
                                 error={!errors.password ? false : true}
                                 id="password"
                                 name="password"

@@ -64,14 +64,20 @@ const Register = () => {
                 <Controller
                     name={"name"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{
+                        required: true,
+                        pattern: {
+                            value: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-].*[^ ].*$/u,
+                            message: "Not valid name"
+                        }
+                    }}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             margin={"normal"}
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.name ? "Input required" : "First Name"}
+                            label={errors.name ? "Bad name format" : "First Name"}
                             error={!errors.name ? false : true}
                             id="firstName"
                             name="firstName"
@@ -82,14 +88,20 @@ const Register = () => {
                 <Controller
                     name={"surname"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{
+                        required: true,
+                        pattern: {
+                            value: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-].*[^ ].*$/u,
+                            message: "Not valid surname"
+                        }
+                    }}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             margin={"normal"}
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.surname ? "Input required" : "Last Name"}
+                            label={errors.surname ? "Bad surname format" : "Last Name"}
                             error={!errors.surname ? false : true}
                             id="lastName"
                             name="lastName"
@@ -130,7 +142,7 @@ const Register = () => {
                             onChange={onChange}
                             value={value}
                             type="password"
-                            label={errors.password ? "Input required" : "Password"}
+                            label={errors.password ? "Password required" : "Password"}
                             error={!errors.password ? false : true}
                             id="password"
                             name="password"

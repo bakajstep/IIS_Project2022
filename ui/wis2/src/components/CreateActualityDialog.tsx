@@ -122,7 +122,13 @@ const CreateActualityDialog = ({idC} : DialogProps) => {
                     <Controller
                         name={"description"}
                         control={control}
-                        rules={{required: true}}
+                        rules={{
+                            required: true,
+                            pattern: {
+                                value: /^.*[^ ].*$/u,
+                                message: "Not valid description"
+                            }
+                        }}
                         render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
@@ -130,7 +136,7 @@ const CreateActualityDialog = ({idC} : DialogProps) => {
                                 onChange={onChange}
                                 value={value}
                                 type="text"
-                                label={errors.description ? "Input required" : "Description"}
+                                label={errors.description ? errors.description.message : "Description"}
                                 error={!errors.description ? false : true}
                                 name="oldPassword"
                                 sx={{gridColumn: "span 2"}}

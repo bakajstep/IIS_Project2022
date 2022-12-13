@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import ChangePasswordDialog from "../../components/ChangePasswordDialog";
 import {setLogin} from "../../state/UserState";
 import {Alert} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 interface IFormInput {
     name: string;
@@ -21,6 +22,7 @@ const Profile = () => {
     const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IFormInput>();
     const user = useSelector((state: any) => state.user);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const setValues = () => {
@@ -37,17 +39,18 @@ const Profile = () => {
                 }
             };
             await axios.put(`/api/person/${user.id}`, data, optionAxios)
-        .then( (res) => {
-                dispatch(
-                    setLogin<any>({
-                        user: res.data.user
-                    })
-                );
-                setError("");
-                reset(defaultValues);
-            }).catch(function (error) {
-                setError(error.response.data.msg);
-            })
+                .then((res) => {
+                    dispatch(
+                        setLogin<any>({
+                            user: res.data.user
+                        })
+                    );
+                    setError("");
+                    navigate("/approvedCourses");
+                    reset(defaultValues);
+                }).catch(function (error) {
+                    setError(error.response.data.msg);
+                })
         }
 
     }
@@ -59,7 +62,7 @@ const Profile = () => {
 
     useEffect(() => {
         setValues();
-    });
+    }, []);
 
     return (
         <Box
@@ -80,14 +83,20 @@ const Profile = () => {
                 <Controller
                     name={"name"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{
+                        required: true,
+                        pattern: {
+                            value: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-].*[^ ].*$/u,
+                            message: "Not valid name"
+                        }
+                    }}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             margin={"normal"}
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.name ? "Input required" : "First Name"}
+                            label={errors.name ? "Bad name format" : "First Name"}
                             error={!errors.name ? false : true}
                             id="firstName"
                             sx={{width: "49%", mr: "2%"}}
@@ -98,14 +107,20 @@ const Profile = () => {
                 <Controller
                     name={"surname"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{
+                        required: true,
+                        pattern: {
+                            value: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-].*[^ ].*$/u,
+                            message: "Not valid Surname"
+                        }
+                    }}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             margin={"normal"}
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.surname ? "Input required" : "Last Name"}
+                            label={errors.surname ? "Bad surname format" : "Last Name"}
                             error={!errors.surname ? false : true}
                             name="lastName"
                             autoFocus
@@ -137,7 +152,7 @@ const Profile = () => {
                         />
                     )}
                 />
-                { error !== "" && (<Alert severity="error">{error}</Alert>)}
+                {error !== "" && (<Alert severity="error">{error}</Alert>)}
                 <Button
                     type="submit"
                     variant="contained"

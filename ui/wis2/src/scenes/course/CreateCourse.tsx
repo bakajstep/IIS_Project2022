@@ -71,7 +71,13 @@ const CreateCourse = () => {
             >
                 <Controller
                     name={"label"}
-                    rules={{required: true}}
+                    rules={{
+                        required: true,
+                        pattern: {
+                            value: /^.*[^ ].*$/u,
+                            message: "Not valid label"
+                        }
+                    }}
                     control={control}
                     render={({field: {onChange, value}}) => (
                         <TextField
@@ -80,7 +86,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.label ? "Input required" : "Label"}
+                            label={errors.label ? errors.label.message : "Label"}
                             error={!errors.label ? false : true}
                             name="label"
                         />
@@ -89,7 +95,13 @@ const CreateCourse = () => {
                 <Controller
                     name={"description"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{
+                        required: true,
+                        pattern: {
+                            value: /^.*[^ ].*$/u,
+                            message: "Not valid description"
+                        }
+                    }}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             fullWidth
@@ -97,7 +109,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.description ? "Input required" : "Description"}
+                            label={errors.description ? errors.description.message : "Description"}
                             error={!errors.description ? false : true}
                             name="description"
                         />
@@ -106,7 +118,13 @@ const CreateCourse = () => {
                 <Controller
                     name={"type"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{
+                        required: true,
+                        pattern: {
+                            value: /^.*[^ ].*$/u,
+                            message: "Not valid type"
+                        }
+                    }}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             fullWidth
@@ -114,7 +132,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.type ? "Input required" : "Type"}
+                            label={errors.type ? errors.type.message : "Type"}
                             error={!errors.type ? false : true}
                             name="type"
                         />
@@ -123,7 +141,7 @@ const CreateCourse = () => {
                 <Controller
                     name={"price"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{required: true, min: 0}}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             fullWidth
@@ -131,7 +149,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="number"
-                            label={errors.price ? "Input required" : "Price"}
+                            label={errors.price ? "Bad price format" : "Price"}
                             error={!errors.price ? false : true}
                             name="price"
                         />
@@ -140,7 +158,7 @@ const CreateCourse = () => {
                 <Controller
                     name={"capacity"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{required: true, min: 1}}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             fullWidth
@@ -148,7 +166,7 @@ const CreateCourse = () => {
                             onChange={onChange}
                             value={value}
                             type="number"
-                            label={errors.capacity ? "Input required" : "Capacity"}
+                            label={errors.capacity ? "Bad capacity format" : "Capacity"}
                             error={!errors.capacity ? false : true}
                             name="capacity"
                             sx={{gridColumn: "span 4"}}

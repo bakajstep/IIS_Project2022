@@ -87,7 +87,7 @@ const ChangePasswordDialog = () => {
                                 onChange={onChange}
                                 value={value}
                                 type="password"
-                                label={errors.old_password ? "Input required" : "Old password"}
+                                label={errors.old_password ? "Old password required" : "Old password"}
                                 error={!errors.old_password ? false : true}
                                 name="oldPassword"
                                 sx={{gridColumn: "span 2"}}
@@ -105,7 +105,7 @@ const ChangePasswordDialog = () => {
                                 onChange={onChange}
                                 value={value}
                                 type="password"
-                                label={errors.new_password ? "Input required" : "New password"}
+                                label={errors.new_password ? "New password required" : "New password"}
                                 error={!errors.new_password ? false : true}
                                 name="newPassword"
                                 sx={{gridColumn: "span 2"}}

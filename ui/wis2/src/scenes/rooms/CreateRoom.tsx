@@ -52,7 +52,13 @@ const CreateRoom = () => {
                 <Box component={"form"} noValidate sx={{mt:1}}>
                     <Controller
                         name={"label"}
-                        rules={{required: true}}
+                        rules={{
+                            required: true,
+                            pattern: {
+                                value: /^.*[^ ].*$/u,
+                                message: "Not valid label"
+                            }
+                        }}
                         control={control}
                         render={({field: {onChange, value}}) => (
                             <TextField
@@ -61,7 +67,7 @@ const CreateRoom = () => {
                                 onChange={onChange}
                                 value={value}
                                 type="text"
-                                label={errors.label ? "Input required" : "Label"}
+                                label={errors.label ? errors.label.message : "Label"}
                                 error={!errors.label ? false : true}
                                 name="label"
                             />
@@ -70,7 +76,7 @@ const CreateRoom = () => {
                     <Controller
                         name={"capacity"}
                         control={control}
-                        rules={{required: true}}
+                        rules={{required: true, min: 1}}
                         render={({field: {onChange, value}}) => (
                             <TextField
                                 fullWidth
@@ -78,7 +84,7 @@ const CreateRoom = () => {
                                 onChange={onChange}
                                 value={value}
                                 type="number"
-                                label={errors.capacity ? "Input required" : "Capacity"}
+                                label={errors.capacity ? "Bad capacity format" : "Capacity"}
                                 error={!errors.capacity ? false : true}
                                 name="capacity"
                             />

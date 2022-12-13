@@ -3,6 +3,8 @@ body,
 #root,
 .App,
 .content {
+  position: relative;
+  overflow: auto;
   height: 100%;
   width: 100%;
   font-family: "Source Montserrat", sans-serif;
@@ -11,6 +13,7 @@ body,
 .App {
   display: flex;
   position: absolute;
+  height: 100%;
 }
 
 ::-webkit-scrollbar {
