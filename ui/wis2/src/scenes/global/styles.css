@@ -57,7 +57,7 @@
         padding: 0;
         margin: 0; }
   .pro-sidebar .overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;

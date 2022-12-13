@@ -104,7 +104,7 @@ const EditRoom = () => {
                             onChange={onChange}
                             value={value}
                             type="text"
-                            label={errors.label ? "Input required" : "Label"}
+                            label={errors.label ? "Room label required" : "Label"}
                             error={!errors.label ? false : true}
                             name="label"
                             sx={{width: "49%", mr: "2%"}}
@@ -115,14 +115,14 @@ const EditRoom = () => {
                 <Controller
                     name={"capacity"}
                     control={control}
-                    rules={{required: true}}
+                    rules={{required: true, min: 1}}
                     render={({field: {onChange, value}}) => (
                         <TextField
                             margin={"normal"}
                             onChange={onChange}
                             value={value}
                             type="number"
-                            label={errors.capacity ? "Input required" : "Capacity"}
+                            label={errors.capacity ? "Bad capacity format" : "Capacity"}
                             error={!errors.capacity ? false : true}
                             name="capacity"
                             sx={{width: "49%"}}
