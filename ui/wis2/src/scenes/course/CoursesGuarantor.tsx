@@ -365,13 +365,7 @@ const CoursesGuarantor = () => {
                             <Controller
                                 name={"label"}
                                 control={control}
-                                rules={{
-                                    required: true,
-                                    pattern: {
-                                        value: /^.*[^ ].*$/u,
-                                        message: "Not valid label"
-                                    }
-                                }}
+                                rules={{required: true}}
                                 render={({field: {onChange, value}}) => (
                                     <TextField
                                         fullWidth
@@ -379,7 +373,7 @@ const CoursesGuarantor = () => {
                                         onChange={onChange}
                                         value={value}
                                         type="text"
-                                        label={errors.label ? "Not valid label" : "Label"}
+                                        label={errors.label ? "Input required" : "Label"}
                                         error={!errors.label ? false : true}
                                         name="label"
                                     />
@@ -388,14 +382,14 @@ const CoursesGuarantor = () => {
                             <Controller
                                 name={"min_points"}
                                 control={control}
-                                rules={{required: true, min: 0}}
+                                rules={{required: true}}
                                 render={({field: {onChange, value}}) => (
                                     <TextField
                                         margin={"normal"}
                                         onChange={onChange}
                                         value={value}
                                         type="number"
-                                        label={errors.min_points ? "Minimal points required" : "Min points"}
+                                        label={errors.min_points ? "Input required" : "Min points"}
                                         error={!errors.min_points ? false : true}
                                         name="min_points"
                                         sx={{width: "49%", mr: "2%", mb:4}}
@@ -405,7 +399,7 @@ const CoursesGuarantor = () => {
                             <Controller
                                 name={"max_points"}
                                 rules={{
-                                    required: true, min: 0
+                                    required: true,
                                 }}
                                 control={control}
                                 render={({field: {onChange, value}}) => (
@@ -415,7 +409,7 @@ const CoursesGuarantor = () => {
                                         onChange={onChange}
                                         value={value}
                                         type="number"
-                                        label={errors.max_points ? "Maximal points required" : "Max points"}
+                                        label={errors.max_points ? "Bad email format" : "Max points"}
                                         error={!errors.max_points ? false : true}
                                         name="max_points"
                                         sx={{width: "49%", mb: 4}}
@@ -483,10 +477,6 @@ const CoursesGuarantor = () => {
                                 name={"date"}
                                 rules={{
                                     required: true,
-                                    pattern: {
-                                        value: /^.*[^ ].*$/u,
-                                        message: "Not valid date"
-                                    }
                                 }}
                                 control={control}
                                 render={({field: {onChange, value}}) => (
@@ -497,7 +487,7 @@ const CoursesGuarantor = () => {
                                         value={value}
                                         placeholder={"year/mm/dd,year/mm/dd"}
                                         type="text"
-                                        label={errors.date ? "Not valid date" : "Date"}
+                                        label={errors.date ? "Bad email format" : "Date"}
                                         error={!errors.date ? false : true}
                                         name="date"
                                     />
