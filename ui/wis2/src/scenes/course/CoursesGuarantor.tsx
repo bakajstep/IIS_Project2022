@@ -453,7 +453,7 @@ const CoursesGuarantor = () => {
                                     )}
                                 />
                             </LocalizationProvider>
-                            <FormControl sx={{ m: 1, width: 150 }}>
+                            <FormControl sx={{ width: 150 }}>
                                 <Controller
                                     name={"room_id"}
                                     control={control}
