@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    MenuItem, Select
+    MenuItem, Select, SelectChangeEvent
 } from "@mui/material";
 import {
     DataGrid,
@@ -63,14 +63,14 @@ const TermRank = ({courseID}: TermRankProps) => {
         room_id: "",
     }
 
-    const [date, setDate] = useState<IDate>(defaultDate);
+    const [date, setDate] = useState<string | number>("");
     const [terms, setTerms] = useState<ITerm[]>([]);
     const [term, setTerm] = useState<ITerm>(defaultTerm);
     const [dateStud, setDateStud] = useState<IDateStud[]>([]);
     const [dates, setDates] = useState<IDate[]>([]);
     const [open, setOpen] = useState(false);
     const [error, setError] = useState("")
-    const [dateID, setDateID] = useState(0);
+    const [dateID, setDateID] = useState<string | number>(0);
 
     const columns: GridColDef[] = [
         {field: 'label', headerName: 'Label', flex: 5},
@@ -113,7 +113,7 @@ const TermRank = ({courseID}: TermRankProps) => {
         }
     }
 
-    const getDateStud = async (idT: number, idD: number) => {
+    const getDateStud = async (idT: number, idD: string | number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -152,10 +152,10 @@ const TermRank = ({courseID}: TermRankProps) => {
             })
     }
 
-    const handleCreateNewItem = (e: any) => {
-        e.preventDefault();
-        setDateID(e.target.value)
-        getDateStud(term.id, e.target.value)
+    const handleCreateNewItem = (event: SelectChangeEvent<typeof date>) => {
+        setDateID(event.target.value);
+        setDate(event.target.value);
+        getDateStud(term.id, event.target.value);
     };
 
     const handleClose = () => {
@@ -194,7 +194,6 @@ const TermRank = ({courseID}: TermRankProps) => {
                         id="demo-simple-select"
                         value={date}
                         onChange={handleCreateNewItem}
-                        onSelect={() => getDateStud(term.id, date.id)}
                         sx={{mb: 3}}
                     >
                         {dates.map((date) => (
@@ -222,7 +221,7 @@ const TermRank = ({courseID}: TermRankProps) => {
                     <Button onClick={() => {
                         handleClose();
                         setTerm(defaultTerm)
-                        setDate(defaultDate)
+                        setDate("")
                         setDates([])
                         setDateStud([])
                         setError("");
@@ -230,7 +229,7 @@ const TermRank = ({courseID}: TermRankProps) => {
                     <Button onClick={() => {
                         submitRank()
                         setTerm(defaultTerm)
-                        setDate(defaultDate)
+                        setDate("")
                         setDates([])
                         setDateStud([])
                         handleClose();

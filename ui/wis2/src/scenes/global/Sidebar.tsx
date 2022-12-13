@@ -158,13 +158,15 @@ const Sidebar = () => {
                         )}
                         {user !== null && (
                             <div>
-                            <Typography
-                                variant="h6"
-                                color={colors.Primary[600]}
-                                sx={{m: "15px 0 5px 20px"}}
-                            >
-                                Studies
-                            </Typography>
+                                {!isCollapsed && (
+                                    <Typography
+                                        variant="h6"
+                                        color={colors.Primary[600]}
+                                        sx={{m: "15px 0 5px 20px"}}
+                                    >
+                                        Studies
+                                    </Typography>
+                                )}
                             <Item
                             title="Register course"
                             to="/approvedCourses"
@@ -186,6 +188,7 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                             />
+                                {!isCollapsed && (
                             <Typography
                             variant="h6"
                             color={colors.Primary[600]}
@@ -193,6 +196,7 @@ const Sidebar = () => {
                             >
                             Teaching
                             </Typography>
+                                    )}
                             <Item
                             title="Courses Lector"
                             to="/coursesLector"
@@ -200,6 +204,7 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                             />
+                                {!isCollapsed && (
                             <Typography
                             variant="h6"
                             color={colors.Primary[600]}
@@ -207,6 +212,7 @@ const Sidebar = () => {
                             >
                             Guarantor
                             </Typography>
+                                    )}
                             <Item
                             title="Create course"
                             to="/createCourse"
@@ -225,6 +231,7 @@ const Sidebar = () => {
                         )}
                         {user != null && user.admin == true && (
                             <div>
+                                {!isCollapsed && (
                                 <Typography
                                     variant="h6"
                                     color={colors.Primary[600]}
@@ -232,6 +239,7 @@ const Sidebar = () => {
                                 >
                                     Admin
                                 </Typography>
+                                    )}
                                 <Item
                                     title="Register"
                                     to="/register"
