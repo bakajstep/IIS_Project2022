@@ -12,7 +12,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useSelector} from "react-redux";
-import TermRank from "../../components/TermRank";
 import Actuality from "../../components/Actuality";
 import BasicInfo from "../../components/BasicInfo";
 import GurantorLector from "../../components/GurantorLectorList";
