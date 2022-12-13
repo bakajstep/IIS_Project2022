@@ -27,6 +27,9 @@ const CreateCourse = () => {
     const onSubmit = async (data: ICourse) => {
         if (user != null) {
             data.guarantor = user.id;
+            if (data.autoReg == null){
+                data.autoReg = false;
+            }
             const optionAxios = {
                 headers: {
                     'Content-Type': 'application/json'
