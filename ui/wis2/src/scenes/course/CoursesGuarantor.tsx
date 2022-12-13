@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid"
-import {Alert, Box, Button, FormControl, MenuItem, Tab, Tabs} from "@mui/material";
+import {Alert, Box, Button, FormControl, FormControlLabel, MenuItem, Select, Tab, Tabs} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -379,7 +379,7 @@ const CoursesGuarantor = () => {
                                         onChange={onChange}
                                         value={value}
                                         type="text"
-                                        label={errors.label ? "Not valid label" : "Label"}
+                                        label={errors.label ? errors.label.message : "Label"}
                                         error={!errors.label ? false : true}
                                         name="label"
                                     />
@@ -497,7 +497,7 @@ const CoursesGuarantor = () => {
                                         value={value}
                                         placeholder={"year/mm/dd,year/mm/dd"}
                                         type="text"
-                                        label={errors.date ? "Not valid date" : "Date"}
+                                        label={errors.date ? errors.date.message : "Date"}
                                         error={!errors.date ? false : true}
                                         name="date"
                                     />
