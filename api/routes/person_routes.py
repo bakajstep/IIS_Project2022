@@ -259,7 +259,7 @@ class Courses(Resource):
                 for rank in ranks:
                     points += rank.points
             term_json.append({term_id: points})
-        return {term_json}, 200
+        return {json.dumps(term_json)}, 200
 
 
 @rest_api.route('/api/person/<int:personId>/course/<int:courseId>/term/nonregistered')
