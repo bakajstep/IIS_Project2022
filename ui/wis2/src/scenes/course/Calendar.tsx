@@ -1,5 +1,5 @@
-import {Box, List, ListItem, ListItemText, Typography, useTheme} from "@mui/material";
-import FullCalendar, {EventSourceInput, formatDate} from "@fullcalendar/react";
+import {Box, useTheme} from "@mui/material";
+import FullCalendar, {EventSourceInput} from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
