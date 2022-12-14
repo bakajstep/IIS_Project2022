@@ -5,14 +5,7 @@ import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useSelector} from "react-redux";
-
-interface IUser {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-    admin: boolean
-}
+import {IUser} from "../../interfaces/User";
 
 const ProfileList = () => {
     const [obj, setObj] = useState<IUser[]>([]);

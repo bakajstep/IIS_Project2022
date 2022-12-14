@@ -12,6 +12,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useSelector} from "react-redux";
+import {ICourseModel} from "../../interfaces/Course";
+import {IUserModel} from "../../interfaces/User";
+import BasicInfo from "../../components/BasicInfo";
+import Actuality from "../../components/Actuality";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -46,28 +50,6 @@ function a11yProps(index: number) {
     };
 }
 
-interface ICourse {
-    id: number,
-    label: string,
-    description: string,
-    type: string,
-    price: number,
-    capacity: number,
-    guarantor_id: number
-}
-
-interface IUser {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-}
-
-interface IActuality {
-    id: number,
-    description: string,
-}
-
 const columns: GridColDef[] = [
     /*{field: 'id', headerName: 'ID', flex: 3},*/
     {field: 'label', headerName: 'Label', flex: 4},
@@ -79,14 +61,14 @@ const columns: GridColDef[] = [
 
 const ApprovedCoursesListPublic = () => {
 
-    const defaultUser: IUser = {
+    const defaultUser: IUserModel = {
         id: 0,
         name: "",
         surname: "",
         email: "",
     }
 
-    const defaultCourse: ICourse = {
+    const defaultCourse: ICourseModel = {
         id: 0,
         label: "",
         description: "",
@@ -96,10 +78,9 @@ const ApprovedCoursesListPublic = () => {
         guarantor_id: 0,
     }
 
-    const [obj, setObj] = useState<ICourse[]>([]);
-    const [course, setCourse] = useState<ICourse>(defaultCourse);
-    const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
-    const [actuality, setActuality] = useState<IActuality[]>([]);
+    const [obj, setObj] = useState<ICourseModel[]>([]);
+    const [course, setCourse] = useState<ICourseModel>(defaultCourse);
+    const [guarantor, setGuarantor] = useState<IUserModel>(defaultUser);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = React.useState(0);
@@ -116,26 +97,12 @@ const ApprovedCoursesListPublic = () => {
         };
         await axios.post(`/api/course/${idC}/person/${idU}`, optionAxios)
             .then(res => {
-                setActuality(res.data.actuality);
                 setCourse(defaultCourse);
                 setGuarantor(defaultUser);
-                setActuality([]);
                 setError("");
                 console.log(res.data)
             }).catch(error => {
                 setError(error.response.data.msg)
-            })
-    }
-
-    const getActuality = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/actuality`, optionAxios)
-            .then(res => {
-                setActuality(res.data.actuality);
             })
     }
 
@@ -159,7 +126,7 @@ const ApprovedCoursesListPublic = () => {
         };
         await axios.get('/api/course/approved', optionAxios)
             .then(res => {
-                let obj: ICourse[] = res.data.course;
+                let obj: ICourseModel[] = res.data.course;
                 setObj(obj);
             })
     }
@@ -188,7 +155,6 @@ const ApprovedCoursesListPublic = () => {
                         onRowClick={(row) => {
                             setCourse(row.row);
                             getGuarantor(row.row.guarantor_id);
-                            getActuality(row.row.id);
                         }}
                         components={{Toolbar: GridToolbar}}
                         componentsProps={{
@@ -219,33 +185,7 @@ const ApprovedCoursesListPublic = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Label</TableCell>
-                                        <TableCell align="left">Description</TableCell>
-                                        <TableCell align="left">Type</TableCell>
-                                        <TableCell align="left">Price</TableCell>
-                                        <TableCell align="left">Capacity</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow
-                                        key={course.label}
-                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                    >
-                                        <TableCell align="left">
-                                            {course.label}
-                                        </TableCell>
-                                        <TableCell align="left">{course.description}</TableCell>
-                                        <TableCell align="left">{course.type}</TableCell>
-                                        <TableCell align="left">{course.price}</TableCell>
-                                        <TableCell align="left">{course.capacity}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <BasicInfo courseDB={course}/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <TableContainer sx={{mb: 5}} component={Paper}>
@@ -273,27 +213,7 @@ const ApprovedCoursesListPublic = () => {
                         </TableContainer>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Id</TableCell>
-                                        <TableCell align="left">Description</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {actuality.map((actual) => (
-                                        <TableRow
-                                            key={actual.id}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell align="left">{actual.id}</TableCell>
-                                            <TableCell align="left">{actual.description}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <Actuality courseID={course.id}/>
                     </TabPanel>
                     {error !== "" && (<Alert severity="error">{error}</Alert>)}
                     <Button
@@ -303,7 +223,6 @@ const ApprovedCoursesListPublic = () => {
                         onClick={() => {
                             setCourse(defaultCourse);
                             setGuarantor(defaultUser);
-                            setActuality([]);
                             setError("");
                         }}
                     >

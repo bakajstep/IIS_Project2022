@@ -6,18 +6,10 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
+import {ICourseModel} from "../interfaces/Course";
 
 type InfoProps = {
-    courseDB: ICourse
-}
-
-interface ICourse {
-    id: number,
-    label: string,
-    description: string,
-    type: string,
-    price: number,
-    capacity: number
+    courseDB: ICourseModel
 }
 
 const BasicInfo = ({courseDB}: InfoProps) => {

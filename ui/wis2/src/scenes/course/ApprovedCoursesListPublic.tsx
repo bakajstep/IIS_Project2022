@@ -4,15 +4,7 @@ import axios from "axios";
 import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid"
 import {Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
-
-interface ICourse {
-    id: number,
-    label: string,
-    description: string,
-    type: string,
-    price: number,
-    guarantor_id: null
-}
+import {ICourseModel} from "../../interfaces/Course";
 
 const columns: GridColDef[] = [
     /*{field: 'id', headerName: 'ID', flex: 3},*/
@@ -23,7 +15,7 @@ const columns: GridColDef[] = [
 ];
 
 const ApprovedCoursesListPublic = () => {
-    const [obj, setObj] = useState<ICourse[]>([]);
+    const [obj, setObj] = useState<ICourseModel[]>([]);
 
     const getValues = async () => {
         const optionAxios = {
@@ -33,7 +25,7 @@ const ApprovedCoursesListPublic = () => {
         };
         await axios.get('/api/course/approved', optionAxios)
             .then(res => {
-                let obj: ICourse[] = res.data.course;
+                let obj: ICourseModel[] = res.data.course;
                 setObj(obj);
             })
     }

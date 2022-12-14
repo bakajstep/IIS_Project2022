@@ -8,17 +8,12 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {Alert} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-
-interface IRoom {
-    id: number;
-    label: string;
-    capacity: number;
-}
+import {IRoomUpdate} from "../../interfaces/Room";
 
 const EditRoom = () => {
-    const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IRoom>();
+    const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IRoomUpdate>();
     const [error, setError] = useState("");
-    const [obj, setObj] = useState<IRoom[]>([]);
+    const [obj, setObj] = useState<IRoomUpdate[]>([]);
 
     const setValues = async (id: number, label: string, capacity: number) => {
         setValue('id', id);
@@ -31,7 +26,7 @@ const EditRoom = () => {
         {field: 'capacity', headerName: 'Capacity', flex: 4},
     ];
 
-    const deleteRoom = async (data: IRoom) => {
+    const deleteRoom = async (data: IRoomUpdate) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -47,7 +42,7 @@ const EditRoom = () => {
         await getValues();
     }
 
-    const onSubmit = async (data: IRoom) => {
+    const onSubmit = async (data: IRoomUpdate) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -66,7 +61,7 @@ const EditRoom = () => {
         };
         await axios.get('/api/room', optionAxios)
             .then(res => {
-                let obj: IRoom[] = JSON.parse(res.data.room)
+                let obj: IRoomUpdate[] = JSON.parse(res.data.room)
                 setObj(obj)
             })
     }
@@ -75,7 +70,7 @@ const EditRoom = () => {
         getValues();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const defaultValues: IRoom = {
+    const defaultValues: IRoomUpdate = {
         id: 0,
         label: "",
         capacity: 0

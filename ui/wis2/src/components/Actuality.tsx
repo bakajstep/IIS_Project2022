@@ -8,11 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-
-interface IActuality {
-    id: number,
-    description: string,
-}
+import {IActuality} from "../interfaces/Course";
 
 type ActualityProps = {
     courseID: number
