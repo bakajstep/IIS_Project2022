@@ -164,7 +164,7 @@ const Sidebar = () => {
                                         color={colors.Primary[600]}
                                         sx={{m: "15px 0 5px 20px"}}
                                     >
-                                        Studies
+                                        Student
                                     </Typography>
                                 )}
                             <Item
@@ -194,7 +194,7 @@ const Sidebar = () => {
                             color={colors.Primary[600]}
                             sx={{m: "15px 0 5px 20px"}}
                             >
-                            Teaching
+                            Lector
                             </Typography>
                                     )}
                             <Item

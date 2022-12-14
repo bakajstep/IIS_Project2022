@@ -25,6 +25,7 @@ import BasicInfo from "../../components/BasicInfo";
 import {ICourseModel, ITermCreate} from "../../interfaces/Course";
 import {IUserModel} from "../../interfaces/User";
 import {IRoomUpdate} from "../../interfaces/Room";
+import StudentsInCourse from "../../components/StudentsInCourse";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -93,7 +94,6 @@ const CoursesGuarantor = () => {
     const [obj, setObj] = useState<ICourseModel[]>([]);
     const [course, setCourse] = useState<ICourseModel>(defaultCourse);
     const [usersA, setUsersA] = useState<IUserModel[]>([]);
-    const [students, setStudents] = useState<IUserModel[]>([]);
     const [rooms, setRooms] = useState<IRoomUpdate[]>([]);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
@@ -171,20 +171,6 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const getStudents = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/person/approved`, optionAxios)
-            .then(res => {
-                let obj: IUserModel[] = res.data.student;
-                setStudents(obj);
-            }).catch(() => {
-            })
-    }
-
     const getValues = async () => {
         const optionAxios = {
             headers: {
@@ -203,7 +189,6 @@ const CoursesGuarantor = () => {
             getValues();
         }else{
             getUsersA(course.id);
-            getStudents(course.id);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -228,7 +213,6 @@ const CoursesGuarantor = () => {
                             getRooms();
                             setCourse(row.row);
                             getUsersA(row.row.id);
-                            getStudents(row.row.id);
                         }}
                         components={{Toolbar: GridToolbar}}
                         componentsProps={{
@@ -272,29 +256,7 @@ const CoursesGuarantor = () => {
                         <CreateActualityDialog idC={course.id}/>
                     </TabPanel>
                     <TabPanel index={value} value={3}>
-                        <TableContainer sx={{mb: 5}} component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">Name</TableCell>
-                                        <TableCell align="left">Surname</TableCell>
-                                        <TableCell align="left">Email</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {students.map((user) => (
-                                        <TableRow
-                                            key={user.id}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell align="left">{user.name}</TableCell>
-                                            <TableCell align="left">{user.surname}</TableCell>
-                                            <TableCell align="left">{user.email}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <StudentsInCourse courseID={course.id}/>
                     </TabPanel>
                     <TabPanel index={value} value={4}>
                         <TableContainer sx={{mb: 5}} component={Paper}>

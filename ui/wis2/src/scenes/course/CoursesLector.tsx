@@ -10,6 +10,7 @@ import Actuality from "../../components/Actuality";
 import BasicInfo from "../../components/BasicInfo";
 import GurantorLector from "../../components/GurantorLectorList";
 import {ICourseModel} from "../../interfaces/Course";
+import StudentsInCourse from "../../components/StudentsInCourse";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -138,6 +139,7 @@ const CoursesLector = () => {
                             <Tab label="Basic Info" {...a11yProps(0)} />
                             <Tab label="Guarantor and Lectors" {...a11yProps(1)} />
                             <Tab label="Actuality" {...a11yProps(2)} />
+                            <Tab label="Students" {...a11yProps(2)} />
                             <Tab label="Create Rank" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
@@ -151,6 +153,9 @@ const CoursesLector = () => {
                         <Actuality courseID={course.id}/>
                     </TabPanel>
                     <TabPanel index={value} value={3}>
+                        <StudentsInCourse courseID={course.id}/>
+                    </TabPanel>
+                    <TabPanel index={value} value={4}>
                         <TermRank courseID={course.id}/>
                     </TabPanel>
                     {error !== "" && (<Alert severity="error">{error}</Alert>)}
