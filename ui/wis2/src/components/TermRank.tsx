@@ -1,3 +1,7 @@
+/**
+ @author Aliaksei Slepitsa
+ */
+
 import {
     Alert,
     Box,

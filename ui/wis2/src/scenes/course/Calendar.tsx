@@ -1,3 +1,7 @@
+/**
+ @author Štěpán Bakaj
+ */
+
 import {Box, useTheme} from "@mui/material";
 import FullCalendar, {EventSourceInput} from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";

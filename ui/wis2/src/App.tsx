@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 import React from 'react';
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {Route, Routes} from "react-router-dom";

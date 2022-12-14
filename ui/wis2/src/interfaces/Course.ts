@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 export interface ICourse {
     label: string,
     description: string,

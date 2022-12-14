@@ -1,3 +1,8 @@
+/**
+ @author Štěpán Bakaj
+ */
+
+
 import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -132,7 +137,7 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const agreeStudent = async(idC: number, idU: number) => {
+    const agreeStudent = async (idC: number, idU: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -144,7 +149,7 @@ const CoursesGuarantor = () => {
             })
     }
 
-    const obscureStudent = async(idC: number, idU: number) => {
+    const obscureStudent = async (idC: number, idU: number) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -185,9 +190,9 @@ const CoursesGuarantor = () => {
     }
 
     useEffect(() => {
-        if (course.label === ""){
+        if (course.label === "") {
             getValues();
-        }else{
+        } else {
             getUsersA(course.id);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -279,10 +284,12 @@ const CoursesGuarantor = () => {
                                             <TableCell align="left">{user.name}</TableCell>
                                             <TableCell align="left">{user.surname}</TableCell>
                                             <TableCell align="left">{user.email}</TableCell>
-                                            <TableCell align="left"><Button color={"success"} onClick={() => agreeStudent(course.id, user.id)}>
+                                            <TableCell align="left"><Button color={"success"}
+                                                                            onClick={() => agreeStudent(course.id, user.id)}>
                                                 <DoneIcon/>
                                             </Button></TableCell>
-                                            <TableCell><Button color={"error"} onClick={() => obscureStudent(course.id, user.id)}>
+                                            <TableCell><Button color={"error"}
+                                                               onClick={() => obscureStudent(course.id, user.id)}>
                                                 <CloseIcon/>
                                             </Button></TableCell>
                                         </TableRow>
@@ -329,7 +336,7 @@ const CoursesGuarantor = () => {
                                         label={errors.min_points ? "Minimal points required" : "Min points"}
                                         error={!errors.min_points ? false : true}
                                         name="min_points"
-                                        sx={{width: "49%", mr: "2%", mb:4}}
+                                        sx={{width: "49%", mr: "2%", mb: 4}}
                                     />
                                 )}
                             />
@@ -367,7 +374,8 @@ const CoursesGuarantor = () => {
                                             label="From time"
                                             value={value}
                                             onChange={onChange}
-                                            renderInput={(params) => <TextField sx={{width: "49%", mr: "2%", mb: 4}} {...params} />}
+                                            renderInput={(params) => <TextField
+                                                sx={{width: "49%", mr: "2%", mb: 4}} {...params} />}
                                         />
                                     )}
                                 />
@@ -390,23 +398,23 @@ const CoursesGuarantor = () => {
                                     )}
                                 />
                             </LocalizationProvider>
-                            <FormControl sx={{ m: 1, width: 150 }}>
+                            <FormControl sx={{m: 1, width: 150}}>
                                 <Controller
                                     name={"room_id"}
                                     control={control}
                                     render={({field: {onChange, value}}) => (
-                                <TextField
-                                    label="Room"
-                                    select
-                                    id="demo-simple-select"
-                                    value={value}
-                                    onChange={onChange}
-                                    sx={{mb: 3}}
-                                >
-                                    {rooms.map((room) => (
-                                        <MenuItem value={room.id}>{room.label}</MenuItem>
-                                    ))}
-                                </TextField>
+                                        <TextField
+                                            label="Room"
+                                            select
+                                            id="demo-simple-select"
+                                            value={value}
+                                            onChange={onChange}
+                                            sx={{mb: 3}}
+                                        >
+                                            {rooms.map((room) => (
+                                                <MenuItem value={room.id}>{room.label}</MenuItem>
+                                            ))}
+                                        </TextField>
                                     )}/>
                             </FormControl>
 
@@ -444,7 +452,7 @@ const CoursesGuarantor = () => {
                         </Box>
                     </TabPanel>
                     <TabPanel index={value} value={6}>
-                        <TermRank courseID={course.id} />
+                        <TermRank courseID={course.id}/>
                     </TabPanel>
                     {error !== "" && (<Alert severity="error">{error}</Alert>)}
                     <Button

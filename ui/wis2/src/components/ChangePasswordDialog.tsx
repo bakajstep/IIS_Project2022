@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 import {
     Alert,
     Button,

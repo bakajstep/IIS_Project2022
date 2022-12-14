@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 import {createContext, useMemo, useState} from "react";
 import {createTheme} from "@mui/material/styles";
 import {PaletteMode} from "@mui/material";

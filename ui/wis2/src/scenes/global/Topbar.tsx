@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 import {Box, Button, IconButton, Typography, useTheme} from "@mui/material";
 import {useContext} from "react";
 import {ColorModeContext, tokens} from "../../theme";

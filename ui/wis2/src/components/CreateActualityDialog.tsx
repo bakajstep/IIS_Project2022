@@ -1,3 +1,7 @@
+/**
+ @author Štěpán Bakaj
+ */
+
 import {
     Alert,
     Box,

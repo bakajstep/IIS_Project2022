@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 export interface IUser {
     id: number,
     name: string,

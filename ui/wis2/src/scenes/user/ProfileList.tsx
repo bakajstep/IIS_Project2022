@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 import {Box, IconButton, Typography} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";

@@ -1,3 +1,7 @@
+/**
+ @author Štěpán Bakaj
+ */
+
 import {Controller, useForm} from "react-hook-form";
 import axios from "axios";
 import Box from "@mui/material/Box";

@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 import {useState} from "react";
 import {Menu, MenuItem, ProSidebar} from "react-pro-sidebar";
 import {Box, IconButton, Typography, useMediaQuery, useTheme} from "@mui/material";

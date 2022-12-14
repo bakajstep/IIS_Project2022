@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 export interface IRoom {
     label: string,
     capacity: number

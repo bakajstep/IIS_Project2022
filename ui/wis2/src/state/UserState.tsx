@@ -1,3 +1,7 @@
+/**
+ @author Adam Kaňkovský
+ */
+
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
