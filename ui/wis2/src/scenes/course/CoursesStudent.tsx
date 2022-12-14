@@ -78,6 +78,7 @@ const CoursesStudent = () => {
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = React.useState(0);
+    const [points, setPoints] = React.useState<number[]>([]);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -125,6 +126,15 @@ const CoursesStudent = () => {
             .then(res => {
                 let obj: ITermModel[] = res.data.term;
                 setTermsR(obj);
+            }).catch(error => {
+                setError(error.response.data.msg);
+            })
+        await axios.get(`/api/person/${idU}/course/${idC}/term/registered/points`, optionAxios)
+            .then(res => {
+                let obj: any = res.data.points;
+                let obj2: number[] = []
+                console.log(obj);
+                setPoints(obj);
             }).catch(error => {
                 setError(error.response.data.msg);
             })
@@ -234,6 +244,7 @@ const CoursesStudent = () => {
                                             <TableCell align="left">{term.from_time}</TableCell>
                                             <TableCell align="left">{term.to_time}</TableCell>
                                             <TableCell align="left">{term.min_points}</TableCell>
+                                            <TableCell align="left">{term.max_points}</TableCell>
                                             <TableCell><Button color={"success"} onClick={() => registerTerm(user.id, term.id)}>
                                                 Register
                                             </Button></TableCell>
@@ -267,6 +278,7 @@ const CoursesStudent = () => {
                                             <TableCell align="left">{term.to_time}</TableCell>
                                             <TableCell align="left">{term.min_points}</TableCell>
                                             <TableCell align="left">{term.max_points}</TableCell>
+                                            <TableCell align="left">{points[term.id]}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
