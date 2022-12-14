@@ -6,19 +6,10 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from "@mui/material/Typography";
 import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid";
-
-interface ICourse {
-    id: number,
-    label: string,
-    description: string,
-    type: string,
-    guarantor_id: null
-}
-
-
+import {ICourseModel} from "../../interfaces/Course";
 
 const ApproveCourse = () => {
-    const [obj, setObj] = useState<ICourse[]>([]);
+    const [obj, setObj] = useState<ICourseModel[]>([]);
 
     const approveCourse = async (id: number) => {
         const optionAxios = {
@@ -49,7 +40,7 @@ const ApproveCourse = () => {
         };
         await axios.get('/api/course/pending', optionAxios)
             .then(res => {
-                let obj: ICourse[] = res.data.course;
+                let obj: ICourseModel[] = res.data.course;
                 setObj(obj)
             })
     }

@@ -9,26 +9,21 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import {Box} from "@mui/material";
+import {IUserModel} from "../interfaces/User";
 
-interface IUser {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-}
 type GLProps = {
     courseID: number
 }
 
 const GuarantorLector = ({courseID}: GLProps)=>{
-    const defaultUser: IUser = {
+    const defaultUser: IUserModel = {
         id: 0,
         name: "",
         surname: "",
         email: "",
     }
-    const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
-    const [lectors, setLectors] = useState<IUser[]>([]);
+    const [guarantor, setGuarantor] = useState<IUserModel>(defaultUser);
+    const [lectors, setLectors] = useState<IUserModel[]>([]);
 
     const getLectors = async (id: number) => {
         const optionAxios = {
@@ -38,7 +33,7 @@ const GuarantorLector = ({courseID}: GLProps)=>{
         };
         await axios.get(`/api/course/${id}/lector`, optionAxios)
             .then(res => {
-                let obj: IUser[] = res.data.lector;
+                let obj: IUserModel[] = res.data.lector;
                 setLectors(obj);
             })
     }

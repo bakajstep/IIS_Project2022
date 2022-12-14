@@ -15,41 +15,13 @@ import {DataGrid, GridColDef,} from "@mui/x-data-grid";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
-
-interface IDateStud {
-    person_id: number,
-    name: string,
-    surname: string,
-    email: string,
-    points: number,
-}
+import {IDate, IDateStud, ITerm} from "../interfaces/Course";
 
 type TermRankProps = {
     courseID: number
 }
 
-interface ITerm {
-    id: number,
-    course_id: number,
-    label: string,
-    min_points: number,
-    max_points: number,
-    from_time: number,
-    to_time: string,
-    room_id: string,
-}
-
-interface IDate {
-    id: number,
-    date: string,
-}
-
 const TermRank = ({courseID}: TermRankProps) => {
-
-    const defaultDate: IDate = {
-        id: 0,
-        date: "",
-    }
 
     const defaultTerm: ITerm = {
         id: 0,

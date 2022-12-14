@@ -15,6 +15,7 @@ import {useSelector} from "react-redux";
 import Actuality from "../../components/Actuality";
 import BasicInfo from "../../components/BasicInfo";
 import GurantorLector from "../../components/GurantorLectorList";
+import {ICourseModel, ITermModel} from "../../interfaces/Course";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -49,38 +50,6 @@ function a11yProps(index: number) {
     };
 }
 
-interface ITerm {
-    course_id: number,
-    id: number,
-    label: string,
-    min_points: string,
-    max_points: string,
-    from_time: number,
-    to_time: number,
-}
-
-interface ICourse {
-    id: number,
-    label: string,
-    description: string,
-    type: string,
-    price: number,
-    capacity:number,
-    guarantor_id: number
-}
-
-interface IUser {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-}
-
-interface IActuality {
-    id: number,
-    description: string,
-}
-
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', flex: 3},
     {field: 'label', headerName: 'Label', flex: 4},
@@ -92,14 +61,7 @@ const columns: GridColDef[] = [
 
 const CoursesStudent = () => {
 
-    const defaultUser: IUser = {
-        id: 0,
-        name: "",
-        surname: "",
-        email: "",
-    }
-
-    const defaultCourse: ICourse = {
+    const defaultCourse: ICourseModel = {
         id: 0,
         label: "",
         description: "",
@@ -109,13 +71,10 @@ const CoursesStudent = () => {
         guarantor_id: 0,
     }
 
-    const [obj, setObj] = useState<ICourse[]>([]);
-    const [course, setCourse] = useState<ICourse>(defaultCourse);
-    const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
-    const [lectors, setLectors] = useState<IUser[]>([]);
-    const [actuality, setActuality] = useState<IActuality[]>([]);
-    const [termsR, setTermsR] = useState<ITerm[]>([]);
-    const [termsU, setTermsU] = useState<ITerm[]>([]);
+    const [obj, setObj] = useState<ICourseModel[]>([]);
+    const [course, setCourse] = useState<ICourseModel>(defaultCourse);
+    const [termsR, setTermsR] = useState<ITermModel[]>([]);
+    const [termsU, setTermsU] = useState<ITermModel[]>([]);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = React.useState(0);
@@ -141,19 +100,6 @@ const CoursesStudent = () => {
             })
     }
 
-
-    const getActuality = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/actuality`, optionAxios)
-            .then(res => {
-                setActuality(res.data.actuality);
-            })
-    }
-
     const getTermsNonRegistered = async (idU: number, idC: number) => {
         const optionAxios = {
             headers: {
@@ -162,7 +108,7 @@ const CoursesStudent = () => {
         };
         await axios.get(`/api/person/${idU}/course/${idC}/term/nonregistered`, optionAxios)
             .then(res => {
-                let obj: ITerm[] = res.data.term;
+                let obj: ITermModel[] = res.data.term;
                 setTermsU(obj);
             }).catch(error => {
                 setError(error.response.data.msg);
@@ -177,36 +123,10 @@ const CoursesStudent = () => {
         };
         await axios.get(`/api/person/${idU}/course/${idC}/term/registered`, optionAxios)
             .then(res => {
-                let obj: ITerm[] = res.data.term;
+                let obj: ITermModel[] = res.data.term;
                 setTermsR(obj);
             }).catch(error => {
                 setError(error.response.data.msg);
-            })
-    }
-
-    const getLectors = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/lector`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            }).catch(error => {
-            })
-    }
-
-    const getGuarantor = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/person/${id}`, optionAxios)
-            .then(res => {
-                setGuarantor(res.data.user);
             })
     }
 
@@ -218,7 +138,7 @@ const CoursesStudent = () => {
         };
         await axios.get(`/api/person/${user.id}/course`, optionAxios)
             .then(res => {
-                let obj: ICourse[] = res.data.course;
+                let obj: ICourseModel[] = res.data.course;
                 setObj(obj);
                 console.log(res.data)
             }).catch(error=>{
@@ -249,9 +169,6 @@ const CoursesStudent = () => {
                         rowsPerPageOptions={[10]}
                         onRowClick={(row) => {
                             setCourse(row.row);
-                            getGuarantor(row.row.guarantor_id);
-                            getLectors(row.row.id);
-                            getActuality(row.row.id);
                             getTermsRegistered(user.id, row.row.id);
                             getTermsNonRegistered(user.id, row.row.id);
                         }}
@@ -363,8 +280,6 @@ const CoursesStudent = () => {
                         sx={{mt: 3, mb: 2}}
                         onClick={() => {
                             setCourse(defaultCourse);
-                            setGuarantor(defaultUser);
-                            setActuality([]);
                             setError("");
                         }}
                     >

@@ -11,18 +11,14 @@ import {setLogin} from "../../state/UserState";
 import {useNavigate} from "react-router-dom";
 import {Alert} from "@mui/material";
 import bcrypt from "bcryptjs-react";
-
-interface IFormInput {
-    email: string;
-    password: string;
-}
+import {IUserLogin} from "../../interfaces/User";
 
 const Login = () => {
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
+    const {handleSubmit, reset, control, formState: {errors}} = useForm<IUserLogin>();
     const [error, setError] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const onSubmit = async (data: IFormInput) => {
+    const onSubmit = async (data: IUserLogin) => {
         const password = data.password;
         data.password = bcrypt.hashSync(password, '$2a$10$CwTycUXWue0Thq9StjUM0u');
         const optionAxios = {
@@ -45,7 +41,7 @@ const Login = () => {
                 data.password = password;
             })
     }
-    const defaultValues: IFormInput = {
+    const defaultValues: IUserLogin = {
         email: "",
         password: ""
     }
