@@ -8,16 +8,7 @@ import * as React from "react";
 import {useState} from "react";
 import {Alert, Checkbox, FormControlLabel} from "@mui/material";
 import {useSelector} from "react-redux";
-
-interface ICourse {
-    label: string,
-    description: string,
-    type: string,
-    price: number,
-    capacity: number,
-    autoReg: boolean,
-    guarantor: number
-}
+import {ICourse} from "../../interfaces/Course";
 
 const CreateCourse = () => {
     const {handleSubmit, reset, control, formState: {errors}} = useForm<ICourse>();

@@ -8,13 +8,7 @@ import {useEffect, useState} from "react";
 import {tokens} from "../../theme";
 import axios from "axios";
 import {useSelector} from "react-redux";
-
-interface IEvent{
-    id: string,
-    start: Date,
-    end: Date,
-    title: string,
-}
+import {IEvent} from "../../interfaces/Course";
 
 const Calendar = () => {
     const theme = useTheme();

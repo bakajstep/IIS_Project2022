@@ -22,6 +22,9 @@ import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import TermRank from "../../components/TermRank";
 import BasicInfo from "../../components/BasicInfo";
+import {ICourseModel, ITermCreate} from "../../interfaces/Course";
+import {IUserModel} from "../../interfaces/User";
+import {IRoomUpdate} from "../../interfaces/Room";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -56,40 +59,6 @@ function a11yProps(index: number) {
     };
 }
 
-interface ITerm {
-    course_id: number,
-    label: string,
-    min_points: number,
-    max_points: number,
-    from_time: number,
-    to_time: string,
-    room_id: string,
-    date: string
-}
-
-interface ICourse {
-    id: number,
-    label: string,
-    description: string,
-    type: string,
-    price: number,
-    capacity: number,
-    guarantor_id: number
-}
-
-interface IUser {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-}
-
-interface IRoom {
-    id: number;
-    label: string;
-    capacity: number;
-}
-
 const columns: GridColDef[] = [
     /*{field: 'id', headerName: 'ID', flex: 3},*/
     {field: 'label', headerName: 'Label', flex: 4},
@@ -100,7 +69,7 @@ const columns: GridColDef[] = [
 ];
 
 const CoursesGuarantor = () => {
-    const defaultCourse: ICourse = {
+    const defaultCourse: ICourseModel = {
         id: 0,
         label: "",
         description: "",
@@ -109,7 +78,7 @@ const CoursesGuarantor = () => {
         capacity: 0,
         guarantor_id: 0,
     }
-    const defaultTerm: ITerm = {
+    const defaultTerm: ITermCreate = {
         course_id: 0,
         label: "",
         min_points: 0,
@@ -120,12 +89,12 @@ const CoursesGuarantor = () => {
         date: ""
     }
 
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<ITerm>();
-    const [obj, setObj] = useState<ICourse[]>([]);
-    const [course, setCourse] = useState<ICourse>(defaultCourse);
-    const [usersA, setUsersA] = useState<IUser[]>([]);
-    const [students, setStudents] = useState<IUser[]>([]);
-    const [rooms, setRooms] = useState<IRoom[]>([]);
+    const {handleSubmit, reset, control, formState: {errors}} = useForm<ITermCreate>();
+    const [obj, setObj] = useState<ICourseModel[]>([]);
+    const [course, setCourse] = useState<ICourseModel>(defaultCourse);
+    const [usersA, setUsersA] = useState<IUserModel[]>([]);
+    const [students, setStudents] = useState<IUserModel[]>([]);
+    const [rooms, setRooms] = useState<IRoomUpdate[]>([]);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = useState(0);
@@ -134,7 +103,7 @@ const CoursesGuarantor = () => {
         setValue(newValue);
     };
 
-    const onSubmit = async (data: ITerm) => {
+    const onSubmit = async (data: ITermCreate) => {
         data.course_id = course.id;
         const optionAxios = {
             headers: {
@@ -158,7 +127,7 @@ const CoursesGuarantor = () => {
         };
         await axios.get('/api/room', optionAxios)
             .then(res => {
-                let obj: IRoom[] = JSON.parse(res.data.room)
+                let obj: IRoomUpdate[] = JSON.parse(res.data.room)
                 setRooms(obj)
             })
     }
@@ -196,7 +165,7 @@ const CoursesGuarantor = () => {
         };
         await axios.get(`/api/course/${id}/person/pending`, optionAxios)
             .then(res => {
-                let obj: IUser[] = res.data.student;
+                let obj: IUserModel[] = res.data.student;
                 setUsersA(obj);
             }).catch(() => {
             })
@@ -210,7 +179,7 @@ const CoursesGuarantor = () => {
         };
         await axios.get(`/api/course/${id}/person/approved`, optionAxios)
             .then(res => {
-                let obj: IUser[] = res.data.student;
+                let obj: IUserModel[] = res.data.student;
                 setStudents(obj);
             }).catch(() => {
             })
@@ -224,7 +193,7 @@ const CoursesGuarantor = () => {
         };
         await axios.get(`/api/person/${user.id}/guarantor`, optionAxios)
             .then(res => {
-                let obj: ICourse[] = res.data.course;
+                let obj: ICourseModel[] = res.data.course;
                 setObj(obj);
             })
     }

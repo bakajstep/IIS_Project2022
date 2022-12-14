@@ -7,17 +7,13 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 import {useState} from "react";
 import {Alert} from "@mui/material";
-
-interface IFormInput {
-    label: string,
-    capacity: number
-}
+import {IRoom} from "../../interfaces/Room";
 
 const CreateRoom = () => {
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
+    const {handleSubmit, reset, control, formState: {errors}} = useForm<IRoom>();
     const [error, setError] = useState("");
 
-    const onSubmit = async (data: IFormInput) => {
+    const onSubmit = async (data: IRoom) => {
         const optionAxios = {
             headers: {
                 'Content-Type': 'application/json'
@@ -32,7 +28,7 @@ const CreateRoom = () => {
             })
 
     }
-    const defaultValues: IFormInput = {
+    const defaultValues: IRoom = {
         label: "",
         capacity: 0
     }

@@ -11,15 +11,10 @@ import ChangePasswordDialog from "../../components/ChangePasswordDialog";
 import {setLogin} from "../../state/UserState";
 import {Alert} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-
-interface IFormInput {
-    name: string;
-    surname: string;
-    email: string;
-}
+import {IUserUpdate} from "../../interfaces/User";
 
 const Profile = () => {
-    const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IFormInput>();
+    const {handleSubmit, reset, control, formState: {errors}, setValue} = useForm<IUserUpdate>();
     const user = useSelector((state: any) => state.user);
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -31,7 +26,7 @@ const Profile = () => {
         setValue('email', user.email);
     }
 
-    const onSubmit = async (data: IFormInput) => {
+    const onSubmit = async (data: IUserUpdate) => {
         if (user != null) {
             const optionAxios = {
                 headers: {
@@ -54,7 +49,7 @@ const Profile = () => {
         }
 
     }
-    const defaultValues: IFormInput = {
+    const defaultValues: IUserUpdate = {
         name: user.name,
         surname: user.surname,
         email: user.email

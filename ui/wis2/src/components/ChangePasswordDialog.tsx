@@ -14,19 +14,15 @@ import {Controller, useForm} from "react-hook-form";
 import axios from "axios";
 import {useSelector} from "react-redux";
 import bcrypt from "bcryptjs-react";
-
-interface IFormInput {
-    old_password: string;
-    new_password: string;
-}
+import {IUserPasswordUpdate} from "../interfaces/User";
 
 const ChangePasswordDialog = () => {
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<IFormInput>();
+    const {handleSubmit, reset, control, formState: {errors}} = useForm<IUserPasswordUpdate>();
     const [open, setOpen] = useState(false);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
 
-    const onSubmit = async (data: IFormInput) => {
+    const onSubmit = async (data: IUserPasswordUpdate) => {
         const old_password = data.old_password;
         data.old_password = bcrypt.hashSync(old_password, '$2a$10$CwTycUXWue0Thq9StjUM0u')
         const new_password = data.new_password;
@@ -49,7 +45,7 @@ const ChangePasswordDialog = () => {
                 })
         }
     }
-    const defaultValues: IFormInput = {
+    const defaultValues: IUserPasswordUpdate = {
         old_password: "",
         new_password: ""
     }

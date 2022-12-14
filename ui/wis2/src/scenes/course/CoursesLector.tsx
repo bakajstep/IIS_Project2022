@@ -9,6 +9,7 @@ import TermRank from "../../components/TermRank";
 import Actuality from "../../components/Actuality";
 import BasicInfo from "../../components/BasicInfo";
 import GurantorLector from "../../components/GurantorLectorList";
+import {ICourseModel} from "../../interfaces/Course";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -43,39 +44,6 @@ function a11yProps(index: number) {
     };
 }
 
-interface ITerm {
-    course_id: number,
-    label: string,
-    min_points: number,
-    max_points: number,
-    from_time: number,
-    to_time: string,
-    room_id: string,
-    date: string
-}
-
-interface ICourse {
-    id: number,
-    label: string,
-    description: string,
-    type: string,
-    price: number,
-    capacity: number,
-    guarantor_id: number
-}
-
-interface IUser {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-}
-
-interface IActuality {
-    id: number,
-    description: string,
-}
-
 const columns: GridColDef[] = [
     /*{field: 'id', headerName: 'ID', flex: 3},*/
     {field: 'label', headerName: 'Label', flex: 4},
@@ -87,14 +55,7 @@ const columns: GridColDef[] = [
 
 const CoursesLector = () => {
 
-    const defaultUser: IUser = {
-        id: 0,
-        name: "",
-        surname: "",
-        email: "",
-    }
-
-    const defaultCourse: ICourse = {
+    const defaultCourse: ICourseModel = {
         id: 0,
         label: "",
         description: "",
@@ -104,11 +65,8 @@ const CoursesLector = () => {
         guarantor_id: 0,
     }
 
-    const [obj, setObj] = useState<ICourse[]>([]);
-    const [course, setCourse] = useState<ICourse>(defaultCourse);
-    const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
-    const [lectors, setLectors] = useState<IUser[]>([]);
-    const [actuality, setActuality] = useState<IActuality[]>([]);
+    const [obj, setObj] = useState<ICourseModel[]>([]);
+    const [course, setCourse] = useState<ICourseModel>(defaultCourse);
     const [error, setError] = useState("")
     const user = useSelector((state: any) => state.user);
     const [value, setValue] = useState(0);
@@ -116,43 +74,6 @@ const CoursesLector = () => {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
-    const getActuality = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/actuality`, optionAxios)
-            .then(res => {
-                setActuality(res.data.actuality);
-            })
-    }
-
-    const getLectors = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/course/${id}/lector`, optionAxios)
-            .then(res => {
-                let obj: IUser[] = res.data.lector;
-                setLectors(obj);
-            })
-    }
-
-    const getGuarantor = async (id: number) => {
-        const optionAxios = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        await axios.get(`/api/person/${id}`, optionAxios)
-            .then(res => {
-                setGuarantor(res.data.user);
-            })
-    }
 
     const getValues = async () => {
         const optionAxios = {
@@ -162,19 +83,13 @@ const CoursesLector = () => {
         };
         await axios.get(`/api/person/${user.id}/lector`, optionAxios)
             .then(res => {
-                let obj: ICourse[] = res.data.course;
+                let obj: ICourseModel[] = res.data.course;
                 setObj(obj);
             })
     }
 
     useEffect(() => {
-        if (course.label === ""){
-            getValues();
-        }else{
-            getGuarantor(course.id);
-            getLectors(course.id);
-            getActuality(course.id);
-        }
+        getValues();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
@@ -196,9 +111,6 @@ const CoursesLector = () => {
                         rowsPerPageOptions={[10]}
                         onRowClick={(row) => {
                             setCourse(row.row);
-                            getGuarantor(row.row.guarantor_id);
-                            getLectors(row.row.id);
-                            getActuality(row.row.id);
                         }}
                         components={{Toolbar: GridToolbar}}
                         componentsProps={{
@@ -248,8 +160,6 @@ const CoursesLector = () => {
                         sx={{mt: 3, mb: 2}}
                         onClick={() => {
                             setCourse(defaultCourse);
-                            setGuarantor(defaultUser);
-                            setActuality([]);
                             setError("");
                         }}
                     >

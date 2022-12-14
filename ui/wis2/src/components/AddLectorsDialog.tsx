@@ -11,13 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-
-interface IUser {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-}
+import {IUserModel} from "../interfaces/User";
 
 type DialogProps = {
     idC: number
@@ -26,22 +20,22 @@ type DialogProps = {
 
 const AddLectorsDialog = ({idC, idG} : DialogProps) => {
 
-    const defaultUser: IUser = {
+    const defaultUser: IUserModel = {
         id: 0,
         name: "",
         surname: "",
         email: "",
     }
 
-    const [guarantor, setGuarantor] = useState<IUser>(defaultUser);
-    const [lectors, setLectorss] = useState<IUser[]>([]);
-    const [obj, setObj] = useState<IUser[]>([]);
-    const [lector, setLector] = useState<IUser[]>([]);
+    const [guarantor, setGuarantor] = useState<IUserModel>(defaultUser);
+    const [lectors, setLectorss] = useState<IUserModel[]>([]);
+    const [obj, setObj] = useState<IUserModel[]>([]);
+    const [lector, setLector] = useState<IUserModel[]>([]);
     const [open, setOpen] = useState(false);
     const [error, setError] = useState("")
     const navigate = useNavigate();
 
-    const setLectors = async (data: IUser[]) => {
+    const setLectors = async (data: IUserModel[]) => {
         for (let i = 0; i < data.length; i++){
             const optionAxios = {
                 headers: {
@@ -68,7 +62,7 @@ const AddLectorsDialog = ({idC, idG} : DialogProps) => {
         };
         await axios.get(`/api/course/${id}/lector`, optionAxios)
             .then(res => {
-                let obj: IUser[] = res.data.lector;
+                let obj: IUserModel[] = res.data.lector;
                 setLectorss(obj);
             });
     }
@@ -99,7 +93,7 @@ const AddLectorsDialog = ({idC, idG} : DialogProps) => {
         };
         await axios.get('/api/person', optionAxios)
             .then(res => {
-                let obj: IUser[] = res.data.user;
+                let obj: IUserModel[] = res.data.user;
                 setObj(obj)
             })
     }

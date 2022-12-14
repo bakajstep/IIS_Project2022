@@ -8,20 +8,13 @@ import {Controller, useForm} from "react-hook-form";
 import {Alert, Checkbox, FormControlLabel} from "@mui/material";
 import axios from 'axios';
 import bcrypt from 'bcryptjs-react'
-
-interface IRegister {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-    admin: boolean;
-}
+import {IUserRegister} from "../../interfaces/User";
 
 const Register = () => {
-    const {handleSubmit, reset, control, formState: {errors}} = useForm<IRegister>();
+    const {handleSubmit, reset, control, formState: {errors}} = useForm<IUserRegister>();
     const [error, setError] = useState("");
 
-    const onSubmit = async (data: IRegister) => {
+    const onSubmit = async (data: IUserRegister) => {
         if (data.admin === undefined) {
             data.admin = false;
         }
@@ -42,7 +35,7 @@ const Register = () => {
             data.password = password;
         })
     }
-    const defaultValues: IRegister = {
+    const defaultValues: IUserRegister = {
         name: "",
         surname: "",
         email: "",
