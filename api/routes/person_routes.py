@@ -247,7 +247,7 @@ class Courses(Resource):
             return {"success": False,
                     "msg": "Student does not exist."}, 400
 
-        term_json = []
+        term_json = {}
         registered_term_list = student.registered_term
         for registered_term in registered_term_list:
             term_id = registered_term.term_id
@@ -258,8 +258,8 @@ class Courses(Resource):
                     Rank.term_date_id == term_date.id).all()
                 for rank in ranks:
                     points += rank.points
-            term_json.append({term_id: points})
-        return {json.dumps(term_json)}, 200
+            term_json[term_id] = points
+        return {"points": term_json}, 200
 
 
 @rest_api.route('/api/person/<int:personId>/course/<int:courseId>/term/nonregistered')
